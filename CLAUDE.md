@@ -80,7 +80,7 @@ Referencia de interacción: <https://countrast.com/fi/al?unit=imperial>
 
 - Supabase DEV: _pendiente_
 - Supabase PROD: _pendiente_
-- Repo GitHub: _pendiente_
+- Repo GitHub: https://github.com/Yellow-Glasses-S-L/memoria-hla-2025 (org Yellow-Glasses-S-L, público)
 - URL despliegue (mockup): https://memoria-hla-2025.vercel.app (Vercel, cuenta choyos-6649, proyecto memoria-hla-2025, público). Objetivo final: subdominio grupohla.com
 - Figma: _pendiente_
 
