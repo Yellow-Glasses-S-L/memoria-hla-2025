@@ -89,9 +89,12 @@ Referencia de interacción: <https://countrast.com/fi/al?unit=imperial>
 - Logo: isotipo oficial `https://www.grupohla.com/assets/isotipo.png` (anillo violeta) embebido como data URI.
 - Violeta de marca exacto del isotipo: `#52428C`.
 
-## Deploy del mockup (cómo re-desplegar)
-Carpeta aislada con solo `index.html` + `vercel deploy --prod --yes` (CLI autenticado como choyos-6649).
-NO usar el MCP `deploy_to_vercel`: despliega el CWD, que contiene material de otros clientes.
+## Deploy (auto-deploy por git — desde 2026-07-20)
+El proyecto Vercel `memoria-hla-2025` está **conectado al repo GitHub**: cada push a `main`
+dispara un deploy a producción. `vercel.json` hace rewrite `/ → mockup/index.html` (el
+mockup vive en `mockup/`, no en la raíz). Verificado: push → deploy Ready → `memoria-hla-2025.vercel.app` HTTP 200.
+- Cuando llegue el build React/Vite: mover el output a la raíz (o ajustar el rewrite / Root Directory) y quitar el `vercel.json` del mockup.
+- Método antiguo (ya no usar): CLI `vercel deploy --prod` desde carpeta aislada. NO usar el MCP `deploy_to_vercel` (despliega el CWD, con material de otros clientes).
 
 ## Pendientes de arranque
 
