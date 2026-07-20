@@ -1,0 +1,12 @@
+# OneDrive markers
+.849C9593-*
+*.tmp
+
+# Vercel
+.vercel
+
+# Dependencies (cuando arranque el build React/Vite)
+node_modules/
+dist/
+.env
+.env.local

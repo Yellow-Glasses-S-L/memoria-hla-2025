@@ -1,0 +1,450 @@
+<title>Memoria HLA 2025 · Mockup</title>
+<style>
+  :root{
+    --bg:#FBFAFE;        /* blanco con leve lavanda */
+    --bg2:#F1EEF9;       /* lavanda claro (paneles) */
+    --ink:#2A2657;       /* azul índigo oscuro (titulares HLA) */
+    --muted:#8B86A8;     /* lavanda-gris */
+    --line:#E7E3F2;
+    --red:#5E51A0;       /* acento HLA: violeta de marca */
+    --red-dark:#463B7C;
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---------- NAV ---------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(251,250,254,.88);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:center;gap:8px;
+    max-width:var(--maxw);margin:0 auto;padding:14px 24px;flex-wrap:wrap}
+  .logo{font-weight:900;letter-spacing:-.02em;font-size:22px;margin:0 22px;
+    display:flex;align-items:baseline;gap:2px}
+  .logo b{color:var(--red)}
+  .logo .ring{width:20px;height:20px;border:3px solid var(--red);border-radius:50%;
+    display:inline-block;align-self:center;margin-right:7px}
+  .logo small{font-size:10px;letter-spacing:.18em;font-weight:700;color:var(--muted);
+    text-transform:uppercase;margin-left:6px;align-self:center}
+  .tab{appearance:none;border:0;background:none;cursor:pointer;color:var(--ink);
+    font:inherit;font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    padding:8px 10px;border-radius:20px;opacity:.55;transition:opacity .25s,background .25s}
+  .tab:hover{opacity:1}
+  .tab.active{opacity:1;background:var(--ink);color:var(--bg)}
+  .tab.active::after{display:none}
+
+  /* ---------- HERO / STAGE ---------- */
+  .stage{position:relative;min-height:78vh;display:flex;align-items:center;
+    padding:60px 0 40px}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+    font-weight:700;margin-bottom:10px}
+  .section-head{max-width:var(--maxw);margin:0 auto 4px;padding:0 24px}
+  .section-title{font-size:clamp(30px,5vw,56px);font-weight:900;letter-spacing:-.03em;
+    line-height:.98;margin:0}
+  .section-sub{color:var(--muted);font-size:16px;max-width:46ch;margin:14px 0 0;line-height:1.5}
+
+  /* grid central: kpis | elemento rojo | kpis */
+  .grid{display:grid;grid-template-columns:1fr minmax(180px,300px) 1fr;
+    gap:34px;align-items:center;width:100%}
+  .col{display:flex;flex-direction:column;gap:46px}
+  .col.right{align-items:flex-start}
+  .col.left{align-items:flex-end;text-align:right}
+
+  /* elemento central rojo */
+  .core{position:relative;display:flex;align-items:center;justify-content:center}
+  .core-shape{width:200px;height:200px;background:var(--red);cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:#fff;text-align:center;padding:18px;position:relative;
+    transition:transform .5s cubic-bezier(.16,1,.3,1),border-radius .5s,background .4s;
+    box-shadow:0 24px 50px -22px rgba(94,81,160,.5)}
+  .core-shape:hover{transform:scale(1.04)}
+  .core-shape .ce-kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    opacity:.85;font-weight:700;margin-bottom:8px}
+  .core-shape .ce-title{font-size:20px;font-weight:900;line-height:1.05;letter-spacing:-.01em}
+  .core-shape .ce-cta{margin-top:14px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.4);padding-top:9px;opacity:.95;font-weight:700}
+  .core-shape .ce-cta span{display:inline-block;transition:transform .3s}
+  .core-shape:hover .ce-cta span{transform:translateX(4px)}
+  /* connector lines (solo desktop) */
+  .core::before,.core::after{content:"";position:absolute;top:50%;width:60px;height:1px;
+    background:var(--line)}
+  .core::before{right:100%}
+  .core::after{left:100%}
+
+  /* ---------- KPI ---------- */
+  .kpi{cursor:pointer;border:0;background:none;font:inherit;color:inherit;padding:0;
+    display:flex;flex-direction:column;width:100%;max-width:340px;position:relative}
+  .col.left .kpi{align-items:flex-end}
+  .kpi .k-date{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+    font-weight:700;margin-bottom:2px}
+  .kpi .k-num{font-size:clamp(40px,6vw,72px);font-weight:900;letter-spacing:-.045em;line-height:.9}
+  .kpi .k-num .unit{font-size:.45em;letter-spacing:-.02em;margin-left:2px}
+  .kpi .k-label{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    margin-top:8px;line-height:1.25;max-width:24ch}
+  .kpi .k-trend{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;
+    margin-top:8px;padding:3px 9px;border-radius:20px}
+  .k-trend.up{color:#1c7a43;background:#e2f2e7}
+  .k-trend.down{color:#A8456A;background:#F5E5EC}
+  .kpi .k-hint{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+    margin-top:10px;opacity:0;transition:opacity .25s;display:flex;align-items:center;gap:5px}
+  .kpi:hover .k-hint{opacity:1}
+  .kpi:hover .k-num{color:var(--red)}
+  .kpi .dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--red);
+    display:inline-grid;place-items:center;position:relative}
+  .kpi .dot::before{content:"+";color:var(--red);font-size:11px;font-weight:900;line-height:1}
+
+  /* chart panel */
+  .chart{overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.16,1,.3,1),opacity .4s,margin .4s;
+    width:100%;max-width:360px}
+  .col.left .chart{margin-left:auto}
+  .kpi[aria-expanded="true"] + .chart{max-height:320px;opacity:1;margin-top:18px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 10px;
+    box-shadow:0 18px 40px -28px rgba(21,16,12,.4)}
+  .chart-card h4{margin:0 0 2px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .chart-card .delta{font-size:12px;font-weight:800;margin:0 0 10px}
+  svg.spark{width:100%;height:120px;display:block}
+  .ylabels{display:flex;justify-content:space-between;margin-top:6px}
+  .ylabels span{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.06em}
+
+  /* ---------- HITOS ---------- */
+  .milestones{display:grid;grid-template-columns:1fr 1fr;gap:34px 60px;width:100%}
+  .ms{display:flex;gap:18px}
+  .ms .ms-n{font-size:46px;font-weight:900;color:var(--red);line-height:.85;letter-spacing:-.04em;min-width:1.6em}
+  .ms h3{margin:0 0 6px;font-size:17px;font-weight:900;letter-spacing:-.01em}
+  .ms p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+
+  /* ---------- ESG band ---------- */
+  .esg{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;width:100%;text-align:center}
+  .esg .e-num{font-size:clamp(44px,7vw,84px);font-weight:900;letter-spacing:-.04em;line-height:.9;color:var(--red)}
+  .esg .e-label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-top:10px}
+  .esg .e-sub{color:var(--muted);font-size:13px;margin-top:6px;line-height:1.45}
+
+  .panel{display:none}
+  .panel.active{display:block;animation:fade .6s cubic-bezier(.16,1,.3,1)}
+  @keyframes fade{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+  footer{border-top:1px solid var(--line);margin-top:30px;padding:28px 0 50px;color:var(--muted);font-size:12px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:center}
+  .badge{position:fixed;bottom:16px;right:16px;z-index:60;background:var(--ink);color:var(--bg);
+    font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;padding:8px 13px;border-radius:30px;opacity:.85}
+
+  /* overlay histórico */
+  .overlay{position:fixed;inset:0;z-index:80;background:rgba(21,16,12,.55);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;padding:24px}
+  .overlay.open{display:flex;animation:fade .4s}
+  .ov-card{background:var(--bg);border-radius:18px;max-width:900px;width:100%;max-height:86vh;overflow:auto;
+    padding:30px;position:relative}
+  .ov-card h2{margin:0 0 4px;font-size:26px;font-weight:900;letter-spacing:-.02em}
+  .ov-card .sub{color:var(--muted);font-size:14px;margin:0 0 22px}
+  .ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .ov-close{position:absolute;top:18px;right:18px;border:0;background:var(--ink);color:var(--bg);
+    width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer;line-height:1}
+
+  @media (max-width:860px){
+    .grid{grid-template-columns:1fr;gap:40px}
+    .core{order:-1}
+    .core::before,.core::after{display:none}
+    .col,.col.left{align-items:center;text-align:center}
+    .col.left .kpi{align-items:center}
+    .kpi{align-items:center}
+    .milestones,.esg{grid-template-columns:1fr}
+    .ov-grid{grid-template-columns:1fr}
+    .logo{margin:0 10px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  }
+</style>
+
+<header>
+  <nav>
+    <button class="tab active" data-tab="indicadores">Indicadores</button>
+    <button class="tab" data-tab="hitos">Hitos</button>
+    <button class="tab" data-tab="sociedad">Sociedad</button>
+    <span class="logo"><span class="ring"></span><b>HLA</b><small>Memoria 2025</small></span>
+    <button class="tab" data-tab="personas">Personas</button>
+    <button class="tab" data-tab="cliente">Cliente</button>
+    <button class="tab" data-tab="sostenibilidad">Sostenibilidad</button>
+    <button class="tab" data-tab="innovacion">Innovación</button>
+  </nav>
+</header>
+
+<main>
+  <div class="section-head">
+    <p class="eyebrow" id="eyebrow">Memoria HLA · Resultados 2025</p>
+    <h1 class="section-title" id="secTitle">Medicina. Experiencia. Personas.</h1>
+    <p class="section-sub" id="secSub">Nuestros principales resultados del año. Pincha cualquier indicador para ver su evolución de los últimos tres años.</p>
+  </div>
+
+  <!-- INDICADORES -->
+  <section class="stage panel active" id="indicadores">
+    <div class="wrap">
+      <div class="grid">
+        <div class="col left" id="ind-left"></div>
+        <div class="core">
+          <div class="core-shape" id="core" role="button" tabindex="0" aria-label="Abrir histórico completo">
+            <span class="ce-kicker">2025 en cifras</span>
+            <span class="ce-title">1.048.207<br>pacientes</span>
+            <span class="ce-cta">Ver histórico <span>→</span></span>
+          </div>
+        </div>
+        <div class="col right" id="ind-right"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HITOS -->
+  <section class="stage panel" id="hitos">
+    <div class="wrap"><div class="milestones" id="hitos-grid"></div></div>
+  </section>
+
+  <!-- SOCIEDAD -->
+  <section class="stage panel" id="sociedad">
+    <div class="wrap"><div class="esg" id="sociedad-grid"></div></div>
+  </section>
+
+  <!-- PERSONAS -->
+  <section class="stage panel" id="personas">
+    <div class="wrap"><div class="esg" id="personas-grid"></div></div>
+  </section>
+
+  <!-- CLIENTE -->
+  <section class="stage panel" id="cliente">
+    <div class="wrap"><div class="esg" id="cliente-grid"></div></div>
+  </section>
+
+  <!-- SOSTENIBILIDAD -->
+  <section class="stage panel" id="sostenibilidad">
+    <div class="wrap"><div class="esg" id="sostenibilidad-grid"></div></div>
+  </section>
+
+  <!-- INNOVACIÓN -->
+  <section class="stage panel" id="innovacion">
+    <div class="wrap"><div class="milestones" id="innovacion-grid"></div></div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <span>© HLA Grupo Hospitalario · Memoria 2025 — <b>mockup</b></span>
+  <span>Datos reales Memoria 2023 · prototipo Yellow Glasses</span>
+</div></footer>
+
+<div class="badge">Mockup · datos 2023</div>
+
+<!-- overlay histórico completo -->
+<div class="overlay" id="overlay">
+  <div class="ov-card">
+    <button class="ov-close" id="ovClose" aria-label="Cerrar">×</button>
+    <h2>Histórico 2021 – 2023</h2>
+    <p class="sub">Evolución de los principales indicadores asistenciales.</p>
+    <div class="ov-grid" id="ovGrid"></div>
+  </div>
+</div>
+
+<script>
+/* ---------------- DATOS (reales Memoria HLA 2023) ---------------- */
+const YEARS=[2021,2022,2023];
+const KPIS=[
+  {id:"pac",  label:"Pacientes atendidos",        vals:[981416,1033820,1048207], trend:"up"},
+  {id:"urg",  label:"Urgencias",                  vals:[499679,592676,579430],   trend:"down"},
+  {id:"citas",label:"Citas en consultas externas",vals:[3064859,3161233,3276538],trend:"up"},
+  {id:"cir",  label:"Cirugías",                   vals:[155796,157596,163892],   trend:"up"},
+  {id:"dxi",  label:"Pruebas de diagnóstico",     vals:[629889,681941,730839],   trend:"up"},
+  {id:"nuevos",label:"Pacientes nuevos",          vals:[318929,311360,298595],   trend:"down"},
+];
+const fmt=n=>n.toLocaleString("es-ES");
+
+/* indicadores que rodean el elemento central: 3 izq / 3 der */
+const LEFT=["pac","citas","dxi"], RIGHT=["urg","cir","nuevos"];
+
+/* contenido por sección para el elemento central + cabecera */
+const SECTIONS={
+  indicadores:{eyebrow:"Memoria HLA · Resultados 2025",title:"Medicina. Experiencia. Personas.",
+    sub:"Nuestros principales resultados del año. Pincha cualquier indicador para ver su evolución de los últimos tres años.",
+    core:{kicker:"2025 en cifras",title:"1.048.207<br>pacientes",cta:"Ver histórico"}},
+  hitos:{eyebrow:"Lo que conseguimos",title:"Hitos del año",
+    sub:"Crecimiento de la red asistencial, nuevas unidades y reconocimiento sectorial."},
+  sociedad:{eyebrow:"Compromiso",title:"HLA y la sociedad",
+    sub:"Colaboración con la sanidad pública y atención en momentos críticos."},
+  personas:{eyebrow:"Nuestro equipo",title:"Las personas de HLA",
+    sub:"Profesionales que sostienen la experiencia HLA cada día."},
+  cliente:{eyebrow:"Experiencia de paciente",title:"El cliente en el centro",
+    sub:"Cómo medimos y cuidamos la experiencia de quienes confían en nosotros."},
+  sostenibilidad:{eyebrow:"ESG",title:"Sostenibilidad",
+    sub:"Energía renovable y reducción de nuestra huella ambiental."},
+  innovacion:{eyebrow:"Vanguardia",title:"Innovación",
+    sub:"Nuevas unidades y tecnología al servicio del diagnóstico."},
+};
+
+const HITOS=[
+  {n:"6",t:"hospitales entre los 50 mejores",p:"Seis centros del Grupo entre los mejores privados a nivel nacional (ranking MRS): Moncloa, Vistahermosa, El Ángel, Inmaculada, Montpellier y Jerez."},
+  {n:"+15M€",t:"de inversión",p:"En reorganización de centros y ampliación de UCI y plazas de hospitalización."},
+  {n:"7",t:"nuevas unidades especializadas",p:"Unidades de la Mujer, arritmias, endoscopia digestiva con IA, mama y pediatría en distintos centros."},
+  {n:"4",t:"nuevos centros y adquisiciones",p:"Hospital La Salud (Cádiz), CE Mediterráneo (Almería), CEDISA (Granada) y nuevo centro en Lérida."},
+];
+const INNOVACION=[
+  {n:"IA",t:"Endoscopia digestiva con IA",p:"Nuevas unidades en HLA La Vega (Murcia) y HLA Vistahermosa (Alicante)."},
+  {n:"01",t:"Unidad de arritmias",p:"Nueva unidad en HLA Montpellier (Zaragoza)."},
+  {n:"02",t:"Unidades de mama",p:"HLA Los Naranjos (Huelva) y HLA Perpetuo Socorro (Lérida)."},
+  {n:"03",t:"Acreditación pionera",p:"Primera compañía sanitaria en certificar protocolos en toda su red asistencial."},
+];
+const SOCIEDAD=[
+  {num:"~60.000",label:"pacientes COVID-19 atendidos",sub:"Muchos derivados de la sanidad pública en los momentos más críticos."},
+  {num:"1ª",label:"compañía sanitaria acreditada",sub:"En certificar protocolos en toda su red asistencial."},
+  {num:"50",label:"mejores centros privados",sub:"6 hospitales HLA dentro del ranking nacional."},
+];
+const PERSONAS=[
+  {num:"+100",label:"centros y unidades",sub:"Una red asistencial presente en toda España."},
+  {num:"1.587",label:"urgencias atendidas / día",sub:"Media diaria de atención urgente."},
+  {num:"24/7",label:"atención continua",sub:"Equipos médicos y de enfermería todo el año."},
+];
+const CLIENTE=[
+  {num:"1.048.207",label:"pacientes atendidos",sub:"Cada cifra es una persona cuidada."},
+  {num:"3,27M",label:"citas en consultas externas",sub:"Accesibilidad y seguimiento cercano."},
+  {num:"298.595",label:"pacientes nuevos",sub:"Nueva confianza depositada en HLA cada año."},
+];
+const SOSTENIBILIDAD=[
+  {num:"99%",label:"energía 100% renovable",sub:"Del consumo eléctrico de toda la compañía."},
+  {num:"3.153 t",label:"CO₂ equivalente evitadas",sub:"Reducción de emisiones en el año."},
+  {num:"565.000€",label:"coste social evitado",sub:"Impacto positivo estimado de nuestra acción ambiental."},
+];
+
+/* ---------------- RENDER ---------------- */
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+function kpiNode(k,side){
+  const last=k.vals[k.vals.length-1];
+  const prev=k.vals[k.vals.length-2];
+  const pct=(((last-prev)/prev)*100).toFixed(1).replace('.',',');
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`
+    <button class="kpi" aria-expanded="false">
+      <span class="k-date">Dato 2025</span>
+      <span class="k-num" data-target="${last}">0</span>
+      <span class="k-label">${k.label}</span>
+      <span class="k-trend ${k.trend}">${k.trend==="up"?"▲":"▼"} ${pct}% vs 2024</span>
+      <span class="k-hint"><span class="dot"></span> Ver evolución</span>
+    </button>
+    <div class="chart">${chartCard(k,pct)}</div>`;
+  const btn=wrap.querySelector(".kpi");
+  btn.addEventListener("click",()=>{
+    const open=btn.getAttribute("aria-expanded")==="true";
+    btn.setAttribute("aria-expanded",String(!open));
+  });
+  return wrap;
+}
+
+function chartCard(k,pct){
+  return `<div class="chart-card">
+    <h4>${k.label} · 2021–2023</h4>
+    <p class="delta" style="color:${k.trend==='up'?'#1c7a43':'#A8456A'}">
+      ${k.trend==='up'?'▲':'▼'} ${pct}% último año</p>
+    ${sparkSVG(k.vals)}
+    <div class="ylabels"><span>2021</span><span>2022</span><span>2023</span></div>
+  </div>`;
+}
+
+function sparkSVG(vals){
+  const W=320,H=120,pad=14;
+  const min=Math.min(...vals),max=Math.max(...vals);
+  const rng=(max-min)||1;
+  const xs=vals.map((_,i)=>pad+i*((W-2*pad)/(vals.length-1)));
+  const ys=vals.map(v=>H-pad-((v-min)/rng)*(H-2*pad));
+  const line=xs.map((x,i)=>`${i?'L':'M'}${x.toFixed(1)} ${ys[i].toFixed(1)}`).join(" ");
+  const area=`${line} L${xs[xs.length-1]} ${H-pad} L${xs[0]} ${H-pad} Z`;
+  const ACC="#5E51A0", INK="#2A2657";
+  const gid="g"+Math.round(min);
+  const dots=xs.map((x,i)=>`<circle cx="${x.toFixed(1)}" cy="${ys[i].toFixed(1)}" r="${i===vals.length-1?5:3.5}" fill="${i===vals.length-1?ACC:'#fff'}" stroke="${ACC}" stroke-width="2"/>
+    <text x="${x.toFixed(1)}" y="${(ys[i]-12).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="800" fill="${INK}">${fmt(vals[i])}</text>`).join("");
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <defs><linearGradient id="${gid}" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="${ACC}" stop-opacity=".22"/>
+      <stop offset="1" stop-color="${ACC}" stop-opacity="0"/></linearGradient></defs>
+    <path d="${area}" fill="url(#${gid})"/>
+    <path d="${line}" fill="none" stroke="${ACC}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${dots}</svg>`;
+}
+
+/* poblar indicadores */
+const byId=id=>KPIS.find(k=>k.id===id);
+LEFT.forEach(id=>document.getElementById("ind-left").appendChild(kpiNode(byId(id),"left")));
+RIGHT.forEach(id=>document.getElementById("ind-right").appendChild(kpiNode(byId(id),"right")));
+
+/* hitos / innovación */
+function msGrid(el,data){
+  el.innerHTML=data.map(m=>`<div class="ms"><div class="ms-n">${m.n}</div>
+    <div><h3>${m.t}</h3><p>${m.p}</p></div></div>`).join("");
+}
+msGrid(document.getElementById("hitos-grid"),HITOS);
+msGrid(document.getElementById("innovacion-grid"),INNOVACION);
+
+/* esg-style grids */
+function esgGrid(el,data){
+  el.innerHTML=data.map(d=>`<div><div class="e-num" data-num="${d.num}">${d.num}</div>
+    <div class="e-label">${d.label}</div><div class="e-sub">${d.sub}</div></div>`).join("");
+}
+esgGrid(document.getElementById("sociedad-grid"),SOCIEDAD);
+esgGrid(document.getElementById("personas-grid"),PERSONAS);
+esgGrid(document.getElementById("cliente-grid"),CLIENTE);
+esgGrid(document.getElementById("sostenibilidad-grid"),SOSTENIBILIDAD);
+
+/* ---------------- COUNT-UP ---------------- */
+function countUp(elm){
+  const target=+elm.dataset.target;
+  if(reduce){elm.textContent=fmt(target);return;}
+  const dur=1400,t0=performance.now();
+  function step(t){
+    const p=Math.min((t-t0)/dur,1);
+    const e=1-Math.pow(1-p,3);
+    elm.textContent=fmt(Math.round(target*e));
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){countUp(e.target);io.unobserve(e.target);}});
+},{threshold:.6});
+function observeNums(scope){scope.querySelectorAll(".k-num[data-target]").forEach(n=>{
+  if(!n.dataset.done){n.dataset.done="1";io.observe(n);}});}
+observeNums(document);
+
+/* ---------------- TABS ---------------- */
+const head={eyebrow:document.getElementById("eyebrow"),title:document.getElementById("secTitle"),sub:document.getElementById("secSub")};
+const core=document.getElementById("core");
+function setSection(id){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));
+  const s=SECTIONS[id];
+  head.eyebrow.textContent=s.eyebrow;
+  head.title.innerHTML=s.title;
+  head.sub.textContent=s.sub;
+  if(s.core){core.style.display="";core.innerHTML=
+    `<span class="ce-kicker">${s.core.kicker}</span>
+     <span class="ce-title">${s.core.title}</span>
+     <span class="ce-cta">${s.core.cta} <span>→</span></span>`;}
+  observeNums(document.getElementById(id));
+  window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+}
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>setSection(t.dataset.tab)));
+
+/* ---------------- OVERLAY HISTÓRICO ---------------- */
+const overlay=document.getElementById("overlay");
+function openOverlay(){
+  document.getElementById("ovGrid").innerHTML=KPIS.map(k=>{
+    const last=k.vals.at(-1),prev=k.vals.at(-2);
+    const pct=(((last-prev)/prev)*100).toFixed(1).replace('.',',');
+    return chartCard(k,pct);
+  }).join("");
+  overlay.classList.add("open");
+}
+core.addEventListener("click",openOverlay);
+core.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openOverlay();}});
+document.getElementById("ovClose").addEventListener("click",()=>overlay.classList.remove("open"));
+overlay.addEventListener("click",e=>{if(e.target===overlay)overlay.classList.remove("open");});
+addEventListener("keydown",e=>{if(e.key==="Escape")overlay.classList.remove("open");});
+</script>
