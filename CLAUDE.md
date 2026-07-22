@@ -81,7 +81,7 @@ Referencia de interacción: <https://countrast.com/fi/al?unit=imperial>
 - Supabase DEV: _pendiente_
 - Supabase PROD: _pendiente_
 - Repo GitHub: https://github.com/Yellow-Glasses-S-L/memoria-hla-2025 (org Yellow-Glasses-S-L, público)
-- URL despliegue (mockup): https://memoria-hla-2025.vercel.app (Vercel, cuenta choyos-6649, proyecto memoria-hla-2025, público). Objetivo final: subdominio grupohla.com
+- URL despliegue (mockup): https://memoria-hla-2025.vercel.app (Vercel, **team `yellow-glasses`** — propiedad de empresa, transferido desde la cuenta personal el 2026-07-22; proyecto memoria-hla-2025, público). Objetivo final: subdominio grupohla.com
 - Figma: _pendiente_
 
 ## Tipografía y marca aplicadas (mockup)
@@ -90,9 +90,10 @@ Referencia de interacción: <https://countrast.com/fi/al?unit=imperial>
 - Violeta de marca exacto del isotipo: `#52428C`.
 
 ## Deploy (auto-deploy por git — desde 2026-07-20)
-El proyecto Vercel `memoria-hla-2025` está **conectado al repo GitHub**: cada push a `main`
+El proyecto Vercel `memoria-hla-2025` (team **`yellow-glasses`**) está **conectado al repo GitHub**: cada push a `main`
 dispara un deploy a producción. `vercel.json` hace rewrite `/ → mockup/index.html` (el
 mockup vive en `mockup/`, no en la raíz). Verificado: push → deploy Ready → `memoria-hla-2025.vercel.app` HTTP 200.
+- `vercel` desde local: usar `--scope yellow-glasses` (el `.vercel/` local se re-enlazó tras la transferencia).
 - Cuando llegue el build React/Vite: mover el output a la raíz (o ajustar el rewrite / Root Directory) y quitar el `vercel.json` del mockup.
 - Método antiguo (ya no usar): CLI `vercel deploy --prod` desde carpeta aislada. NO usar el MCP `deploy_to_vercel` (despliega el CWD, con material de otros clientes).
 
