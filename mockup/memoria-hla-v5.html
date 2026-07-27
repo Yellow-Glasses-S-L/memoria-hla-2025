@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HLA · Memoria Anual 2025 — Prototipo v5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MEMORIA HLA 2025 · v5.4
+   Dos voces: Antonio (display/cifras) + IBM Plex Mono (resto)
+   Planitud radical: radius 0 · sin sombras · hairlines de 1px
+   ============================================================ */
+:root{
+  --violeta:#4D418A; --gris:#63666F; --azul:#639AB7; --agua:#A8D3CE; --rosa:#CF0C71;
+  --paper:#F4F3F1; --paper2:#EAE9E6; --ink:#1F1D2B; --line:#DDDCD9; --mass:#C7C8CB;
+  --display:'Antonio',sans-serif; --mono:'IBM Plex Mono',monospace;
+  --pad:clamp(28px,4vw,72px);
+}
+*{box-sizing:border-box;border-radius:0!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);
+  font-size:14px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  min-height:100svh;display:flex;flex-direction:column}
+main{flex:1;padding-bottom:40px}
+.wrap{width:100%;margin:0;padding:0 var(--pad)}
+:focus-visible{outline:2px solid var(--violeta);outline-offset:3px}
+::selection{background:var(--violeta);color:#fff}
+
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gris)}
+.caption{font-family:var(--mono);font-size:12px;font-weight:400;letter-spacing:.10em;
+  text-transform:uppercase;color:var(--ink);line-height:1.55}
+.delta{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--gris)}
+
+/* ============ NAV ============ */
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 92%,transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
+  width:100%;margin:0;padding:0 var(--pad);min-height:64px;flex-wrap:wrap}
+.logo{display:block;width:168px;flex:0 0 auto;align-self:center;height:40px;background:var(--violeta);
+  -webkit-mask:url("assets/hla-logo.svg") no-repeat center/contain;
+          mask:url("assets/hla-logo.svg") no-repeat center/contain}
+.tab{appearance:none;border:0;background:none;cursor:pointer;color:var(--gris);
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  padding:0 8px;display:flex;align-items:center;position:relative;transition:color .2s}
+.tab::after{content:"";position:absolute;left:8px;right:8px;bottom:0;height:2px;
+  background:var(--violeta);transform:scaleX(0);transition:transform .25s}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--ink)}
+.tab.active::after{transform:scaleX(1)}
+
+/* ============ CABECERA DE SECCIÓN ============ */
+.section-head{width:100%;margin:42px 0 0;padding:0 var(--pad)}
+.head-meta{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.head-meta .idx{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--gris)}
+.section-title{font-family:var(--display);font-weight:500;text-transform:uppercase;
+  font-size:clamp(46px,6.4vw,98px);letter-spacing:.005em;line-height:.92;margin:14px 0 0}
+.section-sub{color:var(--gris);font-size:13.5px;max-width:62ch;margin:16px 0 0;line-height:1.75;
+  letter-spacing:.01em}
+.head-rule{height:1px;background:var(--line);border:0;margin:28px 0 0}
+
+/* ============ ESCENARIO (Indicadores) ============ */
+.stage{position:relative;display:flex;align-items:center;padding:52px 0 64px}
+#indicadores.stage{min-height:66vh;padding:40px 0 48px}
+.grid{position:relative;display:grid;grid-template-columns:1fr minmax(460px,560px) 1fr;
+  gap:clamp(56px,7vw,130px);align-items:center;width:100%}
+.col{display:flex;flex-direction:column;gap:clamp(40px,4.5vh,56px)}
+.col.left{align-items:flex-end;text-align:right}
+.col.right{align-items:flex-start}
+
+#wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+#wires line{stroke:var(--line);stroke-width:1;transition:stroke .25s}
+#wires line.hot{stroke:var(--rosa)}
+
+/* ---- KPI ---- */
+.kpi{cursor:pointer;background:none;font:inherit;color:inherit;
+  border:1px solid var(--line);padding:24px 28px 26px;width:100%;max-width:420px;
+  display:flex;flex-direction:column;text-align:inherit;
+  transition:border-color .2s,background .2s,opacity .3s}
+.col.left .kpi{align-items:flex-end}
+.col.right .kpi{align-items:flex-start}
+.kpi:hover,.kpi:focus-visible{border-color:var(--violeta);background:color-mix(in srgb,var(--paper2) 55%,var(--paper))}
+.kpi .k-num{font-family:var(--display);font-weight:400;font-variant-numeric:tabular-nums;
+  font-size:clamp(46px,4.4vw,78px);letter-spacing:-.005em;line-height:.86;margin-top:12px;
+  transition:color .2s}
+.kpi .k-label{margin-top:14px}
+.kpi .k-trend{margin-top:10px}
+.kpi:hover .k-num,.kpi:focus-visible .k-num{color:var(--violeta)}
+.kpi[aria-expanded="true"]{border-color:var(--violeta)}
+.kpi[aria-expanded="true"] .k-num{color:var(--violeta)}
+.grid.dim .kpi:not([aria-expanded="true"]){opacity:.35}
+.grid.dim .kpi:not([aria-expanded="true"]):hover{opacity:.8}
+.grid.dim #wires line:not(.hot){opacity:.4}
+
+/* ---- ELEMENTO CENTRAL ---- */
+.core{position:relative;min-height:580px;display:flex;align-items:stretch}
+#coreStage{width:100%;display:flex}
+.core-face{width:100%;min-height:580px;background:transparent;border:1px solid var(--line);
+  color:var(--ink);padding:48px 40px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center}
+.iso{width:96px;height:96px;color:var(--violeta);animation:spin 80s linear infinite}
+.iso svg{width:100%;height:100%;display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.core-face .ce-kicker{margin-top:34px}
+.core-face .ce-num{font-family:var(--display);font-weight:400;font-size:clamp(56px,5vw,84px);
+  line-height:.86;color:var(--violeta);font-variant-numeric:tabular-nums;margin-top:16px}
+.core-face .ce-label{margin-top:14px}
+.core-face .ce-cta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--rosa);margin-top:38px;padding-top:16px;
+  border-top:1px solid var(--line);min-width:220px}
+
+.core-chart{width:100%;min-height:580px;background:transparent;border:1px solid var(--line);
+  padding:34px 36px 28px;display:flex;flex-direction:column;animation:reveal .35s cubic-bezier(.16,1,.3,1)}
+@keyframes reveal{from{opacity:0}to{opacity:1}}
+.ch-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.ch-now{font-family:var(--display);font-weight:400;font-size:clamp(56px,4.8vw,78px);
+  line-height:.86;color:var(--violeta);font-variant-numeric:tabular-nums;margin-top:20px}
+.ch-delta{margin-top:11px}
+.ch-plot{position:relative;flex:1;min-height:300px;margin-top:28px}
+.ch-plot svg{position:absolute;inset:0;display:block;overflow:visible}
+.ch-plot .lead{opacity:.4}
+.vtag{position:absolute;padding:5px 8px;color:#fff;font-family:var(--mono);font-size:15px;
+  line-height:1;letter-spacing:-.02em;white-space:nowrap;transform:translateY(-100%)}
+.vtag small{display:block;font-size:10px;line-height:1.5;opacity:.78;letter-spacing:.04em}
+.vdot{position:absolute;width:9px;height:9px;border-radius:50%!important;
+  background:var(--paper);border:1px solid;transform:translate(-50%,-50%)}
+.ch-axis{display:flex;justify-content:space-between;margin-top:14px;
+  border-top:1px solid var(--line);padding-top:12px}
+.ch-axis span{font-family:var(--mono);font-size:11px;letter-spacing:.10em;color:var(--gris)}
+.no-anim *{animation:none!important}
+
+/* ============ CRONOGRAMA (Hitos / Innovación) ============ */
+.chrono{position:relative;width:100%;padding-top:10px}
+.chrono .spine{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.chrono .spine path{stroke:var(--mass);stroke-width:1;fill:none}
+.chrono .spine .node{transform-box:fill-box;transform-origin:center}
+.chrono .row{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(32px,4vw,72px)}
+.cl{position:relative;padding-top:64px;max-width:340px}
+.cl:nth-child(1){margin-top:64px}
+.cl:nth-child(2){margin-top:0}
+.cl:nth-child(3){margin-top:120px}
+.cl:nth-child(4){margin-top:36px}
+.cl .ic{width:46px;height:46px;color:var(--violeta);display:block}
+.cl .ic *{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.cl .cl-idx{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--gris);
+  display:block;margin-top:18px}
+.cl .cl-n{font-family:var(--display);font-weight:400;font-size:clamp(52px,5vw,86px);
+  color:var(--violeta);line-height:.86;letter-spacing:-.005em;margin-top:14px;
+  font-variant-numeric:tabular-nums}
+.cl h3{font-family:var(--display);font-weight:500;font-size:21px;letter-spacing:.03em;
+  text-transform:uppercase;margin:18px 0 0;line-height:1.1}
+.cl p{margin:12px 0 0;color:var(--gris);font-size:12.5px;line-height:1.8;max-width:36ch;
+  letter-spacing:.01em}
+
+/* ============ SPLIT: dato-tabs + visual (Sociedad/Personas/Cliente/Sost.) ============ */
+.split{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(48px,7vw,140px);
+  align-items:center;width:100%}
+.viz-holder{position:relative;min-height:480px;display:flex}
+.viz{width:100%;display:flex;flex-direction:column;justify-content:center;animation:reveal .4s cubic-bezier(.16,1,.3,1)}
+.viz-cap{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gris);margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
+.figstack{display:flex;flex-direction:column;gap:16px}
+.fig-block{appearance:none;font:inherit;color:inherit;text-align:left;cursor:pointer;
+  background:none;border:1px solid var(--line);padding:24px 28px 26px;width:100%;
+  transition:border-color .2s,background .2s,opacity .3s}
+.fig-block:hover,.fig-block:focus-visible{border-color:var(--violeta);
+  background:color-mix(in srgb,var(--paper2) 55%,var(--paper))}
+.fig-block .f-num{font-family:var(--display);font-weight:400;font-size:clamp(40px,3.6vw,64px);
+  letter-spacing:-.005em;line-height:.86;color:var(--ink);font-variant-numeric:tabular-nums;
+  margin-top:10px;transition:color .2s}
+.fig-block .f-label{margin-top:12px}
+.fig-block .f-sub{color:var(--gris);font-size:12.5px;line-height:1.8;margin-top:8px;
+  max-width:40ch;letter-spacing:.01em}
+.fig-block[aria-pressed="true"]{border-color:var(--violeta)}
+.fig-block[aria-pressed="true"] .f-num{color:var(--violeta)}
+.figstack.haspick .fig-block:not([aria-pressed="true"]){opacity:.5}
+.figstack.haspick .fig-block:not([aria-pressed="true"]):hover{opacity:1}
+
+/* --- piezas de visual --- */
+.dotgrid{display:grid;grid-template-columns:repeat(10,1fr);gap:clamp(10px,1.2vw,18px);max-width:560px}
+.dg{aspect-ratio:1;border-radius:50%!important;border:1px solid var(--mass);background:transparent}
+.dg.on{border-color:var(--violeta);background:var(--violeta)}
+.dg.rosa{border-color:var(--rosa);background:var(--rosa)}
+.pulse{width:100%;height:220px;display:block;overflow:visible}
+.pulse .base{stroke:var(--line);stroke-width:1}
+.pulse .ghost{stroke:var(--mass);stroke-width:1;fill:none}
+.pulse .beat{stroke:var(--violeta);stroke-width:1.5;fill:none}
+.propbar{position:relative;height:64px;border:1px solid var(--line);background:transparent}
+.propbar .fill{position:absolute;inset:0 auto 0 0;width:28.5%;background:var(--violeta)}
+.propbar .pct{position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  color:#fff;font-family:var(--mono);font-size:15px;letter-spacing:-.02em;z-index:2}
+.prop-l{display:flex;justify-content:space-between;margin-top:14px}
+.prop-l span{font-family:var(--mono);font-size:11px;letter-spacing:.10em;text-transform:uppercase}
+.prop-l .a{color:var(--violeta)}
+.prop-l .b{color:var(--gris)}
+.ringwrap{position:relative;width:min(380px,80%);aspect-ratio:1;margin:0 auto}
+.ringwrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:var(--line);stroke-width:1}
+.ring-arc{fill:none;stroke:var(--violeta);stroke-width:14}
+.ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center}
+.ring-c .rn{font-family:var(--display);font-weight:400;font-size:72px;line-height:.86;color:var(--violeta)}
+.bigviz{width:100%;height:auto;display:block;overflow:visible}
+.bigviz .hair{stroke:var(--mass);stroke-width:1;fill:none}
+.bigviz .vio{stroke:var(--violeta);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.bigviz .ros{stroke:var(--rosa);fill:none;stroke-width:1.5;stroke-linecap:round}
+.bigviz .nodedot{fill:var(--violeta)}
+.bigviz text{font-family:var(--display);fill:var(--violeta)}
+.orbwrap{position:relative;width:min(420px,85%);aspect-ratio:1;margin:0 auto}
+.orbwrap svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.orb{transform-origin:50% 50%}
+.orb circle.tr{fill:none;stroke:var(--line);stroke-width:1}
+.orb circle.sat{fill:var(--violeta)}
+.orb circle.sat.r{fill:var(--rosa)}
+.orb-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.orb-c .rn{font-family:var(--display);font-weight:400;font-size:56px;line-height:.86;color:var(--violeta)}
+
+/* ============ animaciones (solo con movimiento permitido) ============ */
+@media (prefers-reduced-motion:no-preference){
+  .ch-plot:not(.no-anim) .lead{opacity:0;animation:leadIn .4s forwards}
+  @keyframes leadIn{to{opacity:.4}}
+  .ch-plot:not(.no-anim) .trace{stroke-dasharray:1;stroke-dashoffset:1;animation:trace .9s .35s cubic-bezier(.4,0,.2,1) forwards}
+  @keyframes trace{to{stroke-dashoffset:0}}
+  .ch-plot:not(.no-anim) .vdot{transform:translate(-50%,-50%) scale(0);animation:dotIn .3s cubic-bezier(.34,1.56,.64,1) forwards}
+  @keyframes dotIn{to{transform:translate(-50%,-50%) scale(1)}}
+  .ch-plot:not(.no-anim) .vtag{opacity:0;translate:0 6px;animation:tagIn .45s cubic-bezier(.16,1,.3,1) forwards}
+  @keyframes tagIn{to{opacity:1;translate:0 0}}
+
+  /* cronograma: la línea se pinta poco a poco, los nodos brotan, los bloques suben */
+  .spine:not(.no-anim) .spine-path{stroke-dasharray:1;stroke-dashoffset:1;animation:trace 2s .1s cubic-bezier(.4,0,.2,1) forwards}
+  .spine:not(.no-anim) .node{scale:0;animation:pop .4s cubic-bezier(.34,1.56,.64,1) forwards}
+  .panel.active .cl{opacity:0;translate:0 18px;animation:rise .6s cubic-bezier(.16,1,.3,1) forwards}
+  .panel.active .cl:nth-child(2){animation-delay:.35s}
+  .panel.active .cl:nth-child(3){animation-delay:.7s}
+  .panel.active .cl:nth-child(4){animation-delay:1.05s}
+  @keyframes rise{to{opacity:1;translate:0 0}}
+  @keyframes pop{to{scale:1}}
+
+  /* ilustraciones que se dibujan */
+  .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:trace 1.5s .25s ease forwards}
+  .panel.active .fig-block{opacity:0;translate:0 14px;animation:rise .55s cubic-bezier(.16,1,.3,1) forwards}
+  .panel.active .fig-block:nth-child(2){animation-delay:.1s}
+  .panel.active .fig-block:nth-child(3){animation-delay:.2s}
+  .panel.active .figstack.haspick .fig-block:not([aria-pressed="true"]){animation-name:riseDim}
+  @keyframes riseDim{to{opacity:.5;translate:0 0}}
+  .viz .dg.on,.viz .dg.rosa{scale:0;animation:pop .3s cubic-bezier(.34,1.56,.64,1) forwards}
+  .viz .propbar .fill{width:0;animation:grow 1s .25s cubic-bezier(.4,0,.2,1) forwards}
+  @keyframes grow{to{width:28.5%}}
+  .viz .ring-arc{stroke-dasharray:0 100;animation:sweep 1.4s .2s cubic-bezier(.4,0,.2,1) forwards}
+  @keyframes sweep{to{stroke-dasharray:99 100}}
+  .pulse .beat{stroke-dasharray:.22 .78;animation:ecg 3.2s linear infinite}
+  @keyframes ecg{to{stroke-dashoffset:-1}}
+  .orb.o1{animation:spin 46s linear infinite}
+  .orb.o2{animation:spin 30s linear infinite reverse}
+  .orb.o3{animation:spin 20s linear infinite}
+  .viz .nodedot,.viz .sat{transform-box:fill-box;transform-origin:center;scale:0;animation:pop .35s .5s cubic-bezier(.34,1.56,.64,1) forwards}
+}
+@media (prefers-reduced-motion:reduce){
+  .ring-arc{stroke-dasharray:99 100}
+}
+
+.panel{display:none}
+.panel.active{display:block;animation:fade .45s cubic-bezier(.16,1,.3,1)}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--line);margin-top:auto;padding:28px 0 48px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+footer span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gris)}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1100px){
+  .grid{grid-template-columns:1fr minmax(380px,460px) 1fr;gap:clamp(36px,4vw,64px)}
+}
+@media (max-width:960px){
+  .grid{grid-template-columns:1fr;gap:0}
+  #wires{display:none}
+  .core{order:-1;margin-bottom:24px;min-height:480px}
+  .core-face,.core-chart{min-height:480px}
+  .col,.col.left,.col.right{align-items:flex-start;text-align:left;gap:16px}
+  .col .kpi,.col.left .kpi,.col.right .kpi{max-width:none;width:100%;
+    align-items:flex-start;text-align:left;padding:22px 20px 24px}
+  .chrono .spine{display:none}
+  .chrono .row{grid-template-columns:1fr;gap:0;border-left:1px solid var(--line)}
+  .cl,.cl:nth-child(n){margin-top:0;padding:26px 0 30px 28px;max-width:none;position:relative}
+  .cl::before{content:"";position:absolute;left:-4.5px;top:32px;width:8px;height:8px;
+    border-radius:50%!important;background:var(--paper);border:1px solid var(--violeta)}
+  .split{grid-template-columns:1fr;gap:44px}
+  .viz-holder{min-height:0}
+  .logo{order:-1;width:140px;margin:14px auto 0}
+  nav{justify-content:center;padding-bottom:8px}
+  .tab{padding:14px 8px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav aria-label="Secciones de la memoria">
+    <button class="tab active" data-tab="indicadores" aria-current="true">Indicadores</button>
+    <button class="tab" data-tab="hitos">Hitos</button>
+    <button class="tab" data-tab="sociedad">Sociedad</button>
+    <span class="logo" role="img" aria-label="HLA Grupo Hospitalario · Memoria 2025"></span>
+    <button class="tab" data-tab="personas">Personas</button>
+    <button class="tab" data-tab="cliente">Cliente</button>
+    <button class="tab" data-tab="sostenibilidad">Sostenibilidad</button>
+    <button class="tab" data-tab="innovacion">Innovación</button>
+  </nav>
+</header>
+
+<main>
+  <div class="section-head">
+    <div class="head-meta">
+      <p class="eyebrow" id="eyebrow" style="margin:0">Memoria HLA · Resultados 2025</p>
+      <span class="idx" id="secIdx">01 / 07</span>
+    </div>
+    <h1 class="section-title" id="secTitle">Medicina. Experiencia. Personas.</h1>
+    <p class="section-sub" id="secSub">Pincha cualquier indicador para ver su evolución de los últimos tres años en el centro.</p>
+    <hr class="head-rule">
+  </div>
+
+  <section class="stage panel active" id="indicadores">
+    <div class="wrap">
+      <div class="grid" id="stageGrid">
+        <svg id="wires" aria-hidden="true"></svg>
+        <div class="col left" id="ind-left"></div>
+        <div class="core"><div id="coreStage" aria-live="polite"></div></div>
+        <div class="col right" id="ind-right"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stage panel" id="hitos"><div class="wrap">
+    <div class="chrono" id="hitos-chrono"><svg class="spine" aria-hidden="true"></svg><div class="row"></div></div>
+  </div></section>
+  <section class="stage panel" id="sociedad"><div class="wrap"><div class="split" id="sociedad-grid"></div></div></section>
+  <section class="stage panel" id="personas"><div class="wrap"><div class="split" id="personas-grid"></div></div></section>
+  <section class="stage panel" id="cliente"><div class="wrap"><div class="split" id="cliente-grid"></div></div></section>
+  <section class="stage panel" id="sostenibilidad"><div class="wrap"><div class="split" id="sostenibilidad-grid"></div></div></section>
+  <section class="stage panel" id="innovacion"><div class="wrap">
+    <div class="chrono" id="innovacion-chrono"><svg class="spine" aria-hidden="true"></svg><div class="row"></div></div>
+  </div></section>
+</main>
+
+<footer><div class="wrap">
+  <span>© HLA Grupo Hospitalario · Memoria anual 2025</span>
+  <span>Prototipo v5 · Yellow Glasses · datos reales Memoria 2023</span>
+</div></footer>
+
+<script>
+const fmt=n=>n.toLocaleString("es-ES");
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const C={violeta:"#4D418A",rosa:"#CF0C71",gris:"#63666F",line:"#DDDCD9",paper:"#F4F3F1",ink:"#1F1D2B",mass:"#C7C8CB"};
+const YEARS=["2023","2024","2025"];
+
+/* ================= DATOS (Memoria 2023, magnitud real) ================= */
+const KPIS=[
+  {id:"pac",  label:"Pacientes atendidos",         vals:[981416,1033820,1048207]},
+  {id:"urg",  label:"Urgencias",                   vals:[499679,592676,579430]},
+  {id:"citas",label:"Citas en consultas externas", vals:[3064859,3161233,3276538]},
+  {id:"cir",  label:"Cirugías",                    vals:[155796,157596,163892]},
+  {id:"dxi",  label:"Pruebas de diagnóstico",      vals:[629889,681941,730839]},
+  {id:"nuevos",label:"Pacientes nuevos",           vals:[318929,311360,298595]},
+];
+const LEFT=["pac","citas","dxi"], RIGHT=["urg","cir","nuevos"];
+const byId=id=>KPIS.find(k=>k.id===id);
+
+/* iconografía de línea — 24×24, stroke, se dibuja sola (.draw) */
+const ICONS={
+  star:`<path class="draw" pathLength="1" d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>`,
+  coins:`<circle class="draw" pathLength="1" cx="9.5" cy="12" r="6.5"/><path class="draw" pathLength="1" d="M13.5 5.9a6.5 6.5 0 1 1 0 12.2M7 10h5M7 14h5"/>`,
+  cross:`<path class="draw" pathLength="1" d="M9.2 3.5h5.6v5.7h5.7v5.6h-5.7v5.7H9.2v-5.7H3.5V9.2h5.7z"/>`,
+  building:`<path class="draw" pathLength="1" d="M4 20.5V8l8-4.5L20 8v12.5"/><path class="draw" pathLength="1" d="M10 20.5v-5h4v5M8.5 11h2M13.5 11h2"/>`,
+  chip:`<rect class="draw" pathLength="1" x="7" y="7" width="10" height="10"/><path class="draw" pathLength="1" d="M10 7V4M14 7V4M10 20v-3M14 20v-3M7 10H4M7 14H4M20 10h-3M20 14h-3"/>`,
+  pulse:`<path class="draw" pathLength="1" d="M3 12h4l2-5 3 10 2.5-5H21"/>`,
+  ribbon:`<circle class="draw" pathLength="1" cx="12" cy="7" r="3.5"/><path class="draw" pathLength="1" d="M9.8 9.9 5.5 21l4.2-2.6M14.2 9.9 18.5 21l-4.2-2.6"/>`,
+  seal:`<circle class="draw" pathLength="1" cx="12" cy="9" r="5.5"/><path class="draw" pathLength="1" d="M9 13.5 7.2 21l4.8-2.8L16.8 21 15 13.5M10 9l1.6 1.6L14.4 7"/>`,
+};
+const icon=k=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
+
+const HITOS=[
+  {n:"6",t:"hospitales entre los 50 mejores",p:"Seis centros del Grupo entre los mejores privados a nivel nacional (ranking MRS).",ic:"star"},
+  {n:"+15 M€",t:"de inversión",p:"En reorganización de centros y ampliación de UCI y plazas de hospitalización.",ic:"coins"},
+  {n:"7",t:"nuevas unidades especializadas",p:"Unidades de la Mujer, arritmias, endoscopia con IA, mama y pediatría.",ic:"cross"},
+  {n:"4",t:"nuevos centros y adquisiciones",p:"Hospital La Salud (Cádiz), CE Mediterráneo (Almería), CEDISA (Granada) y Lérida.",ic:"building"},
+];
+const INNOVACION=[
+  {n:"IA",t:"Endoscopia digestiva con IA",p:"Nuevas unidades en HLA La Vega (Murcia) y HLA Vistahermosa (Alicante).",ic:"chip"},
+  {n:"01",t:"Unidad de arritmias",p:"Nueva unidad en HLA Montpellier (Zaragoza).",ic:"pulse"},
+  {n:"02",t:"Unidades de mama",p:"HLA Los Naranjos (Huelva) y HLA Perpetuo Socorro (Lérida).",ic:"ribbon"},
+  {n:"03",t:"Acreditación pionera",p:"Primera compañía sanitaria en certificar protocolos en toda su red.",ic:"seal"},
+];
+
+const SECTIONS={
+  indicadores:{i:"01",eyebrow:"Memoria HLA · Resultados 2025",title:"Medicina. Experiencia. Personas.",
+    sub:"Pincha cualquier indicador para ver su evolución de los últimos tres años en el centro."},
+  hitos:{i:"02",eyebrow:"Lo que conseguimos",title:"Hitos del año",sub:"Crecimiento de la red, nuevas unidades y reconocimiento sectorial."},
+  sociedad:{i:"03",eyebrow:"Compromiso",title:"HLA y la sociedad",sub:"Pincha cada dato para ver su historia."},
+  personas:{i:"04",eyebrow:"Nuestro equipo",title:"Las personas de HLA",sub:"Pincha cada dato para ver su historia."},
+  cliente:{i:"05",eyebrow:"Experiencia de paciente",title:"El cliente en el centro",sub:"Pincha cada dato para ver su historia."},
+  sostenibilidad:{i:"06",eyebrow:"ESG",title:"Sostenibilidad",sub:"Pincha cada dato para ver su historia."},
+  innovacion:{i:"07",eyebrow:"Vanguardia",title:"Innovación",sub:"Nuevas unidades y tecnología al servicio del diagnóstico."},
+};
+
+/* ================= util ================= */
+const deltaTxt=k=>{
+  const last=k.vals.at(-1),prev=k.vals.at(-2);
+  const pct=((last-prev)/prev)*100;
+  return `${pct>=0?"↑":"↓"} ${Math.abs(pct).toFixed(1).replace('.',',')} % vs ${YEARS[1]}`;
+};
+function countUp(elm,dur=1300){
+  const target=+elm.dataset.target;
+  if(reduce){elm.textContent=fmt(target);return}
+  const t0=performance.now();
+  (function step(t){const p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);
+    elm.textContent=fmt(Math.round(target*e));if(p<1)requestAnimationFrame(step);else wireUp(hotNow());})(t0);
+}
+const hotNow=()=>document.querySelector('.kpi[aria-expanded="true"]')?.dataset.kpi;
+
+/* ================= ELEMENTO CENTRAL ================= */
+const coreStage=document.getElementById("coreStage");
+let lastOpener=null;
+
+const ISO=`<svg viewBox="0 0 57 57" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<path d="M29.1222 56.71C24.1022 56.71 19.2122 55.41 14.9622 52.93C14.2722 52.56 13.8622 51.87 13.4322 51.14C13.3022 50.92 13.1822 50.71 13.0422 50.5C9.72223 44.94 8.57223 38.2 9.81223 31.79C12.4822 38.03 17.2822 43.3 23.1722 46.4C27.3422 48.64 32.1022 49.83 36.9422 49.83C39.2722 49.83 41.5822 49.55 43.8022 49.01C46.0522 48.48 48.2922 47.63 50.6122 46.41C46.7222 51.33 41.1122 54.81 34.9222 56.1C33.0322 56.5 31.0822 56.71 29.1122 56.71"/>
+<path d="M10.8722 50.45C5.87218 46.67 2.24218 41.16 0.772176 35.04C-1.02782 27.65 0.362175 19.62 4.49218 13.53C8.82218 10.67 14.1822 9.09001 19.6122 9.09001C21.8822 9.09001 24.1122 9.36001 26.2722 9.89001C19.7422 12.25 14.1922 16.98 10.8722 23.05C7.91218 28.37 6.75218 34.65 7.62218 40.71C8.06217 44.01 9.18217 47.34 10.8722 50.45Z"/>
+<path d="M37.0222 47.88C34.1022 47.88 31.2222 47.45 28.4222 46.61C30.0222 46.42 31.6622 46.19 33.1722 45.47C39.7222 42.39 44.9922 36.79 47.6022 30.1C50.6422 22.66 50.1522 13.88 46.3922 6.69C51.5422 10.83 55.0822 16.72 56.2422 23.17C57.5622 30.35 55.9822 37.76 51.9022 43.53C48.8522 45.83 44.7122 47.28 39.9422 47.73C38.9822 47.83 38.0022 47.88 37.0222 47.88Z"/>
+<path d="M46.8022 26.31C44.5122 20 39.9822 14.56 34.1822 11.23C29.8522 8.71 24.8822 7.38 19.7922 7.38C18.5322 7.38 17.2622 7.46 16.0222 7.63C12.5922 8.07 9.11218 9.23 5.86218 11.01C9.19218 6.6 13.8022 3.25 19.0422 1.48C21.8822 0.5 24.8922 0 27.9822 0C33.6722 0 39.2022 1.72 43.5822 4.85C47.5422 11.02 48.7222 18.93 46.8122 26.3"/>
+</svg>`;
+
+function defaultCore(focus){
+  document.querySelectorAll(".kpi[aria-expanded]").forEach(n=>n.setAttribute("aria-expanded","false"));
+  stageGrid.classList.remove("dim");
+  coreStage.innerHTML=`<div class="core-face" id="coreFace">
+    <span class="iso">${ISO}</span>
+    <span class="ce-kicker eyebrow">2025 en cifras</span>
+    <span class="ce-num">1.048.207</span>
+    <span class="ce-label caption">Pacientes atendidos</span>
+    <span class="ce-cta">Pincha un indicador</span>
+  </div>`;
+  wireUp();
+  if(focus&&lastOpener)lastOpener.focus();
+}
+
+/* histórico — dibujado en píxeles */
+let plotRO=null;
+function drawPlot(k,plot,animate){
+  const w=plot.clientWidth,h=plot.clientHeight;
+  if(!w||!h)return;
+  const min=Math.min(...k.vals),max=Math.max(...k.vals),rng=(max-min)||1;
+  const xs=[.13,.5,.87].map(f=>Math.round(f*w)+.5);
+  const ys=k.vals.map(v=>Math.round(h*(.84-((v-min)/rng)*.56))+.5);
+  const grid=[.25,.5,.75].map(f=>{const y=Math.round(f*h)+.5;
+    return `<line x1="0" x2="${w}" y1="${y}" y2="${y}" stroke="${C.line}" stroke-width="1" stroke-dasharray="5 5"/>`}).join("");
+  const leaders=xs.map((x,i)=>{
+    const col=i===2?C.violeta:C.rosa;
+    return `<line class="lead" style="animation-delay:${.15+i*.15}s" x1="${x}" x2="${x}" y1="6" y2="${h}" stroke="${col}" stroke-width="1"/>`;
+  }).join("");
+  const path=xs.map((x,i)=>`${i?'L':'M'}${x} ${ys[i]}`).join(" ");
+  const dots=xs.map((x,i)=>{
+    const col=i===2?C.violeta:C.rosa;
+    return `<div class="vdot" style="border-color:${col};left:${x}px;top:${ys[i]}px;animation-delay:${.45+i*.18}s"></div>`;
+  }).join("");
+  const tags=k.vals.map((v,i)=>{
+    const col=i===2?C.violeta:C.rosa;
+    const anchor=i===0?`left:${xs[i]+10}px`:`right:${w-xs[i]+10}px`;
+    return `<div class="vtag" style="background:${col};${anchor};top:${ys[i]-10}px;animation-delay:${.55+i*.18}s">${fmt(v)}<small>${YEARS[i]}</small></div>`;
+  }).join("");
+  plot.classList.toggle("no-anim",!animate);
+  plot.innerHTML=`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">
+      ${grid}${leaders}
+      <path class="trace" pathLength="1" d="${path}" fill="none" stroke="${C.gris}" stroke-width="1" opacity=".55"/>
+    </svg>${dots}${tags}`;
+}
+
+function chartCore(k,opener){
+  document.querySelectorAll(".kpi[aria-expanded]").forEach(n=>n.setAttribute("aria-expanded","false"));
+  opener.setAttribute("aria-expanded","true");
+  lastOpener=opener;
+  stageGrid.classList.add("dim");
+  coreStage.innerHTML=`<div class="core-chart" role="group" aria-label="Evolución de ${k.label}, ${YEARS[0]} a ${YEARS[2]}">
+    <div class="ch-head"><span class="caption" style="max-width:26ch">${k.label}</span></div>
+    <div class="ch-now" data-target="${k.vals.at(-1)}">0</div>
+    <div class="ch-delta delta">${deltaTxt(k)} · evolución ${YEARS[0]} — ${YEARS[2]}</div>
+    <div class="ch-plot"></div>
+    <div class="ch-axis"><span>${YEARS[0]}</span><span>${YEARS[1]}</span><span>${YEARS[2]}</span></div>
+  </div>`;
+  const plot=coreStage.querySelector(".ch-plot");
+  drawPlot(k,plot,true);
+  plotRO?.disconnect();
+  let first=true;
+  plotRO=new ResizeObserver(()=>{if(first){first=false;return}drawPlot(k,plot,false)});
+  plotRO.observe(plot);
+  countUp(coreStage.querySelector(".ch-now"),900);
+  wireUp(k.id);
+}
+addEventListener("keydown",e=>{if(e.key==="Escape"&&coreStage.querySelector(".core-chart"))defaultCore(true)});
+document.addEventListener("click",e=>{
+  if(!coreStage.querySelector(".core-chart"))return;
+  if(e.target.closest(".kpi")||e.target.closest(".core"))return;
+  defaultCore();
+});
+
+/* ================= KPIs ================= */
+function kpiNode(k){
+  const b=document.createElement("button");
+  b.className="kpi";b.dataset.kpi=k.id;
+  b.setAttribute("aria-expanded","false");
+  b.setAttribute("aria-label",`Ver evolución de ${k.label}`);
+  b.innerHTML=`<span class="eyebrow">Dato 2025</span>
+    <span class="k-num" data-target="${k.vals.at(-1)}">0</span>
+    <span class="k-label caption">${k.label}</span>
+    <span class="k-trend delta">${deltaTxt(k)}</span>`;
+  b.addEventListener("click",()=>{
+    if(b.getAttribute("aria-expanded")==="true"){defaultCore();return}
+    chartCore(k,b);
+  });
+  return b;
+}
+LEFT.forEach(id=>document.getElementById("ind-left").appendChild(kpiNode(byId(id))));
+RIGHT.forEach(id=>document.getElementById("ind-right").appendChild(kpiNode(byId(id))));
+
+/* ================= CONECTORES ================= */
+const wires=document.getElementById("wires");
+const stageGrid=document.getElementById("stageGrid");
+function wireUp(hotId){
+  if(innerWidth<=960){wires.innerHTML="";return}
+  const g=stageGrid.getBoundingClientRect();
+  const core=stageGrid.querySelector(".core").getBoundingClientRect();
+  let s="";
+  document.querySelectorAll("#indicadores .kpi").forEach(k=>{
+    const r=k.getBoundingClientRect();
+    const y=r.top+r.height/2-g.top;
+    const leftSide=r.left<core.left;
+    const x1=leftSide?(r.right-g.left+16):(r.left-g.left-16);
+    const x2=leftSide?(core.left-g.left):(core.right-g.left);
+    s+=`<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"${k.dataset.kpi===hotId?' class="hot"':''}/>`;
+  });
+  wires.setAttribute("viewBox",`0 0 ${g.width} ${g.height}`);
+  wires.innerHTML=s;
+}
+new ResizeObserver(()=>wireUp(hotNow())).observe(stageGrid);
+
+/* ================= CRONOGRAMA (Hitos / Innovación) ================= */
+function renderChrono(id,data){
+  const el=document.getElementById(id+"-chrono");
+  el.querySelector(".row").innerHTML=data.map((m,i)=>
+    `<div class="cl">${icon(m.ic)}<span class="cl-idx">0${i+1}</span>
+     <div class="cl-n">${m.n}</div><h3>${m.t}</h3><p>${m.p}</p></div>`).join("");
+}
+function drawChrono(id,animate){
+  const el=document.getElementById(id+"-chrono");
+  const svg=el.querySelector(".spine");
+  if(innerWidth<=960){svg.innerHTML="";return}
+  const R=el.getBoundingClientRect();
+  if(!R.width)return;
+  const pts=[...el.querySelectorAll(".cl")].map(it=>{
+    const r=it.getBoundingClientRect();
+    return {x:r.left+r.width/2-R.left, y:r.top-R.top-24};
+  });
+  svg.setAttribute("width",R.width);svg.setAttribute("height",R.height);
+  svg.setAttribute("viewBox",`0 0 ${R.width} ${R.height}`);
+  /* la línea sube y baja: curvas en S entre nodos, de borde a borde */
+  let d=`M-2 ${pts[0].y} L${Math.max(pts[0].x-160,0)} ${pts[0].y}`;
+  d+=` L${pts[0].x} ${pts[0].y}`;
+  for(let i=0;i<pts.length-1;i++){
+    const a=pts[i],b=pts[i+1],mx=(a.x+b.x)/2;
+    d+=` C${mx} ${a.y} ${mx} ${b.y} ${b.x} ${b.y}`;
+  }
+  d+=` L${R.width+2} ${pts.at(-1).y}`;
+  const nodes=pts.map((p,i)=>
+    `<circle class="node" style="animation-delay:${.4+i*.35}s" cx="${p.x}" cy="${p.y}" r="5" fill="${C.paper}" stroke="${C.violeta}" stroke-width="1"/>`).join("");
+  svg.classList.toggle("no-anim",!animate);
+  svg.innerHTML=`<path class="spine-path" pathLength="1" d="${d}"/>${nodes}`;
+}
+renderChrono("hitos",HITOS);
+renderChrono("innovacion",INNOVACION);
+["hitos","innovacion"].forEach(id=>{
+  new ResizeObserver(()=>{
+    if(document.getElementById(id).classList.contains("active"))drawChrono(id,false);
+  }).observe(document.getElementById(id+"-chrono"));
+});
+
+/* ================= VISUALES por dato ================= */
+const cap=t=>`<div class="viz-cap">${t}</div>`;
+
+/* — sociedad — */
+const vizCovid=()=>`<div class="viz" aria-label="Unos 60.000 pacientes COVID-19 atendidos">
+  <div class="dotgrid" style="grid-template-columns:repeat(12,1fr);max-width:640px">${
+    Array.from({length:60},(_,i)=>`<span class="dg on" style="animation-delay:${i*.025}s"></span>`).join("")
+  }</div>${cap("60 puntos · cada punto ≈ 1.000 pacientes COVID-19")}</div>`;
+const vizSello=()=>`<div class="viz" style="align-items:center" aria-label="Primera compañía sanitaria acreditada">
+  <svg class="bigviz" viewBox="0 0 400 400" style="max-width:380px;margin:0 auto">
+    <circle class="vio draw" pathLength="1" cx="200" cy="200" r="150" style="animation-duration:1.8s"/>
+    <circle class="hair draw" pathLength="1" cx="200" cy="200" r="120" style="animation-delay:.5s"/>
+    <path class="ros draw" pathLength="1" style="stroke-width:2.5;animation-delay:.9s" d="M140 205l42 42 82-92" fill="none"/>
+  </svg>${cap("Protocolos certificados en toda la red · pionera del sector")}</div>`;
+const vizRanking=()=>{
+  const hla=new Set([3,11,18,26,34,42]);
+  return `<div class="viz" aria-label="6 de los 50 mejores hospitales privados son HLA">
+  <div class="dotgrid">${Array.from({length:50},(_,i)=>
+    `<span class="dg${hla.has(i)?' on':''}"${hla.has(i)?` style="animation-delay:${.3+[...hla].indexOf(i)*.12}s"`:''}></span>`).join("")
+  }</div>${cap("6 de los 50 mejores hospitales privados · ranking MRS")}</div>`};
+
+/* — personas — */
+const RED=[[60,150],[110,90],[150,200],[210,60],[230,150],[300,110],[280,230],[360,180],[420,90],[460,200],[520,140],[90,260],[180,300],[260,320],[340,290],[430,300],[510,260],[550,80],[380,40],[140,40]];
+const REDL=[[0,1],[1,3],[3,5],[5,8],[8,10],[10,17],[2,4],[4,6],[6,13],[13,14],[14,15],[15,16],[7,9],[9,16],[11,12],[12,13],[0,2],[4,5],[8,18],[1,19],[16,10],[7,5]];
+const vizRed=()=>`<div class="viz" aria-label="Más de 100 centros y unidades en red">
+  <svg class="bigviz" viewBox="0 0 600 360" style="max-width:620px">
+    ${REDL.map(([a,b],i)=>`<line class="hair draw" pathLength="1" style="animation-delay:${.2+i*.06}s" x1="${RED[a][0]}" y1="${RED[a][1]}" x2="${RED[b][0]}" y2="${RED[b][1]}"/>`).join("")}
+    ${RED.map((p,i)=>`<circle class="nodedot" style="animation-delay:${.3+i*.05}s" cx="${p[0]}" cy="${p[1]}" r="4"/>`).join("")}
+  </svg>${cap("Una red asistencial conectada por toda España")}</div>`;
+const vizPulso=()=>{
+  const beat="M0 100 L120 100 L138 88 L152 100 L172 100 L186 30 L198 150 L210 100 L252 100 L268 92 L282 100 L420 100 L438 88 L452 100 L472 100 L486 30 L498 150 L510 100 L552 100 L568 92 L582 100 L600 100";
+  return `<div class="viz" aria-label="1.587 urgencias atendidas cada día">
+  <svg class="pulse" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
+    <line class="base" x1="0" y1="100" x2="600" y2="100"/>
+    <path class="ghost" d="${beat}"/>
+    <path class="beat" pathLength="1" d="${beat}"/>
+  </svg>${cap("1.587 urgencias atendidas cada día · una cada 54 segundos")}</div>`};
+const vizReloj=()=>{
+  const ticks=Array.from({length:24},(_,i)=>{
+    const a=i*15*Math.PI/180, r1=150, r2=i%6===0?128:138;
+    const x1=200+r1*Math.sin(a), y1=200-r1*Math.cos(a), x2=200+r2*Math.sin(a), y2=200-r2*Math.cos(a);
+    return `<line class="${i%6===0?'vio':'hair'} draw" pathLength="1" style="animation-delay:${.15+i*.05}s" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
+  }).join("");
+  return `<div class="viz" style="align-items:center" aria-label="Atención continua 24 horas, 7 días">
+  <div class="orbwrap" style="max-width:400px">
+    <svg viewBox="0 0 400 400"><circle class="hair draw" pathLength="1" cx="200" cy="200" r="160" style="animation-duration:1.8s"/>${ticks}</svg>
+    <div class="orb-c"><span class="rn">24/7</span><span class="caption" style="margin-top:10px">Atención continua</span></div>
+  </div>${cap("24 horas al día · 365 días al año")}</div>`};
+
+/* — cliente — */
+const vizMillon=()=>`<div class="viz" aria-label="1.048.207 pacientes atendidos">
+  <div class="dotgrid">${Array.from({length:100},(_,i)=>
+    `<span class="dg on" style="animation-delay:${i*.018}s"></span>`).join("")
+  }</div>${cap("Un millón de historias · cada punto ≈ 10.500 personas")}</div>`;
+const vizOrbitas=()=>`<div class="viz" style="align-items:center" aria-label="3,27 millones de citas en consultas externas">
+  <div class="orbwrap">
+    <svg viewBox="0 0 400 400">
+      <g class="orb o1"><circle class="tr" cx="200" cy="200" r="170"/><circle class="sat" cx="200" cy="30" r="5"/><circle class="sat r" cx="340" cy="290" r="4"/></g>
+      <g class="orb o2"><circle class="tr" cx="200" cy="200" r="122"/><circle class="sat" cx="322" cy="200" r="4"/><circle class="sat" cx="110" cy="110" r="5"/></g>
+      <g class="orb o3"><circle class="tr" cx="200" cy="200" r="74"/><circle class="sat r" cx="200" cy="126" r="4"/></g>
+    </svg>
+    <div class="orb-c"><span class="rn">3,27 M</span><span class="caption" style="margin-top:10px">citas al año</span></div>
+  </div>${cap("Un flujo continuo: 6,2 citas por minuto")}</div>`;
+const vizProporcion=()=>`<div class="viz" aria-label="298.595 pacientes nuevos, un 28 % del total">
+  <div class="propbar"><div class="fill"><span class="pct">28 %</span></div></div>
+  <div class="prop-l"><span class="a">Pacientes nuevos · 298.595</span><span class="b">Pacientes atendidos · 1.048.207</span></div>
+  ${cap("Casi 3 de cada 10 pacientes confiaron en HLA por primera vez")}</div>`;
+
+/* — sostenibilidad — */
+const vizAnillo=()=>`<div class="viz" style="align-items:center" aria-label="99 % de energía renovable">
+  <div class="ringwrap">
+    <svg viewBox="0 0 200 200"><circle class="ring-track" cx="100" cy="100" r="86"/>
+    <circle class="ring-arc" pathLength="100" cx="100" cy="100" r="86"/></svg>
+    <div class="ring-c"><span class="rn">99 %</span><span class="caption" style="margin-top:12px">Energía renovable</span></div>
+  </div>${cap("Del consumo eléctrico de toda la compañía")}</div>`;
+const vizHoja=()=>`<div class="viz" style="align-items:center" aria-label="3.153 toneladas de CO2 evitadas">
+  <svg class="bigviz" viewBox="0 0 400 400" style="max-width:360px;margin:0 auto">
+    <path class="vio draw" pathLength="1" style="animation-duration:1.8s" d="M200 345 C 90 300 62 160 200 52 C 338 160 310 300 200 345 Z"/>
+    <path class="hair draw" pathLength="1" style="animation-delay:.7s" d="M200 340 V 70"/>
+    <path class="hair draw" pathLength="1" style="animation-delay:1s" d="M200 260 L140 215 M200 260 L260 215 M200 180 L152 145 M200 180 L248 145"/>
+  </svg>${cap("3.153 t de CO₂ equivalente evitadas este año")}</div>`;
+const vizImpacto=()=>{
+  const rays=Array.from({length:12},(_,i)=>{
+    const a=i*30*Math.PI/180, r1=112, r2=150;
+    const x1=200+r1*Math.sin(a), y1=200-r1*Math.cos(a), x2=200+r2*Math.sin(a), y2=200-r2*Math.cos(a);
+    return `<line class="ros draw" pathLength="1" style="stroke-width:1.5;animation-delay:${.5+i*.07}s" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
+  }).join("");
+  return `<div class="viz" style="align-items:center" aria-label="565.000 euros de coste social evitado">
+  <div class="orbwrap" style="max-width:400px">
+    <svg viewBox="0 0 400 400"><circle class="vio draw" pathLength="1" cx="200" cy="200" r="92" style="animation-duration:1.6s"/>${rays}</svg>
+    <div class="orb-c"><span class="rn">€</span><span class="caption" style="margin-top:10px">coste social evitado</span></div>
+  </div>${cap("565.000 € de impacto positivo por acción ambiental")}</div>`;
+};
+
+/* ================= SPLIT: dato-tabs ================= */
+const SPLITS={
+  sociedad:[
+    {num:"~60.000",label:"pacientes COVID-19 atendidos",sub:"Muchos derivados de la sanidad pública.",viz:vizCovid},
+    {num:"1ª",label:"compañía sanitaria acreditada",sub:"En certificar protocolos en toda su red.",viz:vizSello},
+    {num:"50",label:"mejores centros privados",sub:"6 hospitales HLA dentro del ranking nacional.",viz:vizRanking},
+  ],
+  personas:[
+    {num:"+100",label:"centros y unidades",sub:"Una red asistencial presente en toda España.",viz:vizRed},
+    {num:"1.587",label:"urgencias atendidas / día",sub:"Media diaria de atención urgente.",viz:vizPulso},
+    {num:"24/7",label:"atención continua",sub:"Equipos médicos y de enfermería todo el año.",viz:vizReloj},
+  ],
+  cliente:[
+    {num:"1.048.207",label:"pacientes atendidos",sub:"Cada cifra es una persona cuidada.",viz:vizMillon},
+    {num:"3,27 M",label:"citas en consultas externas",sub:"Accesibilidad y seguimiento cercano.",viz:vizOrbitas},
+    {num:"298.595",label:"pacientes nuevos",sub:"Nueva confianza depositada en HLA cada año.",viz:vizProporcion},
+  ],
+  sostenibilidad:[
+    {num:"99 %",label:"energía 100 % renovable",sub:"Del consumo eléctrico de toda la compañía.",viz:vizAnillo},
+    {num:"3.153 t",label:"CO₂ equivalente evitadas",sub:"Reducción de emisiones en el año.",viz:vizHoja},
+    {num:"565.000 €",label:"coste social evitado",sub:"Impacto positivo estimado de nuestra acción ambiental.",viz:vizImpacto},
+  ],
+};
+function selectDatum(id,i){
+  const grid=document.getElementById(id+"-grid");
+  grid.querySelectorAll(".fig-block").forEach((b,j)=>b.setAttribute("aria-pressed",j===i));
+  grid.querySelector(".figstack").classList.add("haspick");
+  grid.querySelector(".viz-holder").innerHTML=SPLITS[id][i].viz();
+}
+function renderSplit(id){
+  const grid=document.getElementById(id+"-grid");
+  grid.innerHTML=`<div class="viz-holder" aria-live="polite"></div>
+    <div class="figstack">${SPLITS[id].map((d,i)=>`
+      <button class="fig-block" data-i="${i}" aria-pressed="${i===0}">
+        <span class="eyebrow">Dato 2025</span>
+        <span class="f-num" style="display:block">${d.num}</span>
+        <span class="f-label caption" style="display:block">${d.label}</span>
+        <span class="f-sub" style="display:block">${d.sub}</span>
+      </button>`).join("")}</div>`;
+  grid.querySelectorAll(".fig-block").forEach(b=>
+    b.addEventListener("click",()=>selectDatum(id,+b.dataset.i)));
+  selectDatum(id,0);
+}
+Object.keys(SPLITS).forEach(renderSplit);
+
+/* ================= count-up KPIs ================= */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){countUp(e.target);io.unobserve(e.target)}}),{threshold:.5});
+document.querySelectorAll(".k-num[data-target]").forEach(n=>io.observe(n));
+
+/* ================= tabs de sección ================= */
+const head={eyebrow:document.getElementById("eyebrow"),title:document.getElementById("secTitle"),
+  sub:document.getElementById("secSub"),idx:document.getElementById("secIdx")};
+function setSection(id){
+  document.querySelectorAll(".tab").forEach(t=>{
+    const on=t.dataset.tab===id;
+    t.classList.toggle("active",on);
+    if(on)t.setAttribute("aria-current","true");else t.removeAttribute("aria-current");
+  });
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));
+  const s=SECTIONS[id];
+  head.eyebrow.textContent=s.eyebrow;head.title.innerHTML=s.title;
+  head.sub.textContent=s.sub;head.idx.textContent=`${s.i} / 07`;
+  if(id==="indicadores"){defaultCore();requestAnimationFrame(()=>wireUp())}
+  if(id==="hitos"||id==="innovacion")requestAnimationFrame(()=>drawChrono(id,true));
+  if(SPLITS[id])selectDatum(id,0);
+  scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+}
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>setSection(t.dataset.tab)));
+
+defaultCore();
+requestAnimationFrame(()=>wireUp());
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Specimen v2 · Antonio + paleta de marca · Memoria HLA 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=IBM+Plex+Mono:wght@300;400;500&family=Poppins:wght@400;500;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ---- PALETA OFICIAL DE MARCA HLA ---- */
+  --violeta:#4D418A;   /* principal — dato actual, elemento central */
+  --rosa:#CF0C71;      /* serie histórica / comparación */
+  --gris:#63666F;      /* texto secundario */
+  --azul:#639AB7;      /* tercera serie */
+  --agua:#A8D3CE;      /* rellenos suaves, áreas */
+  /* ---- neutros derivados ---- */
+  --paper:#F4F3F1; --paper2:#EAE9E6; --ink:#1F1D2B;
+  --line:#DDDCD9; --mass:#C7C8CB;
+  --display:'Antonio',sans-serif; --mono:'IBM Plex Mono',monospace; --prosa:'Poppins',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--prosa);
+     -webkit-font-smoothing:antialiased;padding:0 0 120px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 48px}
+.rule{height:1px;background:var(--line);border:0}
+
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)}
+.caption{font-family:var(--mono);font-size:11px;letter-spacing:.10em;text-transform:uppercase;color:var(--ink)}
+.delta{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--gris)}
+
+header{padding:40px 0 20px}
+h1.spec{font-family:var(--display);font-weight:500;font-size:60px;line-height:.92;letter-spacing:-.01em}
+.sub{font-family:var(--mono);font-size:12px;letter-spacing:.10em;text-transform:uppercase;color:var(--gris);margin-top:14px}
+section{padding:60px 0 0}
+h2.sec{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+       color:var(--gris);margin-bottom:26px}
+
+/* 00 · logo vs Antonio */
+.logorow{display:flex;align-items:center;gap:56px;flex-wrap:wrap}
+.logorow img{display:block}
+.wordtest{font-family:var(--display);font-weight:700;color:var(--violeta);line-height:.86}
+.wordtest .hla{font-size:64px;letter-spacing:-.01em}
+.wordtest .gh{font-size:23px;letter-spacing:.005em}
+
+/* 01 · papeles */
+.papers{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.paper-card{padding:28px 26px 30px;border:1px solid var(--line)}
+.paper-card .fig{font-family:var(--display);font-weight:400;font-size:56px;line-height:.86;
+                 font-variant-numeric:tabular-nums;margin:10px 0 0}
+.paper-card .hl{height:1px;background:var(--line);margin:18px 0}
+.vt{display:inline-block;background:var(--rosa);color:#fff;padding:4px 6px;
+    font-family:var(--mono);font-size:13px;line-height:1;letter-spacing:-.02em}
+.vt small{display:block;font-size:9px;opacity:.8;text-transform:lowercase;letter-spacing:0;line-height:1.4}
+.pname{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+       color:var(--gris);margin-top:12px}
+
+/* 02 · paleta */
+.swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.sw{height:132px;padding:12px;display:flex;flex-direction:column;justify-content:flex-end;gap:3px}
+.sw b{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.04em}
+.sw span{font-family:var(--mono);font-size:9px;letter-spacing:.04em;opacity:.85}
+.roles{width:100%;border-collapse:collapse;margin-top:26px;font-family:var(--mono);font-size:11px}
+.roles th,.roles td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--line);
+                    letter-spacing:.03em;vertical-align:top}
+.roles th{color:var(--gris);text-transform:uppercase;font-size:10px;letter-spacing:.1em;font-weight:400}
+.chip{display:inline-block;width:11px;height:11px;margin-right:8px;vertical-align:-1px}
+
+/* 03 · KPI grid */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.kpi{padding:30px 30px 34px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kpi:nth-child(3n){border-right:0}
+.kpi .fig{font-family:var(--display);font-weight:400;font-size:70px;line-height:.86;margin:12px 0 0;
+          font-variant-numeric:tabular-nums;letter-spacing:-.005em}
+.kpi.on .fig{color:var(--violeta)}
+.kpi .cap{margin-top:11px}
+.kpi .dl{margin-top:9px}
+
+/* 04 · centro */
+.stage{display:grid;grid-template-columns:1fr 300px 1fr;align-items:center;padding:50px 0}
+.side{display:flex;flex-direction:column;gap:44px}
+.side.r{align-items:flex-end;text-align:right}
+.leaf .fig{font-family:var(--display);font-weight:400;font-size:60px;line-height:.86;font-variant-numeric:tabular-nums}
+.centerwrap{position:relative;display:grid;grid-template-columns:1fr}
+.center{aspect-ratio:1;background:var(--paper2);display:flex;align-items:center;justify-content:center;text-align:center}
+.center .big{font-family:var(--display);font-weight:400;font-size:62px;line-height:.86;
+             color:var(--violeta);font-variant-numeric:tabular-nums}
+.center .note{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--rosa)}
+.conn{position:absolute;height:1px;background:var(--line);width:132px}
+.conn.l{right:100%}.conn.r{left:100%}.conn.a{top:32%}.conn.b{top:72%}
+
+/* 05 · chart */
+.chart{position:relative;height:270px;border-bottom:1px solid var(--line);margin-top:6px;
+  background:
+   repeating-linear-gradient(to right,var(--line) 0 6px,transparent 6px 12px) 0 25%/100% 1px no-repeat,
+   repeating-linear-gradient(to right,var(--line) 0 6px,transparent 6px 12px) 0 50%/100% 1px no-repeat,
+   repeating-linear-gradient(to right,var(--line) 0 6px,transparent 6px 12px) 0 75%/100% 1px no-repeat;}
+.vtag{position:absolute;background:var(--violeta);color:#fff;padding:4px 6px;
+      font-family:var(--mono);font-size:14px;line-height:1;letter-spacing:-.02em}
+.vtag small{display:block;font-size:10px;line-height:1.3;opacity:.78;text-transform:lowercase;letter-spacing:0}
+.vtag.h{background:var(--rosa)}
+.lead{position:absolute;width:1px;background:var(--violeta);opacity:.4;top:0;bottom:0}
+.lead.h{background:var(--rosa)}
+.dot{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--paper);border:1px solid var(--violeta)}
+.dot.h{border-color:var(--rosa)}
+
+/* 06 · acentos */
+.acc-row{display:flex;gap:52px;flex-wrap:wrap;align-items:baseline}
+.acc-row div{font-family:var(--display);font-weight:400;font-size:44px;line-height:1}
+.warn{border-left:2px solid var(--rosa);padding:14px 0 14px 18px;margin-top:26px;
+      font-family:var(--mono);font-size:12px;line-height:1.75;max-width:800px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Specimen v2 · Memoria HLA 2025 · paleta oficial de marca</div>
+    <h1 class="spec">Medicina. Experiencia. Personas.</h1>
+    <div class="sub">Antonio 500 · 60px · lh .92</div>
+  </header>
+  <hr class="rule">
+
+  <section>
+    <h2 class="sec">00 · El logo manda — ¿coincide Antonio con el wordmark?</h2>
+    <div class="logorow">
+      <img src="assets/hla-logo.svg" width="284" alt="HLA Grupo Hospitalario">
+      <div class="wordtest">
+        <div class="hla">HLA</div>
+        <div class="gh">GRUPO<br>HOSPITALARIO</div>
+      </div>
+      <div class="delta" style="max-width:230px;line-height:1.7">
+        Izquierda: el SVG oficial.<br>Derecha: Antonio 700.<br>
+        El wordmark de HLA <strong>ya es una condensada</strong> casi idéntica.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">01 · ¿Qué papel? — la paleta de marca es fría, el papel no puede ser crema</h2>
+    <div class="papers">
+      <div class="paper-card" style="background:#F5F3EE">
+        <div class="eyebrow">Dato 2025</div>
+        <div class="fig">579.430</div>
+        <div class="caption" style="margin-top:10px">Urgencias</div>
+        <div class="hl"></div>
+        <span class="vt">981.416<small>2023</small></span>
+        <div class="pname">A · crema #F5F3EE — se ensucia con el rosa</div>
+      </div>
+      <div class="paper-card" style="background:#F4F3F1;outline:2px solid var(--violeta);outline-offset:-1px">
+        <div class="eyebrow">Dato 2025</div>
+        <div class="fig">579.430</div>
+        <div class="caption" style="margin-top:10px">Urgencias</div>
+        <div class="hl"></div>
+        <span class="vt">981.416<small>2023</small></span>
+        <div class="pname">B · papel neutro #F4F3F1 — recomendado</div>
+      </div>
+      <div class="paper-card" style="background:#F4F2F6">
+        <div class="eyebrow">Dato 2025</div>
+        <div class="fig">579.430</div>
+        <div class="caption" style="margin-top:10px">Urgencias</div>
+        <div class="hl"></div>
+        <span class="vt">981.416<small>2023</small></span>
+        <div class="pname">C · tinte violeta #F4F2F6 — más digital</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">02 · Paleta oficial y reparto de papeles</h2>
+    <div class="swatches">
+      <div class="sw" style="background:#4D418A;color:#fff"><b>VIOLETA</b><span>#4D418A · 77/65/138</span></div>
+      <div class="sw" style="background:#63666F;color:#fff"><b>GRIS</b><span>#63666F · 99/102/111</span></div>
+      <div class="sw" style="background:#639AB7;color:#fff"><b>AZUL</b><span>#639AB7 · 99/154/183</span></div>
+      <div class="sw" style="background:#A8D3CE;color:#1F1D2B"><b>AGUA</b><span>#A8D3CE · 185/216/202</span></div>
+      <div class="sw" style="background:#CF0C71;color:#fff"><b>ROSA</b><span>#CF0C71 · 207/12/113</span></div>
+    </div>
+    <table class="roles">
+      <tr><th>Color</th><th>Papel en la memoria</th><th>Contraste sobre papel</th></tr>
+      <tr><td><span class="chip" style="background:#4D418A"></span>Violeta</td>
+          <td>Dato actual (2025) · elemento central · titular destacado</td><td>7,8 : 1 — AAA</td></tr>
+      <tr><td><span class="chip" style="background:#CF0C71"></span>Rosa</td>
+          <td>Serie histórica · el dato que se compara · affordance de «abre histórico»</td><td>4,8 : 1 — AA</td></tr>
+      <tr><td><span class="chip" style="background:#63666F"></span>Gris</td>
+          <td>Texto secundario · captions · eyebrows</td><td>5,9 : 1 — AA</td></tr>
+      <tr><td><span class="chip" style="background:#639AB7"></span>Azul</td>
+          <td>Tercera serie cuando haga falta · acento de sección</td><td>2,6 : 1 — solo superficie, no texto</td></tr>
+      <tr><td><span class="chip" style="background:#A8D3CE"></span>Agua</td>
+          <td>Rellenos de área · bandas de fondo · nunca texto</td><td>1,5 : 1 — solo superficie</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2 class="sec">03 · KpiFigure con la paleta definitiva</h2>
+    <div class="kpis">
+      <div class="kpi on"><div class="eyebrow">Dato 2025</div><div class="fig">1.048.207</div>
+        <div class="caption cap">Pacientes atendidos</div><div class="delta dl">↑ 1,4 % vs 2024</div></div>
+      <div class="kpi"><div class="eyebrow">Dato 2025</div><div class="fig">579.430</div>
+        <div class="caption cap">Urgencias</div><div class="delta dl">↓ 2,2 % vs 2024</div></div>
+      <div class="kpi"><div class="eyebrow">Dato 2025</div><div class="fig">3.276.538</div>
+        <div class="caption cap">Citas en consultas externas</div><div class="delta dl">↑ 3,6 % vs 2024</div></div>
+      <div class="kpi"><div class="eyebrow">Dato 2025</div><div class="fig">163.892</div>
+        <div class="caption cap">Cirugías</div><div class="delta dl">↑ 4,0 % vs 2024</div></div>
+      <div class="kpi"><div class="eyebrow">Dato 2025</div><div class="fig">730.839</div>
+        <div class="caption cap">Pruebas de diagnóstico</div><div class="delta dl">↑ 7,2 % vs 2024</div></div>
+      <div class="kpi"><div class="eyebrow">Dato 2025</div><div class="fig">52,1 %</div>
+        <div class="caption cap">Ocupación hospitalaria</div><div class="delta dl">↑ 0,8 p.p. vs 2024</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">04 · Elemento central conectado por hairlines — el modelo de Vicky</h2>
+    <div class="stage">
+      <div class="side">
+        <div class="leaf"><div class="eyebrow">Dato 2025</div><div class="fig">76.600</div>
+          <div class="caption" style="margin-top:10px">Ingresos</div></div>
+        <div class="leaf"><div class="eyebrow">Dato 2025</div><div class="fig">298.595</div>
+          <div class="caption" style="margin-top:10px">Pacientes nuevos</div></div>
+      </div>
+      <div class="centerwrap">
+        <div class="conn l a"></div><div class="conn l b"></div>
+        <div class="conn r a"></div><div class="conn r b"></div>
+        <div class="center"><div>
+          <div class="eyebrow">2025 en cifras</div>
+          <div class="big" style="margin-top:10px">1.048.207</div>
+          <div class="caption" style="margin-top:12px">Pacientes atendidos</div>
+          <div class="note" style="margin-top:22px">Pincha un indicador ↓</div>
+        </div></div>
+      </div>
+      <div class="side r">
+        <div class="leaf"><div class="eyebrow">Dato 2025</div><div class="fig">163.892</div>
+          <div class="caption" style="margin-top:10px">Cirugías</div></div>
+        <div class="leaf"><div class="eyebrow">Dato 2025</div><div class="fig">730.839</div>
+          <div class="caption" style="margin-top:10px">Pruebas de diagnóstico</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">05 · El histórico — violeta 2025 vs rosa años anteriores</h2>
+    <div class="chart">
+      <div class="lead h" style="left:22%"></div>
+      <div class="dot h" style="left:calc(22% - 3.5px);top:62%"></div>
+      <div class="vtag h" style="left:calc(22% + 10px);top:calc(62% - 44px)">981.416<small>2023</small></div>
+      <div class="lead h" style="left:52%"></div>
+      <div class="dot h" style="left:calc(52% - 3.5px);top:38%"></div>
+      <div class="vtag h" style="left:calc(52% + 10px);top:calc(38% - 44px)">1.033.820<small>2024</small></div>
+      <div class="lead" style="left:82%"></div>
+      <div class="dot" style="left:calc(82% - 3.5px);top:14%"></div>
+      <div class="vtag" style="left:calc(82% - 96px);top:calc(14% - 46px)">1.048.207<small>2025</small></div>
+    </div>
+    <div class="delta" style="margin-top:12px">Evolución 2023 — 2025 · pacientes atendidos</div>
+  </section>
+
+  <section>
+    <h2 class="sec">06 · Acentos castellanos en Antonio</h2>
+    <div class="acc-row">
+      <div>Innovación</div><div>Cirugías</div><div>Año</div><div>Diagnóstico</div><div>¿Qué? · €</div>
+    </div>
+    <div class="warn">
+      <strong>Inconsistencia detectada:</strong> el SVG del logo viene en <strong>#4D4084</strong> y la
+      carta de color de marca dice <strong>#4D418A</strong>. Diferencia imperceptible pero real.
+      Se toma <strong>#4D418A</strong> como token (manda la carta de color) y se recolorea el logo
+      para que todo cuadre. Confírmalo si prefieres al revés.
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

@@ -40,10 +40,24 @@ Referencia de interacción: <https://countrast.com/fi/al?unit=imperial>
 ## Marca
 
 - **Lema:** "Medicina, Experiencia, Personas"
-- **Color (CONFIRMADO desde grupohla.com):** marca **violeta/púrpura** sobre **blanco**,
-  titulares en **azul índigo oscuro**, paneles **lavanda**. Paleta del mockup:
-  bg `#FBFAFE` · ink `#2A2657` · acento violeta `#5E51A0` · lavanda `#F1EEF9`.
-  El ROJO de los mockups del cliente era solo color de relleno del boceto, NO de marca.
+- **Paleta OFICIAL** (carta de color del cliente, 2026-07-27 — manda sobre cualquier valor
+  derivado de capturas o del PNG del isotipo):
+
+  | Color | HEX | RGB | CMYK | Papel en la memoria |
+  |-------|-----|-----|------|---------------------|
+  | Violeta | `#4D418A` | 77/65/138 | 82/86/0/4 | Principal · dato actual · elemento central |
+  | Gris | `#63666F` | 99/102/111 | 57/46/40/25 | Texto secundario · captions |
+  | Azul | `#639AB7` | 99/154/183 | 61/20/14/5 | Tercera serie · solo superficie |
+  | Verde agua | `#A8D3CE` | 185/216/202 | 33/0/20/0 | Rellenos · solo superficie |
+  | Rosa | `#CF0C71` | 207/12/113 | 1/100/14/3 | Serie histórica · comparación |
+
+  Neutros derivados: papel `#F4F3F1` · papel-2 `#EAE9E6` · ink `#1F1D2B` · line `#DDDCD9`.
+  ⚠️ Azul y verde agua **nunca llevan texto encima** (2,6:1 y 1,5:1 sobre papel).
+  ⚠️ El SVG del logo viene en `#4D4084`; manda la carta de color, `#4D418A`.
+  El ROJO de los mockups del cliente era relleno del boceto: se reinterpreta como el rosa
+  de marca para la serie histórica.
+- **Valores obsoletos** (derivados del PNG, ya NO usar): `#52428C`, `#5E51A0`, `#FBFAFE`,
+  `#2A2657`, `#F1EEF9`.
 - **Secciones de referencia:** Carta Consejero · Quiénes somos · Cuidado de las personas ·
   Innovación · Equipo HLA · ESG
 
@@ -84,10 +98,27 @@ Referencia de interacción: <https://countrast.com/fi/al?unit=imperial>
 - URL despliegue (mockup): https://memoria-hla-2025.vercel.app (Vercel, **team `yellow-glasses`** — propiedad de empresa, transferido desde la cuenta personal el 2026-07-22; proyecto memoria-hla-2025, público). Objetivo final: subdominio grupohla.com
 - Figma: _pendiente_
 
-## Tipografía y marca aplicadas (mockup)
-- Fuente: **Poppins** (la real de HLA; DIN es la secundaria propietaria). Embebida en el mockup.
-- Logo: isotipo oficial `https://www.grupohla.com/assets/isotipo.png` (anillo violeta) embebido como data URI.
-- Violeta de marca exacto del isotipo: `#52428C`.
+## Tipografía y assets
+
+**Sistema de DOS voces (v5.1, decidido 2026-07-27 tarde — Poppins ELIMINADA):**
+- **Antonio** (Google Fonts, variable 100–700) → **titulares (500), cifras (400) y
+  subtítulos pequeños en mayúsculas (500, ~21px)**. Es la tipográfica de marca; el wordmark
+  del logo es una condensada casi idéntica. ⚠️ Es **condensada**: ~35 % menos ancho que una
+  sans normal — la rejilla se diseña para ella.
+- **IBM Plex Mono** → **todo lo demás, incluida la prosa** (13–14px / 1.7–1.8): eyebrows,
+  captions, ejes, etiquetas de valor, deltas, párrafos, footer. Es la fórmula exacta de la
+  referencia Countrast (Rubik display + Reddit Mono para todo).
+- ~~Poppins~~ eliminada del sistema: no casaba con la mono. Ya no se carga.
+
+*Reparto en una frase: Antonio dice la cifra, Plex Mono cuenta todo lo demás.*
+
+**Assets:**
+- Logo oficial en SVG: `mockup/assets/hla-logo.svg` (lockup isotipo + HLA + Grupo
+  Hospitalario, 142×34, monocromo). Versión temable:
+  `mockup/assets/hla-logo-currentcolor.svg`.
+  ⚠️ La versión `currentColor` **debe inlinearse en el HTML**; cargada vía `<img>` no
+  hereda el color y sale negra.
+- Ya NO usar el PNG del isotipo incrustado como data-URI de la v4.
 
 ## Deploy (auto-deploy por git — desde 2026-07-20)
 El proyecto Vercel `memoria-hla-2025` (team **`yellow-glasses`**) está **conectado al repo GitHub**: cada push a `main`
