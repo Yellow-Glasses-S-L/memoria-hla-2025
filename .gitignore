@@ -11,3 +11,6 @@ dist/
 .env
 .env.local
 .DS_Store
+
+# Capturas de verificación del navegador (se ven en el Studio, no van al repo)
+capturas/
