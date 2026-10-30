@@ -29,7 +29,7 @@ main{flex:1;padding-bottom:40px}
 :focus-visible{outline:2px solid var(--violeta);outline-offset:3px}
 ::selection{background:var(--violeta);color:#fff}
 
-.eyebrow{font-family:var(--mono);font-size:0.6875rem;font-weight:400;letter-spacing:.16em;
+.eyebrow{font-family:var(--mono);font-size:0.75rem;font-weight:400;letter-spacing:.16em;
   text-transform:uppercase;color:var(--gris)}
 .caption{font-family:var(--mono);font-size:0.75rem;font-weight:400;letter-spacing:.10em;
   text-transform:uppercase;color:var(--ink);line-height:1.55}
@@ -60,6 +60,13 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   font-size:clamp(2.875rem,6.4vw,6.125rem);letter-spacing:.005em;line-height:.92;margin:14px 0 0}
 .section-sub{color:var(--gris);font-size:0.8438rem;max-width:62ch;margin:16px 0 0;line-height:1.75;
   letter-spacing:.01em}
+/* en escritorio la intro va al lado del título: el contenido sube ~120px */
+/* el título nunca se parte por la intro: si no caben juntos, la intro baja */
+.head-main{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;
+  column-gap:clamp(32px,5vw,96px)}
+.head-main .section-title{flex:0 0 auto;max-width:100%}
+.head-main .section-sub{flex:0 0 min(46ch,100%);margin:14px 0 6px}
+.head-main .section-sub[hidden]{display:none}
 .head-rule{height:1px;background:var(--line);border:0;margin:28px 0 0}
 
 /* ============ ESCENARIO (Indicadores) ============ */
@@ -72,8 +79,10 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .col.right{align-items:flex-start}
 
 #wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-#wires line{stroke:var(--line);stroke-width:1;transition:stroke .25s}
-#wires line.hot{stroke:var(--rosa)}
+#wires path{fill:none;stroke:var(--mass);stroke-width:1;transition:stroke .25s,opacity .25s}
+#wires path.hot{stroke:var(--rosa)}
+#wires circle{fill:var(--paper);stroke:var(--mass);stroke-width:1;transition:stroke .25s}
+#wires circle.hot{stroke:var(--rosa);fill:var(--rosa)}
 
 /* ---- KPI ---- */
 .kpi{cursor:pointer;background:none;font:inherit;color:inherit;
@@ -91,9 +100,10 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .kpi:hover .k-num,.kpi:focus-visible .k-num{color:var(--violeta)}
 .kpi[aria-expanded="true"]{border-color:var(--violeta)}
 .kpi[aria-expanded="true"] .k-num{color:var(--violeta)}
-.grid.dim .kpi:not([aria-expanded="true"]){opacity:.35}
-.grid.dim .kpi:not([aria-expanded="true"]):hover{opacity:.8}
-.grid.dim #wires line:not(.hot){opacity:.4}
+/* con un indicador abierto, los demás se apagan sin perder contraste: cifra y borde en gris */
+.grid.dim .kpi:not([aria-expanded="true"]) .k-num{color:var(--gris)}
+.grid.dim .kpi:not([aria-expanded="true"]):hover .k-num{color:var(--violeta)}
+.grid.dim #wires path:not(.hot),.grid.dim #wires circle:not(.hot){opacity:.45}
 
 /* ---- ELEMENTO CENTRAL ---- */
 .core{position:relative;min-height:580px;display:flex;align-items:stretch}
@@ -108,7 +118,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .core-face .ce-num{font-family:var(--display);font-weight:400;font-size:clamp(3.5rem,5vw,5.25rem);
   line-height:.86;color:var(--violeta);font-variant-numeric:tabular-nums;margin-top:16px}
 .core-face .ce-label{margin-top:14px}
-.core-face .ce-cta{font-family:var(--mono);font-size:0.6875rem;letter-spacing:.14em;
+.core-face .ce-cta{font-family:var(--mono);font-size:0.75rem;letter-spacing:.14em;
   text-transform:uppercase;color:var(--rosa);margin-top:38px;padding-top:16px;
   border-top:1px solid var(--line);min-width:220px}
 
@@ -119,17 +129,30 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .ch-now{font-family:var(--display);font-weight:400;font-size:clamp(3.5rem,4.8vw,4.875rem);
   line-height:.86;color:var(--violeta);font-variant-numeric:tabular-nums;margin-top:20px}
 .ch-delta{margin-top:11px}
-.ch-plot{position:relative;flex:1;min-height:300px;margin-top:28px}
-.ch-plot svg{position:absolute;inset:0;display:block;overflow:visible}
-.ch-plot .lead{opacity:.4}
-.vtag{position:absolute;padding:5px 8px;color:#fff;font-family:var(--mono);font-size:0.9375rem;
-  line-height:1;letter-spacing:-.02em;white-space:nowrap;transform:translateY(-100%)}
-.vtag small{display:block;font-size:0.625rem;line-height:1.5;opacity:.78;letter-spacing:.04em}
-.vdot{position:absolute;width:9px;height:9px;border-radius:50%!important;
-  background:var(--paper);border:1px solid;transform:translate(-50%,-50%)}
-.ch-axis{display:flex;justify-content:space-between;margin-top:14px;
-  border-top:1px solid var(--line);padding-top:12px}
-.ch-axis span{font-family:var(--mono);font-size:0.6875rem;letter-spacing:.10em;color:var(--gris)}
+/* columnas desde cero: la altura es proporcional al valor real, sin exagerar variaciones */
+.ch-plot{position:relative;flex:1;min-height:280px;margin-top:28px;display:grid;
+  grid-template-columns:repeat(3,1fr);gap:0;align-items:end;border-bottom:1px solid var(--ink)}
+.cy{position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.cy-val{font-family:var(--mono);font-size:.875rem;letter-spacing:-.01em;color:var(--ink);
+  font-variant-numeric:tabular-nums;margin-bottom:8px;white-space:nowrap}
+.cy-bar{width:min(64%,104px);height:var(--h);background:color-mix(in srgb,var(--rosa) 18%,var(--paper));
+  border-top:2px solid var(--rosa);transform-origin:bottom}
+.cy.now .cy-bar{border-top-color:var(--violeta)}
+.cy.now .cy-bar{background:var(--violeta)}
+.cy.now .cy-val{color:var(--violeta);font-weight:500}
+.cy.pend .cy-bar{height:42%;background:transparent;border:1px dashed var(--gris);border-bottom:0}
+.cy.pend .cy-val{color:var(--gris)}
+.cy-step{position:absolute;top:1.6rem;transform:translateX(-50%);background:var(--paper);
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.02em;color:var(--gris);padding:2px 6px;
+  border:1px solid var(--line);white-space:nowrap}
+.ch-axis{position:relative;display:grid;grid-template-columns:repeat(3,1fr);margin-top:10px;padding-bottom:2.2rem}
+.ch-axis span{font-family:var(--mono);font-size:.75rem;letter-spacing:.10em;color:var(--gris);text-align:center}
+.ch-legend{display:flex;gap:18px;margin-top:16px;font-family:var(--mono);font-size:.75rem;color:var(--gris)}
+.ch-legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.inline-chart{width:100%}
+.inline-chart .core-chart{min-height:0}
+.inline-chart .ch-plot{min-height:220px}
 .no-anim *{animation:none!important}
 
 /* ============ CRONOGRAMA (Hitos / Innovación) ============ */
@@ -137,7 +160,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .chrono .spine{position:absolute;inset:0;pointer-events:none;overflow:visible}
 .chrono .spine path{stroke:var(--mass);stroke-width:1;fill:none}
 .chrono .spine .node{transform-box:fill-box;transform-origin:center}
-.chrono .row{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(32px,4vw,72px)}
+.chrono .row{display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:clamp(32px,4vw,72px)}
 .cl{position:relative;padding-top:64px;max-width:400px}
 .cl:nth-child(1){margin-top:64px}
 .cl:nth-child(2){margin-top:0}
@@ -145,7 +168,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .cl:nth-child(4){margin-top:36px}
 .cl .ic{width:46px;height:46px;color:var(--violeta);display:block}
 .cl .ic *{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.cl .cl-idx{font-family:var(--mono);font-size:0.6875rem;letter-spacing:.16em;color:var(--gris);
+.cl .cl-idx{font-family:var(--mono);font-size:0.75rem;letter-spacing:.16em;color:var(--gris);
   display:block;margin-top:18px}
 .cl .cl-n{font-family:var(--display);font-weight:400;font-size:clamp(3.25rem,5vw,5.375rem);
   color:var(--violeta);line-height:.86;letter-spacing:-.005em;margin-top:14px;
@@ -160,10 +183,10 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 
 /* ============ SPLIT: dato-tabs + visual (Sociedad/Personas/Cliente/Sost.) ============ */
 .split{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(48px,7vw,140px);
-  align-items:center;width:100%}
-.viz-holder{position:relative;min-height:480px;display:flex;flex-direction:column;justify-content:center}
+  align-items:start;width:100%}
+.viz-holder{position:sticky;top:96px;align-self:start;min-height:480px;display:flex;flex-direction:column;justify-content:center}
 .viz{width:100%;display:flex;flex-direction:column;justify-content:center;animation:reveal .4s cubic-bezier(.16,1,.3,1)}
-.viz-cap{font-family:var(--mono);font-size:0.6875rem;letter-spacing:.14em;text-transform:uppercase;
+.viz-cap{font-family:var(--mono);font-size:0.75rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--gris);margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
 .figstack{display:flex;flex-direction:column;gap:16px}
 .figstack.many{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -176,9 +199,6 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   text-transform:uppercase;margin:0;line-height:1.1}
 .viz-story p{margin:12px 0 0;color:var(--gris);font-size:.8125rem;line-height:1.8;letter-spacing:.01em}
 .dg.sq{border-radius:0!important;aspect-ratio:1.4}
-.viz-pend{border:1px dashed var(--gris);min-height:320px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;padding:24px}
-.viz-pend .rn{font-family:var(--display);font-weight:400;font-size:clamp(3rem,5vw,4.5rem);line-height:.86;color:var(--gris)}
 .bars{display:flex;flex-direction:column;gap:18px}
 .bar-row{display:grid;grid-template-columns:3.5rem 1fr;align-items:center;gap:14px}
 .bar-row .bl{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;color:var(--gris)}
@@ -200,24 +220,20 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   max-width:40ch;letter-spacing:.01em}
 .fig-block[aria-pressed="true"]{border-color:var(--violeta)}
 .fig-block[aria-pressed="true"] .f-num{color:var(--violeta)}
-.figstack.haspick .fig-block:not([aria-pressed="true"]){opacity:.5}
-.figstack.haspick .fig-block:not([aria-pressed="true"]):hover{opacity:1}
+.figstack.haspick .fig-block:not([aria-pressed="true"]) .f-num,
+.figstack.haspick .fig-block:not([aria-pressed="true"]) .f-title{color:var(--gris)}
 
 /* --- piezas de visual --- */
 .dotgrid{display:grid;grid-template-columns:repeat(10,1fr);gap:clamp(10px,1.2vw,18px);max-width:560px}
 .dg{aspect-ratio:1;border-radius:50%!important;border:1px solid var(--mass);background:transparent}
 .dg.on{border-color:var(--violeta);background:var(--violeta)}
 .dg.rosa{border-color:var(--rosa);background:var(--rosa)}
-.pulse{width:100%;height:220px;display:block;overflow:visible}
-.pulse .base{stroke:var(--line);stroke-width:1}
-.pulse .ghost{stroke:var(--mass);stroke-width:1;fill:none}
-.pulse .beat{stroke:var(--violeta);stroke-width:1.5;fill:none}
 .propbar{--w:50%;position:relative;height:64px;border:1px solid var(--line);background:transparent}
 .propbar .fill{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--violeta)}
 .propbar .pct{position:absolute;left:12px;top:50%;transform:translateY(-50%);
   color:#fff;font-family:var(--mono);font-size:0.9375rem;letter-spacing:-.02em;z-index:2}
 .prop-l{display:flex;justify-content:space-between;margin-top:14px}
-.prop-l span{font-family:var(--mono);font-size:0.6875rem;letter-spacing:.10em;text-transform:uppercase}
+.prop-l span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.10em;text-transform:uppercase}
 .prop-l .a{color:var(--violeta)}
 .prop-l .b{color:var(--gris)}
 .ringwrap{position:relative;width:min(380px,80%);aspect-ratio:1;margin:0 auto}
@@ -228,26 +244,71 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   justify-content:center;text-align:center}
 .ring-c .rn{font-family:var(--display);font-weight:400;font-size:4.5rem;line-height:.86;color:var(--violeta)}
 .bigviz{width:100%;height:auto;display:block;overflow:visible}
-.bigviz .hair,.orbwrap .hair{stroke:var(--mass);stroke-width:1;fill:none}
-.bigviz .vio,.orbwrap .vio{stroke:var(--violeta);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.bigviz .ros,.orbwrap .ros{stroke:var(--rosa);fill:none;stroke-width:1.5;stroke-linecap:round}
+.bigviz .hair{stroke:var(--mass);stroke-width:1;fill:none}
+.bigviz .vio{stroke:var(--violeta);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.bigviz .ros{stroke:var(--rosa);fill:none;stroke-width:1.5;stroke-linecap:round}
 .bigviz .nodedot{fill:var(--violeta)}
 .bigviz text{font-family:var(--display);fill:var(--violeta)}
-.orbwrap{position:relative;width:min(420px,85%);aspect-ratio:1;margin:0 auto}
-.orbwrap svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.orb{transform-origin:50% 50%}
-.orb circle.tr{fill:none;stroke:var(--line);stroke-width:1}
-.orb circle.sat{fill:var(--violeta)}
-.orb circle.sat.r{fill:var(--rosa)}
-.orb-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.orb-c .rn{font-family:var(--display);font-weight:400;font-size:3.5rem;line-height:.86;color:var(--violeta)}
+
+/* ============ MINI-MAPA, RANKING Y VISUALES DE DATO ============ */
+.cl-viz{min-height:46px}
+.cl-viz .ic{margin-bottom:4px}
+.minimapa{width:100%;height:auto;display:block;overflow:visible}
+.cl .minimapa{max-width:240px}
+.viz .minimapa{max-width:560px}
+.minimapa .mpv{fill:none;stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.minimapa .md{fill:var(--mass)}
+.minimapa .md.on{fill:var(--violeta);stroke:var(--paper);stroke-width:2;vector-effect:non-scaling-stroke}
+.minimapa .mh{fill:none;stroke:var(--violeta);stroke-width:1;vector-effect:non-scaling-stroke;opacity:0}
+.mm-list{list-style:none;margin:12px 0 0;padding:0}
+.mm-list li{font-size:.75rem;line-height:1.7;color:var(--ink);padding-left:16px;position:relative}
+.mm-list li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%!important;background:var(--violeta)}
+.mm-list li span{color:var(--gris)}
+.rank{width:100%;max-width:300px;height:auto;display:block;overflow:visible}
+.rank .rk-axis,.rank .rk-tick{stroke:var(--mass);stroke-width:1}
+.rank .rk-lead{stroke:var(--violeta);stroke-width:1}
+.rank .rk-dot{fill:var(--violeta)}
+.rank text{font-family:var(--mono);text-anchor:middle}
+.rank .rk-n{font-size:.75rem;fill:var(--gris)}
+.rank .rk-l{font-size:.75rem;fill:var(--ink)}
+.rk-cap{display:block;font-size:.75rem;color:var(--gris);margin-top:6px;max-width:32ch;line-height:1.5}
+.pend-line{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:22px;padding:14px 16px;
+  border:1px dashed var(--gris);color:var(--gris);font-size:.8125rem}
+.pend-line .rn{font-family:var(--display);font-size:1.75rem;line-height:1}
+.dg.rest{border-color:var(--mass);background:var(--mass)}
+.chat{max-width:440px;border:1px solid var(--line);padding:18px 20px 22px}
+.chat-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding-bottom:12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.msg{margin-top:14px;padding:11px 16px;border:1px solid var(--violeta);width:fit-content;max-width:85%;
+  font-size:.8125rem;line-height:1.5;color:var(--violeta);background:color-mix(in srgb,var(--violeta) 6%,var(--paper))}
+.en-row{padding:20px 0;border-bottom:1px solid var(--line)}
+.en-row:first-child{border-top:1px solid var(--line)}
+.en-row .caption{display:block;margin-bottom:14px}
+.en-flow{display:flex;align-items:center;gap:clamp(14px,2vw,28px);flex-wrap:wrap}
+.en-tiles{flex:1 1 220px;max-width:300px;gap:8px}
+.en-tiles .dg.on{background:var(--mass);border-color:var(--mass)}
+.en-tiles.hl .dg.on{background:var(--violeta);border-color:var(--violeta)}
+.en-arrow{width:64px;height:auto;flex:0 0 auto}
+.en-arrow path{fill:none;stroke:var(--mass);stroke-width:1.5}
+.en-val{font-family:var(--display);font-size:clamp(2.25rem,3.4vw,3.25rem);line-height:.9;color:var(--gris)}
+.en-val small{display:block;font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;margin-top:6px}
+.en-val.hl{color:var(--violeta)}
+.en-sub{display:block;font-size:.75rem;color:var(--gris);margin-top:12px;line-height:1.6}
+.propbar.mute .fill{background:var(--paper2)}
+.propbar.mute .pct{color:var(--ink)}
+.meters{display:flex;flex-direction:column;gap:26px;max-width:560px}
+.meter .caption{display:block;margin-bottom:12px}
+.track{position:relative;height:1px;background:var(--mass)}
+.track i{position:absolute;top:-5px;left:0;width:11px;height:11px;border-radius:50%!important;background:var(--violeta)}
+.aero .lbl{font-family:var(--mono);font-size:.9375rem;fill:var(--gris);text-anchor:middle;letter-spacing:.08em}
+.aero .lbl.on{fill:var(--violeta)}
+.aero .fan path{fill:var(--violeta);stroke:none}
 
 /* ============ DATO PENDIENTE ============
    Marca visible de lo que aún no ha llegado del cliente: borde discontinuo + "Pendiente" en gris.
    Se quita sola en cuanto el dato se rellena en KPIS. */
 .kpi.is-pending,.fig-block.is-pending{border-style:dashed}
 .kpi .k-num.pend,.core-face .ce-num.pend,.ch-now.pend,.fig-block .f-num.pend{color:var(--gris)}
-.vtag.pend{background:var(--paper);color:var(--gris);border:1px dashed var(--gris);transform:translate(-50%,-100%)}
 
 /* ============ GRUPO HLA: red de hospitales ============ */
 .red{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(48px,6vw,120px);align-items:center;width:100%}
@@ -289,14 +350,11 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 
 /* ============ animaciones (solo con movimiento permitido) ============ */
 @media (prefers-reduced-motion:no-preference){
-  .ch-plot:not(.no-anim) .lead{opacity:0;animation:leadIn .4s forwards}
-  @keyframes leadIn{to{opacity:.4}}
-  .ch-plot:not(.no-anim) .trace{stroke-dasharray:1;stroke-dashoffset:1;animation:trace .9s .35s cubic-bezier(.4,0,.2,1) forwards}
+  .ch-plot:not(.no-anim) .cy-bar{transform:scaleY(0);animation:barUp .8s cubic-bezier(.16,1,.3,1) forwards}
+  @keyframes barUp{to{transform:scaleY(1)}}
+  .ch-plot:not(.no-anim) .cy-val,.ch-plot:not(.no-anim) .cy-step{opacity:0;animation:fadeIn .4s forwards}
+  @keyframes fadeIn{to{opacity:1}}
   @keyframes trace{to{stroke-dashoffset:0}}
-  .ch-plot:not(.no-anim) .vdot{transform:translate(-50%,-50%) scale(0);animation:dotIn .3s cubic-bezier(.34,1.56,.64,1) forwards}
-  @keyframes dotIn{to{transform:translate(-50%,-50%) scale(1)}}
-  .ch-plot:not(.no-anim) .vtag{opacity:0;translate:0 6px;animation:tagIn .45s cubic-bezier(.16,1,.3,1) forwards}
-  @keyframes tagIn{to{opacity:1;translate:0 0}}
 
   /* cronograma: la línea se pinta poco a poco, los nodos brotan, los bloques suben */
   .spine:not(.no-anim) .spine-path{stroke-dasharray:1;stroke-dashoffset:1;animation:trace 2s .1s cubic-bezier(.4,0,.2,1) forwards}
@@ -313,18 +371,11 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   .panel.active .fig-block{opacity:0;translate:0 14px;animation:rise .55s cubic-bezier(.16,1,.3,1) forwards}
   .panel.active .fig-block:nth-child(2){animation-delay:.1s}
   .panel.active .fig-block:nth-child(3){animation-delay:.2s}
-  .panel.active .figstack.haspick .fig-block:not([aria-pressed="true"]){animation-name:riseDim}
-  @keyframes riseDim{to{opacity:.5;translate:0 0}}
   .viz .dg.on,.viz .dg.rosa{scale:0;animation:pop .3s cubic-bezier(.34,1.56,.64,1) forwards}
   .viz .propbar .fill,.viz .bf{width:0;animation:grow 1s .25s cubic-bezier(.4,0,.2,1) forwards}
   @keyframes grow{to{width:var(--w)}}
   .viz .ring-arc{stroke-dasharray:0 100;animation:sweep 1.4s .2s cubic-bezier(.4,0,.2,1) forwards}
   @keyframes sweep{to{stroke-dasharray:var(--pct) 100}}
-  .pulse .beat{stroke-dasharray:.22 .78;animation:ecg 3.2s linear infinite}
-  @keyframes ecg{to{stroke-dashoffset:-1}}
-  .orb.o1{animation:spin 46s linear infinite}
-  .orb.o2{animation:spin 30s linear infinite reverse}
-  .orb.o3{animation:spin 20s linear infinite}
   .viz .nodedot,.viz .sat{transform-box:fill-box;transform-origin:center;scale:0;animation:pop .35s .5s cubic-bezier(.34,1.56,.64,1) forwards}
 
   /* mapa: las provincias se trazan de oeste a este, la red se enciende y los hospitales laten */
@@ -335,6 +386,13 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   .mapa .pin .halo{transform-box:fill-box;transform-origin:center;animation:halo 2.8s cubic-bezier(.16,1,.3,1) infinite}
   @keyframes halo{0%{scale:1;opacity:.7}100%{scale:3.4;opacity:0}}
   .panel.active .prov-btn{opacity:0;translate:0 10px;animation:rise .5s cubic-bezier(.16,1,.3,1) forwards}
+
+  /* mini-mapas, conversación, contadores y aerotermia */
+  .minimapa .mh{transform-box:fill-box;transform-origin:center;animation:halo 2.8s cubic-bezier(.16,1,.3,1) infinite}
+  .viz .msg{opacity:0;translate:0 10px;animation:rise .5s cubic-bezier(.16,1,.3,1) forwards}
+  .track i{animation:scan 3.2s cubic-bezier(.45,0,.55,1) infinite}
+  @keyframes scan{0%{left:0}50%{left:calc(100% - 11px)}100%{left:0}}
+  .aero .fan{transform-box:fill-box;transform-origin:center;animation:spin 3s linear infinite}
 }
 @media (prefers-reduced-motion:reduce){
   .ring-arc{stroke-dasharray:var(--pct) 100}
@@ -347,21 +405,24 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 /* ============ FOOTER ============ */
 footer{border-top:1px solid var(--line);margin-top:auto;padding:28px 0 48px}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-footer span{font-family:var(--mono);font-size:0.6562rem;letter-spacing:.08em;
+footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
   text-transform:uppercase;color:var(--gris)}
 
 /* ============ RESPONSIVE ============ */
-@media (max-width:1100px){
-  .grid{grid-template-columns:1fr minmax(380px,460px) 1fr;gap:clamp(36px,4vw,64px)}
+/* tablet: el centro arriba y las tarjetas en dos columnas; el gráfico se abre bajo la tarjeta */
+@media (max-width:1180px){
+  .grid{grid-template-columns:1fr 1fr;gap:16px 20px;align-items:start}
+  #wires{display:none}
+  .core{grid-column:1/-1;order:-1;margin-bottom:12px;min-height:0}
+  .core-face{min-height:320px;padding:32px 24px}
+  .col,.col.left,.col.right{align-items:stretch;text-align:left;gap:16px}
+  .col .kpi,.col.left .kpi,.col.right .kpi{max-width:none;align-items:flex-start;text-align:left}
 }
 @media (max-width:960px){
   .grid{grid-template-columns:1fr;gap:0}
-  #wires{display:none}
-  .core{order:-1;margin-bottom:24px;min-height:480px}
-  .core-face,.core-chart{min-height:480px}
-  .col,.col.left,.col.right{align-items:flex-start;text-align:left;gap:16px}
-  .col .kpi,.col.left .kpi,.col.right .kpi{max-width:none;width:100%;
-    align-items:flex-start;text-align:left;padding:22px 20px 24px}
+  .core-face{min-height:360px}
+  .col .kpi,.col.left .kpi,.col.right .kpi{padding:20px 20px 22px}
+  .col.left{margin-bottom:16px}
   .chrono .spine{display:none}
   .chrono .row{grid-template-columns:1fr;gap:0;border-left:1px solid var(--line)}
   .cl,.cl:nth-child(n){margin-top:0;padding:26px 0 30px 28px;max-width:none;position:relative}
@@ -369,10 +430,13 @@ footer span{font-family:var(--mono);font-size:0.6562rem;letter-spacing:.08em;
     border-radius:50%!important;background:var(--paper);border:1px solid var(--violeta)}
   .split{grid-template-columns:1fr;gap:44px}
   .red{grid-template-columns:1fr;gap:40px}
-  .viz-holder{min-height:0}
-  .logo{order:-1;width:140px;margin:14px auto 0}
-  nav{justify-content:center;padding-bottom:8px}
-  .tab{padding:14px 8px}
+  .viz-holder{position:relative;top:auto;min-height:0}
+  /* menú en una sola fila que se desliza (antes 3 filas y 153px fijos) */
+  nav{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;gap:0;min-height:56px;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  nav::-webkit-scrollbar{display:none}
+  .logo{order:-1;flex:0 0 104px;width:104px;height:30px;margin-right:12px}
+  .tab{flex:0 0 auto;white-space:nowrap;padding:0 10px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -401,8 +465,10 @@ footer span{font-family:var(--mono);font-size:0.6562rem;letter-spacing:.08em;
       <p class="eyebrow" id="eyebrow" style="margin:0">Memoria HLA · Resultados 2025</p>
       <span class="idx" id="secIdx">01 / 08</span>
     </div>
-    <h1 class="section-title" id="secTitle">Medicina. Experiencia. Personas.</h1>
-    <p class="section-sub" id="secSub">Pincha cualquier indicador para ver su evolución de los últimos tres años en el centro.</p>
+    <div class="head-main">
+      <h1 class="section-title" id="secTitle">Medicina. Experiencia. Personas.</h1>
+      <p class="section-sub" id="secSub">Pincha cualquier indicador para ver su evolución de los últimos tres años.</p>
+    </div>
     <hr class="head-rule">
   </div>
 
@@ -446,16 +512,16 @@ const YEARS=["2023","2024","2025"];
 /* ================= DATOS (Word de Vicky, 28/10/2026) =================
    null = dato que aún no ha enviado el cliente: se pinta como "Pendiente". */
 const KPIS=[
-  {id:"pac",   label:"Pacientes atendidos",         vals:[1048207,null,null]},
-  {id:"nuevos",label:"Pacientes nuevos",            vals:[298595,null,null]},
-  {id:"citas", label:"Citas en consultas externas", vals:[3688268,4019720,4273319]},
-  {id:"dxi",   label:"Pruebas de DXI",              vals:[730839,851057,852769]},
-  {id:"cir",   label:"Cirugías",                    vals:[163892,171077,183515]},
-  {id:"urg",   label:"Urgencias",                   vals:[567148,565084,567508]},
-  {id:"urgdia",label:"Media urgencias/día",         vals:[1554,1509,1521]},
-  {id:"ing",   label:"Ingresos",                    vals:[76600,78010,76931]},
-  {id:"ocu",   label:"Índice de ocupación",         vals:[48.34,49.25,48.75],pct:true},
-  {id:"fact",  label:"Crecimiento facturación",     vals:[2.94,11.26,5.91],pct:true},
+  {id:"pac",g:"Pacientes",label:"Pacientes atendidos",         vals:[1048207,null,null]},
+  {id:"nuevos",g:"Pacientes",label:"Pacientes nuevos",            vals:[298595,null,null]},
+  {id:"citas",g:"Consultas",label:"Citas en consultas externas", vals:[3688268,4019720,4273319]},
+  {id:"dxi",g:"Diagnóstico",label:"Pruebas de DXI",              vals:[730839,851057,852769]},
+  {id:"cir",g:"Cirugía",label:"Cirugías",                    vals:[163892,171077,183515]},
+  {id:"urg",g:"Urgencias",label:"Urgencias",                   vals:[567148,565084,567508]},
+  {id:"urgdia",g:"Urgencias",label:"Media urgencias/día",         vals:[1554,1509,1521]},
+  {id:"ing",g:"Hospitalización",label:"Ingresos",                    vals:[76600,78010,76931]},
+  {id:"ocu",g:"Hospitalización",label:"Índice de ocupación",         vals:[48.34,49.25,48.75],pct:true},
+  {id:"fact",g:"Economía",label:"Crecimiento facturación",     vals:[2.94,11.26,5.91],pct:true},
 ];
 const PEND="Pendiente";
 const pending=v=>v==null;
@@ -480,31 +546,87 @@ const ICONS={
 };
 const icon=k=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
 
+/* ================= GRUPO HLA: mapa de la red =================
+   Centros, nombres y coordenadas tomados de grupohla.com/hospitales-clinicas (ficha de cada centro, 29/10/2026).
+   El reparto por provincia coincide con el mapa del Word de Vicky (Imagen 1). */
+const RED_HLA=[
+  {p:"Zaragoza",   h:[{n:"HLA Clínica Montpellier",u:"hlaclinicamontpellier",ll:[41.6359,-0.9159]}]},
+  {p:"Lleida",     h:[{n:"HLA Clínica Perpetuo Socorro",u:"hlaclinicaperpetuosocorro",ll:[41.6574,0.6106]}]},
+  {p:"Barcelona",  h:[{n:"HLA Clínica Internacional Barcelona",u:"hlaclinicaintbarcelona",ll:[41.4011,2.1249]}]},
+  {p:"Guadalajara",h:[{n:"HLA Clínica Dr. Sanz Vázquez",u:"hlaclinicasanzvazquez",ll:[40.6304,-3.1661]}]},
+  {p:"Madrid",     h:[{n:"HLA Hospital Universitario Moncloa",u:"hlahospitalmoncloa",ll:[40.4339,-3.7345]}]},
+  {p:"Albacete",   h:[{n:"HLA Clínica El Rosario",u:"hlaclinicaelrosario",ll:[38.9877,-1.8612]}]},
+  {p:"Alicante",   h:[{n:"HLA Hospital San Carlos de Denia",u:"hlahospitalsancarlos",ll:[38.8384,0.0931]},
+                      {n:"HLA Clínica Vistahermosa",u:"hlaclinicavistahermosa",ll:[38.3633,-0.4639]}]},
+  {p:"Murcia",     h:[{n:"HLA Hospital La Vega",u:"hlahospitallavega",ll:[37.9931,-1.1334]},
+                      {n:"HLA Residencia Belén",u:"hlaresidenciabelen",ll:[37.9989,-1.1307]}]},
+  {p:"Almería",    h:[{n:"HLA Hospital Mediterráneo",u:"hlahospitalmediterraneo",ll:[36.8207,-2.4354]}]},
+  {p:"Granada",    h:[{n:"HLA Hospital Universitario Inmaculada",u:"hlahospitalinmaculada",ll:[37.1642,-3.6082]}]},
+  {p:"Málaga",     h:[{n:"HLA Hospital Universitario El Ángel",u:"hlahospitalelangel",ll:[36.7153,-4.4535]}]},
+  {p:"Cádiz",      h:[{n:"HLA Hospital La Salud",u:"hlahospitallasalud",ll:[36.5324,-6.2957]},
+                      {n:"HLA Hospital Jerez Puerta del Sur",u:"hlahospitaljerez",ll:[36.6696,-6.1399]},
+                      {n:"HLA Clínica Serman",u:"hlaclinicaserman",ll:[36.6928,-6.1242]}]},
+  {p:"Sevilla",    h:[{n:"HLA Clínica Santa Isabel",u:"hlaclinicasantaisabel",ll:[37.3871,-5.9751]}]},
+  {p:"Huelva",     h:[{n:"HLA Clínica Los Naranjos",u:"hlaclinicalosnaranjos",ll:[37.2625,-6.9493]}]},
+];
+const xy=([lat,lon])=>[(lon*MAPA.k-MAPA.minx)*MAPA.s,(-lat-MAPA.miny)*MAPA.s];
+const N_HOSP=RED_HLA.reduce((a,r)=>a+r.h.length,0);
+
+/* posición de cada centro en el mapa; los que caen casi encima (Murcia, Jerez) se separan lo justo para verse */
+const HOSP=RED_HLA.flatMap(r=>r.h.map(c=>({...c,p:r.p,xy:xy(c.ll)})));
+for(let it=0;it<20;it++)HOSP.forEach(a=>HOSP.forEach(b=>{
+  if(a===b)return;
+  const dx=b.xy[0]-a.xy[0],dy=b.xy[1]-a.xy[1],d=Math.hypot(dx,dy)||.01;
+  if(d<8.5){const m=(8.5-d)/2,ux=d>.01?dx/d:1,uy=d>.01?dy/d:0;
+    a.xy[0]-=ux*m;a.xy[1]-=uy*m;b.xy[0]+=ux*m;b.xy[1]+=uy*m;}
+}));
+const hosp=u=>HOSP.find(h=>h.u===u);
+
+/* mini-mapa: la red entera en gris y resaltados los centros de los que habla el dato */
+const PROV_D=Object.values(PROV);
+function miniMap(us,label){
+  const on=new Set(us);
+  return `<svg class="minimapa" viewBox="0 0 ${MAPA.w} ${MAPA.h}" role="img" aria-label="${label}">
+    ${PROV_D.map(d=>`<path class="mpv" d="${d}"/>`).join("")}
+    ${HOSP.filter(h=>!on.has(h.u)).map(h=>`<circle class="md" cx="${h.xy[0].toFixed(1)}" cy="${h.xy[1].toFixed(1)}" r="6"/>`).join("")}
+    ${HOSP.filter(h=>on.has(h.u)).map((h,i)=>`<circle class="mh" style="animation-delay:${i*.35}s" cx="${h.xy[0].toFixed(1)}" cy="${h.xy[1].toFixed(1)}" r="14"/><circle class="md on" cx="${h.xy[0].toFixed(1)}" cy="${h.xy[1].toFixed(1)}" r="14"/>`).join("")}
+  </svg><ul class="mm-list">${us.map(u=>`<li>${hosp(u).n}<span> · ${hosp(u).p}</span></li>`).join("")}</ul>`;
+}
+/* posiciones en el ranking Merco: solo las dos que da el Word */
+function rankViz(items){
+  const M=25, X=p=>12+(p-1)/(M-1)*276;
+  return `<svg class="rank" viewBox="0 0 300 92" role="img" aria-label="${items.map(r=>`${r.n}, puesto ${r.p}`).join("; ")}">
+    <line class="rk-axis" x1="12" x2="288" y1="62" y2="62"/>
+    ${[1,5,10,15,20,25].map(p=>`<line class="rk-tick" x1="${X(p)}" x2="${X(p)}" y1="58" y2="66"/><text class="rk-n" x="${X(p)}" y="84">${p}</text>`).join("")}
+    ${items.map(r=>`<circle class="rk-dot" cx="${X(r.p)}" cy="62" r="6"/><text class="rk-l" x="${X(r.p)}" y="40">${r.n.replace("HLA ","")}</text><line class="rk-lead" x1="${X(r.p)}" x2="${X(r.p)}" y1="45" y2="56"/>`).join("")}
+  </svg><span class="rk-cap">Puesto en el ranking de hospitales privados · Merco 2025</span>`;
+}
+
 /* Hitos e Innovación: texto del Word de Vicky (28/10/2026).
    n + nl = cifra destacada · t = titular · p = texto · x = otras cifras del bloque */
 const HITOS=[
-  {ic:"star",n:"7",nl:"hospitales HLA entre los privados con mejor reputación de España",
+  {ic:"star",rank:[{n:"HLA Universitario Moncloa",p:13},{n:"HLA La Vega",p:24}],n:"7",nl:"hospitales HLA entre los privados con mejor reputación de España",
    t:"Siete hospitales entre los mejores de España",
    p:["La edición 2025 del Monitor de Reputación Sanitaria de Merco volvió a situar a siete centros de HLA entre los hospitales privados con mejor reputación de España. HLA Universitario Moncloa alcanzó el puesto 13 y HLA La Vega ascendió hasta el 24."],
    x:["5 centros líderes en sus respectivas provincias."]},
-  {ic:"coins",n:"53 M€",nl:"para modernizar y ampliar la red asistencial en 2025",
+  {ic:"coins",map:["hlaclinicasantaisabel","hlaclinicaperpetuosocorro","hlaclinicasanzvazquez"],n:"53 M€",nl:"para modernizar y ampliar la red asistencial en 2025",
    t:"Seguimos invirtiendo para ampliar y modernizar nuestra red",
    p:["Durante 2025 continuaron los proyectos de ampliación y renovación de HLA Santa Isabel, HLA Perpetuo Socorro y HLA Sanz Vázquez, junto con la incorporación de nuevas unidades y servicios en distintos centros de la red.",
       "En 2025, el Grupo destinó 53 millones de euros a modernizar y ampliar su red asistencial. En los últimos cinco años, HLA ha reinvertido más de 158,3 millones de euros en el desarrollo y mejora de sus centros."]},
-  {ic:"cap",n:"3",nl:"hospitales universitarios",
+  {ic:"cap",map:["hlahospitalmoncloa","hlahospitalinmaculada","hlahospitalelangel"],n:"3",nl:"hospitales universitarios",
    t:"Reforzamos nuestra dimensión universitaria",
    p:["HLA cuenta con tres hospitales universitarios (HLA Universitario Moncloa, HLA Universitario Inmaculada y HLA Universitario El Ángel) y en 2025 Moncloa graduó su décima promoción de médicos formados en el hospital."],
    x:["10ª promoción de médicos en HLA Universitario Moncloa."]},
 ];
 const INNOVACION=[
-  {ic:"arm",n:"3",nl:"robots Da Vinci en la red HLA",
+  {ic:"arm",map:["hlaclinicavistahermosa"],n:"3",nl:"robots Da Vinci en la red HLA",
    t:"Ampliamos la cirugía robótica",
    p:["HLA Vistahermosa incorporó el primer robot quirúrgico Da Vinci de la sanidad privada en la ciudad de Alicante y el tercero de la red HLA, ampliando nuestra capacidad para realizar procedimientos mínimamente invasivos y de alta precisión."]},
-  {ic:"chip",n:"2",nl:"nuevos TAC con inteligencia artificial",
+  {ic:"chip",map:["hlahospitalmediterraneo","hlaclinicamontpellier"],n:"2",nl:"nuevos TAC con inteligencia artificial",
    t:"Incorporamos inteligencia artificial al diagnóstico",
    p:["HLA Mediterráneo y HLA Montpellier incorporaron nuevos equipos TAC con inteligencia artificial, que permiten mejorar la calidad de las imágenes, agilizar las exploraciones y reducir la exposición del paciente a la radiación."],
    x:["Más de un 90 % menos de radiación con el nuevo TAC de HLA Mediterráneo."]},
-  {ic:"cycle",
+  {ic:"cycle",map:["hlahospitallavega"],
    t:"Hacemos los quirófanos más eficientes",
    p:["HLA La Vega completó la implantación del sistema Neptune 3 en algunos de sus quirófanos, una tecnología que permite mejorar la eficiencia durante las intervenciones y reducir la generación de fluidos, humos, plásticos y otros residuos asociados a la actividad quirúrgica."],
    x:["Más eficiencia y menos residuos en quirófano."]},
@@ -512,7 +634,7 @@ const INNOVACION=[
 
 const SECTIONS={
   indicadores:{eyebrow:"Memoria HLA · Resultados 2025",title:"Medicina. Experiencia. Personas.",
-    sub:"Pincha cualquier indicador para ver su evolución de los últimos tres años en el centro."},
+    sub:"Pincha cualquier indicador para ver su evolución de los últimos tres años."},
   grupo:{eyebrow:"Quiénes somos",title:"Grupo HLA",
     sub:"El Grupo HLA es uno de los mayores proveedores hospitalarios de España. Su red está compuesta por 18 hospitales y 20 Centros Médicos."},
   hitos:{eyebrow:"Lo que conseguimos",title:"Hitos del año",sub:""},
@@ -559,82 +681,72 @@ const ISO=`<svg viewBox="0 0 57 57" fill="currentColor" xmlns="http://www.w3.org
 </svg>`;
 
 const numHTML=(v,cls)=>pending(v)?`<span class="${cls} pend">${PEND}</span>`:`<span class="${cls}">${fmt(v)}</span>`;
+/* cifra del centro: Pacientes atendidos 2025 aún no ha llegado, así que manda la mayor cifra real del año */
+const HERO="citas";
+const NARROW=()=>innerWidth<=1180;
+const closeInline=()=>document.querySelectorAll(".inline-chart").forEach(n=>n.remove());
+
 function defaultCore(focus){
   document.querySelectorAll(".kpi[aria-expanded]").forEach(n=>n.setAttribute("aria-expanded","false"));
   stageGrid.classList.remove("dim");
+  closeInline();
+  const h=byId(HERO);
   coreStage.innerHTML=`<div class="core-face" id="coreFace">
     <span class="iso">${ISO}</span>
     <span class="ce-kicker eyebrow">2025 en cifras</span>
-    ${numHTML(byId("pac").vals.at(-1),"ce-num")}
-    <span class="ce-label caption">Pacientes atendidos</span>
+    ${numHTML(h.vals.at(-1),"ce-num")}
+    <span class="ce-label caption">${h.label}</span>
     <span class="ce-cta">Pincha un indicador</span>
   </div>`;
   wireUp();
   if(focus&&lastOpener)lastOpener.focus();
 }
 
-/* histórico — dibujado en píxeles */
-let plotRO=null;
-function drawPlot(k,plot,animate){
-  const w=plot.clientWidth,h=plot.clientHeight;
-  if(!w||!h)return;
-  const known=k.vals.filter(v=>!pending(v));
-  const min=Math.min(...known),max=Math.max(...known),rng=(max-min)||1;
-  const xs=[.13,.5,.87].map(f=>Math.round(f*w)+.5);
-  const ys=k.vals.map(v=>pending(v)?Math.round(h*.56)+.5
-    :known.length>1?Math.round(h*(.84-((v-min)/rng)*.56))+.5:Math.round(h*.56)+.5);
-  const grid=[.25,.5,.75].map(f=>{const y=Math.round(f*h)+.5;
-    return `<line x1="0" x2="${w}" y1="${y}" y2="${y}" stroke="${C.line}" stroke-width="1" stroke-dasharray="5 5"/>`}).join("");
-  const leaders=xs.map((x,i)=>{
-    const col=pending(k.vals[i])?C.gris:i===2?C.violeta:C.rosa;
-    const dash=pending(k.vals[i])?' stroke-dasharray="4 4"':'';
-    return `<line class="lead" style="animation-delay:${.15+i*.15}s" x1="${x}" x2="${x}" y1="6" y2="${h}" stroke="${col}" stroke-width="1"${dash}/>`;
-  }).join("");
-  /* la línea solo une años consecutivos con dato */
-  const path=xs.map((x,i)=>pending(k.vals[i])?"":`${i&&!pending(k.vals[i-1])?'L':'M'}${x} ${ys[i]}`).join(" ");
-  const dots=xs.map((x,i)=>{
-    if(pending(k.vals[i]))return "";
-    const col=i===2?C.violeta:C.rosa;
-    return `<div class="vdot" style="border-color:${col};left:${x}px;top:${ys[i]}px;animation-delay:${.45+i*.18}s"></div>`;
-  }).join("");
-  const tags=k.vals.map((v,i)=>{
-    const anchor=i===0?`left:${xs[i]+10}px`:`right:${w-xs[i]+10}px`;
-    if(pending(v))return `<div class="vtag pend" style="left:${xs[i]}px;top:${h-8}px;animation-delay:${.55+i*.18}s">${PEND}<small>${YEARS[i]}</small></div>`;
-    const col=i===2?C.violeta:C.rosa;
-    return `<div class="vtag" style="background:${col};${anchor};top:${ys[i]-10}px;animation-delay:${.55+i*.18}s">${fmtK(k,v)}<small>${YEARS[i]}</small></div>`;
-  }).join("");
-  plot.classList.toggle("no-anim",!animate);
-  plot.innerHTML=`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">
-      ${grid}${leaders}
-      <path class="trace" pathLength="1" d="${path}" fill="none" stroke="${C.gris}" stroke-width="1" opacity=".55"/>
-    </svg>${dots}${tags}`;
+/* evolución: una columna por año desde cero (altura proporcional al valor real) */
+const stepTxt=(k,a,b)=>{
+  if(k.pct){const d=b-a;return `${d>=0?"+":"−"}${Math.abs(d).toFixed(2).replace(".",",")} p.p.`}
+  const p=(b-a)/a*100;return `${p>=0?"+":"−"}${Math.abs(p).toFixed(1).replace(".",",")} %`;
+};
+function chartHTML(k){
+  const known=k.vals.filter(v=>!pending(v)), max=Math.max(...known);
+  const cols=k.vals.map((v,i)=>pending(v)
+    ?`<div class="cy pend"><span class="cy-val" style="animation-delay:${.3+i*.12}s">${PEND}</span><div class="cy-bar"></div></div>`
+    :`<div class="cy${i===2?" now":""}"><span class="cy-val" style="animation-delay:${.45+i*.12}s">${fmtK(k,v)}</span>
+       <div class="cy-bar" style="--h:${(v/max*78).toFixed(1)}%;animation-delay:${i*.12}s"></div></div>`).join("");
+  const steps=[1,2].map(i=>pending(k.vals[i])||pending(k.vals[i-1])?""
+    :`<span class="cy-step" style="left:${i/3*100}%">${stepTxt(k,k.vals[i-1],k.vals[i])}</span>`).join("");
+  const rows=k.vals.map((v,i)=>`<tr><th scope="row">${YEARS[i]}</th><td>${pending(v)?PEND:fmtK(k,v)}</td></tr>`).join("");
+  return `<div class="core-chart" role="group" aria-label="Evolución de ${k.label}, ${YEARS[0]} a ${YEARS[2]}">
+    <div class="ch-head"><span class="caption" style="max-width:26ch">${k.label}</span></div>
+    ${pending(k.vals.at(-1))?`<div class="ch-now pend">${PEND}</div>`:`<div class="ch-now" data-target="${k.vals.at(-1)}"${k.pct?' data-pct="1"':''}>0</div>`}
+    <div class="ch-delta delta">${deltaTxt(k)}</div>
+    <div class="ch-plot" aria-hidden="true">${cols}</div>
+    <div class="ch-axis" aria-hidden="true">${YEARS.map(y=>`<span>${y}</span>`).join("")}${steps}</div>
+    <div class="ch-legend" aria-hidden="true"><span><i style="background:color-mix(in srgb,var(--rosa) 18%,var(--paper));border-top:2px solid var(--rosa)"></i>Años anteriores</span><span><i style="background:var(--violeta)"></i>${YEARS[2]}</span></div>
+    <table class="sr-only"><caption>${k.label}</caption><tr><th scope="col">Año</th><th scope="col">Valor</th></tr>${rows}</table>
+  </div>`;
 }
-
 function chartCore(k,opener){
   document.querySelectorAll(".kpi[aria-expanded]").forEach(n=>n.setAttribute("aria-expanded","false"));
   opener.setAttribute("aria-expanded","true");
   lastOpener=opener;
   stageGrid.classList.add("dim");
-  coreStage.innerHTML=`<div class="core-chart" role="group" aria-label="Evolución de ${k.label}, ${YEARS[0]} a ${YEARS[2]}">
-    <div class="ch-head"><span class="caption" style="max-width:26ch">${k.label}</span></div>
-    ${pending(k.vals.at(-1))?`<div class="ch-now pend">${PEND}</div>`:`<div class="ch-now" data-target="${k.vals.at(-1)}"${k.pct?' data-pct="1"':''}>0</div>`}
-    <div class="ch-delta delta">${deltaTxt(k)} · evolución de ${YEARS[0]} a ${YEARS[2]}</div>
-    <div class="ch-plot"></div>
-    <div class="ch-axis"><span>${YEARS[0]}</span><span>${YEARS[1]}</span><span>${YEARS[2]}</span></div>
-  </div>`;
-  const plot=coreStage.querySelector(".ch-plot");
-  drawPlot(k,plot,true);
-  plotRO?.disconnect();
-  let first=true;
-  plotRO=new ResizeObserver(()=>{if(first){first=false;return}drawPlot(k,plot,false)});
-  plotRO.observe(plot);
-  countUp(coreStage.querySelector(".ch-now"),900);
+  /* en tablet y móvil el gráfico se abre justo debajo de la tarjeta, no arriba fuera de la pantalla */
+  let host=coreStage;
+  if(NARROW()){
+    closeInline();
+    host=document.createElement("div");host.className="inline-chart";
+    opener.after(host);
+  }
+  host.innerHTML=chartHTML(k);
+  countUp(host.querySelector(".ch-now"),900);
   wireUp(k.id);
+  if(NARROW())host.scrollIntoView({block:"nearest",behavior:reduce?"auto":"smooth"});
 }
-addEventListener("keydown",e=>{if(e.key==="Escape"&&coreStage.querySelector(".core-chart"))defaultCore(true)});
+addEventListener("keydown",e=>{if(e.key==="Escape"&&document.querySelector(".core-chart"))defaultCore(true)});
 document.addEventListener("click",e=>{
-  if(!coreStage.querySelector(".core-chart"))return;
-  if(e.target.closest(".kpi")||e.target.closest(".core"))return;
+  if(!document.querySelector(".core-chart"))return;
+  if(e.target.closest(".kpi,.core,.inline-chart"))return;
   defaultCore();
 });
 
@@ -645,7 +757,7 @@ function kpiNode(k){
   b.className="kpi"+(pend?" is-pending":"");b.dataset.kpi=k.id;
   b.setAttribute("aria-expanded","false");
   b.setAttribute("aria-label",`Ver evolución de ${k.label}${pend?" (dato 2025 pendiente)":""}`);
-  b.innerHTML=`<span class="eyebrow">Dato 2025</span>
+  b.innerHTML=`<span class="eyebrow">${k.g}</span>
     ${pend?`<span class="k-num pend">${PEND}</span>`:`<span class="k-num" data-target="${k.vals.at(-1)}"${k.pct?' data-pct="1"':''}>0</span>`}
     <span class="k-label caption">${k.label}</span>
     <span class="k-trend delta">${deltaTxt(k)}</span>`;
@@ -658,21 +770,29 @@ function kpiNode(k){
 LEFT.forEach(id=>document.getElementById("ind-left").appendChild(kpiNode(byId(id))));
 RIGHT.forEach(id=>document.getElementById("ind-right").appendChild(kpiNode(byId(id))));
 
-/* ================= CONECTORES ================= */
+/* ================= CONECTORES =================
+   Cada tarjeta entra al centro por su propio punto de anclaje, repartido a lo largo del borde:
+   así todas conectan aunque la columna de tarjetas sea más alta que el centro. */
 const wires=document.getElementById("wires");
 const stageGrid=document.getElementById("stageGrid");
 function wireUp(hotId){
-  if(innerWidth<=960){wires.innerHTML="";return}
+  if(NARROW()){wires.innerHTML="";return}
   const g=stageGrid.getBoundingClientRect();
   const core=stageGrid.querySelector(".core").getBoundingClientRect();
-  let s="";
+  const sides={l:[],r:[]};
   document.querySelectorAll("#indicadores .kpi").forEach(k=>{
-    const r=k.getBoundingClientRect();
-    const y=r.top+r.height/2-g.top;
-    const leftSide=r.left<core.left;
-    const x1=leftSide?(r.right-g.left+16):(r.left-g.left-16);
-    const x2=leftSide?(core.left-g.left):(core.right-g.left);
-    s+=`<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"${k.dataset.kpi===hotId?' class="hot"':''}/>`;
+    const r=k.getBoundingClientRect(), left=r.left<core.left;
+    sides[left?"l":"r"].push({id:k.dataset.kpi,y:r.top+r.height/2-g.top,
+      x1:left?(r.right-g.left):(r.left-g.left), x2:left?(core.left-g.left):(core.right-g.left)});
+  });
+  const pad=Math.min(72,core.height*.12), top=core.top-g.top+pad, span=core.height-2*pad;
+  let s="";
+  Object.values(sides).forEach(list=>{
+    list.sort((a,b)=>a.y-b.y);
+    list.forEach((c,i)=>{
+      const py=list.length>1?top+span*i/(list.length-1):top+span/2, mx=(c.x1+c.x2)/2, hot=c.id===hotId?' class="hot"':"";
+      s+=`<path${hot} d="M${c.x1} ${c.y} C${mx} ${c.y} ${mx} ${py} ${c.x2} ${py}"/><circle${hot} cx="${c.x2}" cy="${py}" r="3.5"/>`;
+    });
   });
   wires.setAttribute("viewBox",`0 0 ${g.width} ${g.height}`);
   wires.innerHTML=s;
@@ -683,9 +803,9 @@ new ResizeObserver(()=>wireUp(hotNow())).observe(stageGrid);
 function renderChrono(id,data){
   const el=document.getElementById(id+"-chrono");
   const row=el.querySelector(".row");
-  row.style.gridTemplateColumns=`repeat(${data.length},1fr)`;
+  row.style.setProperty("--n",data.length);
   row.innerHTML=data.map((m,i)=>
-    `<div class="cl">${icon(m.ic)}<span class="cl-idx">0${i+1}</span>
+    `<div class="cl"><div class="cl-viz">${m.map?miniMap(m.map,`Mapa de la red: ${m.map.map(u=>hosp(u).n).join(", ")}`):m.rank?rankViz(m.rank):icon(m.ic)}</div><span class="cl-idx">0${i+1}</span>
      ${m.n?`<div class="cl-n">${m.n}</div>`:""}${m.nl?`<span class="cl-nl caption">${m.nl}</span>`:""}
      <h3>${m.t}</h3>${m.p.map(t=>`<p>${t}</p>`).join("")}
      ${m.x?`<ul class="cl-x">${m.x.map(t=>`<li>${t}</li>`).join("")}</ul>`:""}</div>`).join("");
@@ -738,48 +858,6 @@ const vizRing=(pct,num,lbl,capTxt)=>`<div class="viz" style="align-items:center"
     <circle class="ring-arc" pathLength="100" cx="100" cy="100" r="86" style="--pct:${pct}"/></svg>
     <div class="ring-c"><span class="rn">${num}</span><span class="caption" style="margin-top:12px">${lbl}</span></div>
   </div>${cap(capTxt)}</div>`;
-const vizOrbit=(num,lbl,capTxt)=>`<div class="viz" style="align-items:center" aria-label="${num} ${lbl}">
-  <div class="orbwrap">
-    <svg viewBox="0 0 400 400">
-      <g class="orb o1"><circle class="tr" cx="200" cy="200" r="170"/><circle class="sat" cx="200" cy="30" r="5"/><circle class="sat r" cx="340" cy="290" r="4"/></g>
-      <g class="orb o2"><circle class="tr" cx="200" cy="200" r="122"/><circle class="sat" cx="322" cy="200" r="4"/><circle class="sat" cx="110" cy="110" r="5"/></g>
-      <g class="orb o3"><circle class="tr" cx="200" cy="200" r="74"/><circle class="sat r" cx="200" cy="126" r="4"/></g>
-    </svg>
-    <div class="orb-c"><span class="rn">${num}</span><span class="caption" style="margin-top:10px">${lbl}</span></div>
-  </div>${cap(capTxt)}</div>`;
-const vizSun=(num,lbl,capTxt)=>{
-  const rays=Array.from({length:12},(_,i)=>{
-    const a=i*30*Math.PI/180, r1=112, r2=150;
-    const x1=200+r1*Math.sin(a), y1=200-r1*Math.cos(a), x2=200+r2*Math.sin(a), y2=200-r2*Math.cos(a);
-    return `<line class="ros draw" pathLength="1" style="stroke-width:1.5;animation-delay:${.5+i*.07}s" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
-  }).join("");
-  return `<div class="viz" style="align-items:center" aria-label="${num} ${lbl}">
-  <div class="orbwrap" style="max-width:400px">
-    <svg viewBox="0 0 400 400"><circle class="vio draw" pathLength="1" cx="200" cy="200" r="92" style="animation-duration:1.6s"/>${rays}</svg>
-    <div class="orb-c"><span class="rn">${num}</span><span class="caption" style="margin-top:10px">${lbl}</span></div>
-  </div>${cap(capTxt)}</div>`;
-};
-const vizPulse=(label,capTxt)=>{
-  const beat="M0 100 L120 100 L138 88 L152 100 L172 100 L186 30 L198 150 L210 100 L252 100 L268 92 L282 100 L420 100 L438 88 L452 100 L472 100 L486 30 L498 150 L510 100 L552 100 L568 92 L582 100 L600 100";
-  return `<div class="viz" aria-label="${label}">
-  <svg class="pulse" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
-    <line class="base" x1="0" y1="100" x2="600" y2="100"/>
-    <path class="ghost" d="${beat}"/>
-    <path class="beat" pathLength="1" d="${beat}"/>
-  </svg>${cap(capTxt)}</div>`};
-const vizWaves=(label,capTxt)=>{
-  const wave=(y,a)=>{let d=`M0 ${y}`;for(let x=0;x<600;x+=100)d+=` Q${x+25} ${y-a} ${x+50} ${y} T${x+100} ${y}`;return d};
-  return `<div class="viz" aria-label="${label}">
-  <svg class="bigviz" viewBox="0 0 600 260" style="max-width:620px">
-    <path class="hair draw" pathLength="1" d="${wave(70,26)}"/>
-    <path class="vio draw" pathLength="1" style="animation-delay:.3s" d="${wave(130,34)}"/>
-    <path class="hair draw" pathLength="1" style="animation-delay:.6s" d="${wave(190,26)}"/>
-  </svg>${cap(capTxt)}</div>`};
-/* dato que aún no ha llegado: hueco visible, no un visual inventado */
-const vizPending=(label,capTxt)=>`<div class="viz" aria-label="${label}: dato pendiente">
-  <div class="viz-pend"><span class="rn">${PEND}</span><span class="caption" style="margin-top:12px">${label}</span></div>
-  ${cap(capTxt)}</div>`;
-
 /* — sociedad — */
 const vizBioetica=()=>`<div class="viz" style="align-items:center" aria-label="Bioética en la práctica sanitaria">
   <svg class="bigviz" viewBox="0 0 400 360" style="max-width:360px;margin:0 auto">
@@ -790,18 +868,74 @@ const vizBioetica=()=>`<div class="viz" style="align-items:center" aria-label="B
     <circle class="nodedot" cx="200" cy="60" r="7"/>
   </svg>${cap("Formación, reflexión y colaboración en bioética")}</div>`;
 
-/* — personas — */
+/* — mapa: dónde pasa — */
+const vizMapa=(us,label,capTxt)=>`<div class="viz" aria-label="${label}">${miniMap(us,label)}${cap(capTxt)}</div>`;
+
+/* — personas: plantilla; cuando llegue el % de mujeres, los puntos se reparten por género — */
+const MUJERES_PCT=null;
+const vizPlantilla=focus=>{
+  const pend=MUJERES_PCT==null, w=pend?0:Math.round(MUJERES_PCT);
+  const dots=Array.from({length:100},(_,i)=>{
+    const cls=pend?(focus==="mujeres"?"dg":"dg on"):(i<w?"dg on":"dg rest");
+    return `<span class="${cls}" style="animation-delay:${(i*.012).toFixed(3)}s"></span>`}).join("");
+  return `<div class="viz" aria-label="Más de 4.000 profesionales${pend?"; reparto por género pendiente":`; ${w} % mujeres`}">
+    <div class="dotgrid" style="grid-template-columns:repeat(20,1fr);max-width:620px;gap:clamp(6px,.8vw,12px)">${dots}</div>
+    ${pend?`<div class="pend-line"><span class="rn">${PEND}</span><span>Reparto por género · dato 2025 pendiente de validación</span></div>`
+      :`<div class="prop-l"><span class="a">Mujeres · ${w} %</span><span class="b">Hombres · ${100-w} %</span></div>`}
+    ${cap("Más de 4.000 profesionales · cada punto, 40")}</div>`;
+};
+
 const vizFormacion=()=>`<div class="viz" aria-label="24.393 de las 50.486 horas de formación, para profesionales sanitarios">
   <div class="propbar" style="--w:48.3%"><div class="fill"><span class="pct">48 %</span></div></div>
   <div class="prop-l"><span class="a">Sanitarios · 24.393 h</span><span class="b">Total · 50.486 h</span></div>
   ${cap("Casi la mitad de las horas de formación, dirigidas a profesionales sanitarios")}</div>`;
 
 /* — cliente — */
+const vizWhatsapp=()=>`<div class="viz" aria-label="Asistente virtual por WhatsApp: gestiona citas, envía avisos y facilita la programación de pruebas">
+  <div class="chat">
+    <div class="chat-head"><span class="caption">WhatsApp</span><span class="eyebrow">Asistente virtual Julia Eniax · IA</span></div>
+    ${["Gestiona citas","Envía avisos","Facilita la programación de pruebas"].map((t,i)=>
+      `<div class="msg" style="animation-delay:${.25+i*.35}s">${t}</div>`).join("")}
+  </div>${cap("+100.000 interacciones entrantes por WhatsApp")}</div>`;
 const vizReclamaciones=()=>`<div class="viz" aria-label="1.408 reclamaciones, un 9 % menos que en 2024">
   <div class="bars">
     <div class="bar-row"><span class="bl">2024</span><div class="bar"><div class="bf ghost" style="--w:100%"></div></div></div>
     <div class="bar-row"><span class="bl">2025</span><div class="bar"><div class="bf" style="--w:91%"><span class="bv">1.408</span></div></div></div>
   </div>${cap("9 % menos reclamaciones que en 2024")}</div>`;
+
+/* — sostenibilidad — */
+/* energía: los 14 edificios con paneles, lo que generan y la electricidad de red, en un solo esquema */
+const vizEnergia=focus=>`<div class="viz" aria-label="Energía: 14 edificios con autoconsumo solar, más de un millón de kWh generados, electricidad de red 100 % renovable">
+  <div class="en-row">
+    <span class="caption">Autoconsumo solar</span>
+    <div class="en-flow">
+      <div class="dotgrid en-tiles${focus==="paneles"?" hl":""}" style="grid-template-columns:repeat(7,1fr)">${Array.from({length:14},(_,i)=>
+        `<span class="dg sq on" style="animation-delay:${(.15+i*.05).toFixed(2)}s"></span>`).join("")}</div>
+      <svg class="en-arrow" viewBox="0 0 80 20" aria-hidden="true"><path class="draw" pathLength="1" d="M2 10H74M66 3l8 7-8 7"/></svg>
+      <span class="en-val${focus==="solar"?" hl":""}">+1 M<small>kWh en 2025</small></span>
+    </div>
+    <span class="en-sub">14 edificios asistenciales con paneles fotovoltaicos</span>
+  </div>
+  <div class="en-row">
+    <span class="caption">Electricidad de red</span>
+    <div class="propbar${focus==="red"?"":" mute"}" style="--w:100%"><div class="fill"><span class="pct">100 % renovable</span></div></div>
+    <span class="en-sub">Suministrada a los edificios asistenciales, con garantías de origen</span>
+  </div></div>`;
+const vizConsumos=()=>`<div class="viz" aria-label="Monitorización continua de electricidad, gas y agua en 11 centros">
+  <div class="meters">${["Electricidad","Gas","Agua"].map((t,i)=>
+    `<div class="meter"><span class="caption">${t}</span><div class="track"><i style="animation-delay:${i*-.9}s"></i></div></div>`).join("")}</div>
+  ${cap("Monitorización continua de los consumos en 11 centros HLA")}</div>`;
+const vizAerotermia=()=>`<div class="viz" aria-label="Sustitución de calderas por aerotermia en 8 centros">
+  <svg class="bigviz aero" viewBox="0 0 600 260" style="max-width:600px">
+    <rect class="hair draw" pathLength="1" x="90" y="50" width="120" height="150"/>
+    <path class="hair draw" pathLength="1" style="animation-delay:.3s" d="M150 165c-18 0-26-14-20-28 4-9 12-14 12-26 10 8 22 20 22 34 0 12-6 20-14 20z"/>
+    <text class="lbl" x="150" y="232">Caldera</text>
+    <path class="vio draw" pathLength="1" style="animation-delay:.6s" d="M250 125H350M340 115l10 10-10 10"/>
+    <rect class="vio draw" pathLength="1" style="animation-delay:.9s" x="390" y="50" width="160" height="150"/>
+    <circle class="hair" cx="470" cy="125" r="50"/>
+    <g class="fan"><path class="vio" d="M470 125c0-26 14-40 30-36-4 18-14 30-30 36zM470 125c22 13 28 32 16 44-12-12-16-27-16-44zM470 125c-22 13-41 8-45-8 17-6 32-3 45 8z"/></g>
+    <text class="lbl on" x="470" y="232">Aerotermia</text>
+  </svg>${cap("8 centros HLA avanzan en la sustitución de calderas por aerotermia")}</div>`;
 
 /* ================= SPLIT: dato-tabs =================
    Contenido del Word de Vicky (28/10/2026). num = cifra · title = titular si el bloque no tiene cifra
@@ -822,21 +956,21 @@ const ST={
 const SPLITS={
   sociedad:[
     {num:"4",label:"hospitales con Músicos por la Salud",sub:"4 hospitales HLA participan ya en esta iniciativa.",
-     viz:()=>vizDots(18,4,"4 de los 18 hospitales HLA","4 de los 18 hospitales de la red · cada punto, un hospital",9),story:ST.musica},
+     viz:()=>vizMapa(["hlahospitalmoncloa","hlahospitallavega","hlaclinicavistahermosa","hlahospitaljerez"],"4 hospitales HLA con Músicos por la Salud","4 de los 18 hospitales de la red ya participan"),story:ST.musica},
     {title:"Bioética",label:"en el centro de la práctica sanitaria",sub:"Formación, reflexión y colaboración en bioética.",
      viz:vizBioetica,story:ST.bioetica},
   ],
   personas:[
     {num:"+4.000",label:"profesionales",sub:"Más de 4.000 profesionales forman parte del Grupo HLA.",
-     viz:()=>vizDots(100,100,"Más de 4.000 profesionales","Más de 4.000 profesionales · cada punto, 40")},
+     viz:()=>vizPlantilla("total")},
     {pend:true,label:"% de mujeres en la plantilla",sub:"Dato 2025 pendiente de validación.",
-     viz:()=>vizPending("% de mujeres en la plantilla","Dato 2025 pendiente de validación")},
+     viz:()=>vizPlantilla("mujeres")},
     {num:"50.486",label:"horas de formación",sub:"Horas de formación impartidas durante 2025.",viz:vizFormacion,story:ST.formacion},
     {num:"24.393",label:"horas para sanitarios",sub:"Horas de formación dirigidas a profesionales sanitarios.",viz:vizFormacion,story:ST.formacion},
   ],
   cliente:[
     {num:"+100.000",label:"interacciones por WhatsApp",sub:"Interacciones entrantes por WhatsApp.",
-     viz:()=>vizOrbit("+100.000","interacciones","Citas, avisos y programación de pruebas por WhatsApp"),story:ST.ia},
+     viz:vizWhatsapp,story:ST.ia},
     {num:"97 %",label:"de satisfacción",
      viz:()=>vizRing(97,"97 %","Satisfacción","97 % de satisfacción"),story:ST.ia},
     {num:"5 %",label:"tasa de absentismo",
@@ -845,15 +979,15 @@ const SPLITS={
   ],
   sostenibilidad:[
     {num:"14",label:"edificios fotovoltaicos",sub:"Edificios asistenciales con paneles fotovoltaicos para autoconsumo.",
-     viz:()=>vizDots(14,14,"14 edificios con paneles fotovoltaicos","14 edificios asistenciales con autoconsumo solar · cada bloque, un edificio",7,true)},
+     viz:()=>vizEnergia("paneles")},
     {num:"+1 M",label:"kWh de energía solar",sub:"Más de un millón de kWh de energía solar generados durante 2025.",
-     viz:()=>vizSun("+1 M","kWh solares","Más de un millón de kWh de energía solar generados en 2025")},
+     viz:()=>vizEnergia("solar")},
     {num:"100 %",label:"electricidad renovable",sub:"La electricidad suministrada por red a los edificios asistenciales, con garantías de origen.",
-     viz:()=>vizRing(100,"100 %","Renovable","Electricidad de red de los edificios asistenciales, con garantías de origen")},
+     viz:()=>vizEnergia("red")},
     {num:"11",label:"centros monitorizados",sub:"Monitorización continua de los consumos de electricidad, gas y agua.",
-     viz:()=>vizPulse("11 centros con monitorización continua","Monitorización continua de electricidad, gas y agua en 11 centros HLA")},
+     viz:vizConsumos},
     {num:"8",label:"centros con aerotermia",sub:"Sustitución de calderas por aerotermia, reduciendo el uso de combustibles fósiles.",
-     viz:()=>vizWaves("8 centros avanzan hacia la aerotermia","8 centros HLA avanzan en la sustitución de calderas por aerotermia")},
+     viz:vizAerotermia},
     {num:"8",label:"hospitales con biodiésel",sub:"Los aceites usados de cocina y cafetería se transforman en biodiésel.",
      viz:()=>vizDots(18,8,"8 de los 18 hospitales HLA","8 de los 18 hospitales de la red · economía circular",9)},
   ],
@@ -871,7 +1005,6 @@ function renderSplit(id){
   grid.innerHTML=`<div class="viz-holder" aria-live="polite"></div>
     <div class="figstack${data.length>3?" many":""}">${data.map((d,i)=>`
       <button class="fig-block${d.pend?" is-pending":""}" data-i="${i}" aria-pressed="${i===0}" style="animation-delay:${i*.08}s">
-        <span class="eyebrow">${d.title?"2025":"Dato 2025"}</span>
         ${d.pend?`<span class="f-num pend" style="display:block">${PEND}</span>`
           :d.num?`<span class="f-num" style="display:block">${d.num}</span>`
           :`<span class="f-title">${d.title}</span>`}
@@ -884,32 +1017,6 @@ function renderSplit(id){
 }
 Object.keys(SPLITS).forEach(renderSplit);
 
-/* ================= GRUPO HLA: mapa de la red =================
-   Centros, nombres y coordenadas tomados de grupohla.com/hospitales-clinicas (ficha de cada centro, 29/10/2026).
-   El reparto por provincia coincide con el mapa del Word de Vicky (Imagen 1). */
-const RED_HLA=[
-  {p:"Zaragoza",   h:[{n:"HLA Clínica Montpellier",u:"hlaclinicamontpellier",ll:[41.6359,-0.9159]}]},
-  {p:"Lleida",     h:[{n:"HLA Clínica Perpetuo Socorro",u:"hlaclinicaperpetuosocorro",ll:[41.6574,0.6106]}]},
-  {p:"Barcelona",  h:[{n:"HLA Clínica Internacional Barcelona",u:"hlaclinicaintbarcelona",ll:[41.4011,2.1249]}]},
-  {p:"Guadalajara",h:[{n:"HLA Clínica Dr. Sanz Vázquez",u:"hlaclinicasanzvazquez",ll:[40.6304,-3.1661]}]},
-  {p:"Madrid",     h:[{n:"HLA Hospital Universitario Moncloa",u:"hlahospitalmoncloa",ll:[40.4339,-3.7345]}]},
-  {p:"Albacete",   h:[{n:"HLA Clínica El Rosario",u:"hlaclinicaelrosario",ll:[38.9877,-1.8612]}]},
-  {p:"Alicante",   h:[{n:"HLA Hospital San Carlos de Denia",u:"hlahospitalsancarlos",ll:[38.8384,0.0931]},
-                      {n:"HLA Clínica Vistahermosa",u:"hlaclinicavistahermosa",ll:[38.3633,-0.4639]}]},
-  {p:"Murcia",     h:[{n:"HLA Hospital La Vega",u:"hlahospitallavega",ll:[37.9931,-1.1334]},
-                      {n:"HLA Residencia Belén",u:"hlaresidenciabelen",ll:[37.9989,-1.1307]}]},
-  {p:"Almería",    h:[{n:"HLA Hospital Mediterráneo",u:"hlahospitalmediterraneo",ll:[36.8207,-2.4354]}]},
-  {p:"Granada",    h:[{n:"HLA Hospital Universitario Inmaculada",u:"hlahospitalinmaculada",ll:[37.1642,-3.6082]}]},
-  {p:"Málaga",     h:[{n:"HLA Hospital Universitario El Ángel",u:"hlahospitalelangel",ll:[36.7153,-4.4535]}]},
-  {p:"Cádiz",      h:[{n:"HLA Hospital La Salud",u:"hlahospitallasalud",ll:[36.5324,-6.2957]},
-                      {n:"HLA Hospital Jerez Puerta del Sur",u:"hlahospitaljerez",ll:[36.6696,-6.1399]},
-                      {n:"HLA Clínica Serman",u:"hlaclinicaserman",ll:[36.6928,-6.1242]}]},
-  {p:"Sevilla",    h:[{n:"HLA Clínica Santa Isabel",u:"hlaclinicasantaisabel",ll:[37.3871,-5.9751]}]},
-  {p:"Huelva",     h:[{n:"HLA Clínica Los Naranjos",u:"hlaclinicalosnaranjos",ll:[37.2625,-6.9493]}]},
-];
-const xy=([lat,lon])=>[(lon*MAPA.k-MAPA.minx)*MAPA.s,(-lat-MAPA.miny)*MAPA.s];
-const N_HOSP=RED_HLA.reduce((a,r)=>a+r.h.length,0);
-
 function renderRed(){
   const el=document.getElementById("grupo-red");
   const hla=new Set(RED_HLA.map(r=>r.p));
@@ -919,15 +1026,7 @@ function renderRed(){
     const delay=on?`${(t*1.1).toFixed(2)}s,${(1.1+t*.6).toFixed(2)}s`:`${(t*1.1).toFixed(2)}s`;
     return `<path class="pv${on?" hla":""}" pathLength="1" d="${d}" style="animation-delay:${delay}"${on?` data-p="${n}"`:""}/>`;
   }).join("");
-  /* posición real de cada centro; los que caen casi encima (Murcia, Jerez) se separan lo justo para verse */
-  const pts=RED_HLA.flatMap(r=>r.h.map(c=>({p:r.p,xy:xy(c.ll)})));
-  for(let it=0;it<20;it++)pts.forEach(a=>pts.forEach(b=>{
-    if(a===b)return;
-    const dx=b.xy[0]-a.xy[0],dy=b.xy[1]-a.xy[1],d=Math.hypot(dx,dy)||.01;
-    if(d<8.5){const m=(8.5-d)/2,ux=d>.01?dx/d:1,uy=d>.01?dy/d:0;
-      a.xy[0]-=ux*m;a.xy[1]-=uy*m;b.xy[0]+=ux*m;b.xy[1]+=uy*m;}
-  }));
-  const pins=RED_HLA.map(r=>`<g class="pin" data-p="${r.p}">${pts.map((q,i)=>{
+  const pins=RED_HLA.map(r=>`<g class="pin" data-p="${r.p}">${HOSP.map((q,i)=>{
       if(q.p!==r.p)return "";
       const [px,py]=q.xy.map(v=>v.toFixed(1)), d=(1.7+i*.07).toFixed(2);
       return `<circle class="halo" cx="${px}" cy="${py}" r="4" style="animation-delay:${d}s"/><circle class="dot" cx="${px}" cy="${py}" r="4" style="animation-delay:${d}s"/>`;
@@ -988,6 +1087,8 @@ function setSection(id){
   if(id==="indicadores"){defaultCore();requestAnimationFrame(()=>wireUp())}
   if(id==="hitos"||id==="innovacion")requestAnimationFrame(()=>drawChrono(id,true));
   if(SPLITS[id])selectDatum(id,0);
+  /* en móvil el menú se desliza: que la pestaña activa quede a la vista */
+  document.querySelector(`.tab[data-tab="${id}"]`).scrollIntoView({inline:"center",block:"nearest",behavior:reduce?"auto":"smooth"});
   if(id==="grupo")selectProv(null);
   scrollTo({top:0,behavior:reduce?"auto":"smooth"});
 }
