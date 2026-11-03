@@ -16,8 +16,7 @@ marcado como **«Pendiente»** (texto gris y borde discontinuo):
 - Pacientes nuevos 2024 y 2025.
 - % de mujeres en la plantilla 2025 («pendiente de validación»).
 
-Abierto con Vicky: si la pestaña Sociedad desaparece del todo (el Word dice que se sustituye por
-Grupo HLA, pero trae contenido nuevo de Sociedad). De momento conviven las dos.
+**Decidido con Vicky (30/10/2026): se mantienen las dos pestañas, Grupo HLA y Sociedad.**
 
 Los hospitales del mapa de Grupo HLA (nombres y coordenadas) salen de
 `grupohla.com/hospitales-clinicas`, que coincide con el mapa del Word: 18 centros en 14 provincias.
