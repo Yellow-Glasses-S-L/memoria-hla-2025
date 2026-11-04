@@ -15,6 +15,9 @@
    ============================================================ */
 :root{
   --violeta:#4D418A; --gris:#63666F; --azul:#639AB7; --agua:#A8D3CE; --rosa:#CF0C71;
+  /* celeste: el azul de la carta subido de tono (licencia pedida por Vicky, 03/11). Acento y
+     gráficos (3,6:1 sobre papel); nunca texto pequeño. Sustituye al rosa como acento */
+  --celeste:#2B86C5; --celeste-l:color-mix(in srgb,#2B86C5 16%,#F4F3F1);
   --paper:#F4F3F1; --paper2:#EAE9E6; --ink:#1F1D2B; --line:#DDDCD9; --mass:#C7C8CB;
   --display:'Antonio',sans-serif; --mono:'IBM Plex Mono',monospace;
   --pad:clamp(28px,4vw,72px);
@@ -80,9 +83,9 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 
 #wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
 #wires path{fill:none;stroke:var(--mass);stroke-width:1;transition:stroke .25s,opacity .25s}
-#wires path.hot{stroke:var(--rosa)}
+#wires path.hot{stroke:var(--celeste)}
 #wires circle{fill:var(--paper);stroke:var(--mass);stroke-width:1;transition:stroke .25s}
-#wires circle.hot{stroke:var(--rosa);fill:var(--rosa)}
+#wires circle.hot{stroke:var(--celeste);fill:var(--celeste)}
 
 /* ---- KPI ---- */
 .kpi{cursor:pointer;background:none;font:inherit;color:inherit;
@@ -119,7 +122,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   line-height:.86;color:var(--violeta);font-variant-numeric:tabular-nums;margin-top:16px}
 .core-face .ce-label{margin-top:14px}
 .core-face .ce-cta{font-family:var(--mono);font-size:0.75rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--rosa);margin-top:38px;padding-top:16px;
+  text-transform:uppercase;color:var(--violeta);margin-top:38px;padding-top:16px;
   border-top:1px solid var(--line);min-width:220px}
 
 .core-chart{width:100%;min-height:580px;background:transparent;border:1px solid var(--line);
@@ -135,8 +138,8 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .cy{position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
 .cy-val{font-family:var(--mono);font-size:.875rem;letter-spacing:-.01em;color:var(--ink);
   font-variant-numeric:tabular-nums;margin-bottom:8px;white-space:nowrap}
-.cy-bar{width:min(64%,104px);height:var(--h);background:color-mix(in srgb,var(--rosa) 18%,var(--paper));
-  border-top:2px solid var(--rosa);transform-origin:bottom}
+.cy-bar{width:min(64%,104px);height:var(--h);background:var(--celeste-l);
+  border-top:2px solid var(--celeste);transform-origin:bottom}
 .cy.now .cy-bar{border-top-color:var(--violeta)}
 .cy.now .cy-bar{background:var(--violeta)}
 .cy.now .cy-val{color:var(--violeta);font-weight:500}
@@ -198,15 +201,6 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .viz-story h3{font-family:var(--display);font-weight:500;font-size:1.3125rem;letter-spacing:.03em;
   text-transform:uppercase;margin:0;line-height:1.1}
 .viz-story p{margin:12px 0 0;color:var(--gris);font-size:.8125rem;line-height:1.8;letter-spacing:.01em}
-.dg.sq{border-radius:0!important;aspect-ratio:1.4}
-.bars{display:flex;flex-direction:column;gap:18px}
-.bar-row{display:grid;grid-template-columns:3.5rem 1fr;align-items:center;gap:14px}
-.bar-row .bl{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;color:var(--gris)}
-.bar{position:relative;height:56px;border:1px solid var(--line)}
-.bf{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--violeta)}
-.bf.ghost{background:var(--mass)}
-.bf .bv{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#fff;
-  font-family:var(--mono);font-size:.9375rem;letter-spacing:-.02em}
 .fig-block{appearance:none;font:inherit;color:inherit;text-align:left;cursor:pointer;
   background:none;border:1px solid var(--line);padding:24px 28px 26px;width:100%;
   transition:border-color .2s,background .2s,opacity .3s}
@@ -224,10 +218,6 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .figstack.haspick .fig-block:not([aria-pressed="true"]) .f-title{color:var(--gris)}
 
 /* --- piezas de visual --- */
-.dotgrid{display:grid;grid-template-columns:repeat(10,1fr);gap:clamp(10px,1.2vw,18px);max-width:560px}
-.dg{aspect-ratio:1;border-radius:50%!important;border:1px solid var(--mass);background:transparent}
-.dg.on{border-color:var(--violeta);background:var(--violeta)}
-.dg.rosa{border-color:var(--rosa);background:var(--rosa)}
 .propbar{--w:50%;position:relative;height:64px;border:1px solid var(--line);background:transparent}
 .propbar .fill{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--violeta)}
 .propbar .pct{position:absolute;left:12px;top:50%;transform:translateY(-50%);
@@ -236,17 +226,10 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .prop-l span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.10em;text-transform:uppercase}
 .prop-l .a{color:var(--violeta)}
 .prop-l .b{color:var(--gris)}
-.ringwrap{position:relative;width:min(380px,80%);aspect-ratio:1;margin:0 auto}
-.ringwrap svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ring-track{fill:none;stroke:var(--line);stroke-width:1}
-.ring-arc{fill:none;stroke:var(--violeta);stroke-width:14}
-.ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;text-align:center}
-.ring-c .rn{font-family:var(--display);font-weight:400;font-size:4.5rem;line-height:.86;color:var(--violeta)}
 .bigviz{width:100%;height:auto;display:block;overflow:visible}
 .bigviz .hair{stroke:var(--mass);stroke-width:1;fill:none}
 .bigviz .vio{stroke:var(--violeta);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.bigviz .ros{stroke:var(--rosa);fill:none;stroke-width:1.5;stroke-linecap:round}
+.bigviz .ros{stroke:var(--celeste);fill:none;stroke-width:1.5;stroke-linecap:round}
 .bigviz .nodedot{fill:var(--violeta)}
 .bigviz text{font-family:var(--display);fill:var(--violeta)}
 
@@ -275,7 +258,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .pend-line{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:22px;padding:14px 16px;
   border:1px dashed var(--gris);color:var(--gris);font-size:.8125rem}
 .pend-line .rn{font-family:var(--display);font-size:1.75rem;line-height:1}
-.dg.rest{border-color:var(--mass);background:var(--mass)}
+.plantilla{display:block;width:100%;max-width:620px}
 .chat{max-width:440px;border:1px solid var(--line);padding:18px 20px 22px}
 .chat-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
   padding-bottom:12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
@@ -285,24 +268,93 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .en-row:first-child{border-top:1px solid var(--line)}
 .en-row .caption{display:block;margin-bottom:14px}
 .en-flow{display:flex;align-items:center;gap:clamp(14px,2vw,28px);flex-wrap:wrap}
-.en-tiles{flex:1 1 220px;max-width:300px;gap:8px}
-.en-tiles .dg.on{background:var(--mass);border-color:var(--mass)}
-.en-tiles.hl .dg.on{background:var(--violeta);border-color:var(--violeta)}
+.en-solar{flex:1 1 220px;max-width:300px;height:auto;overflow:visible}
+.sun circle{fill:var(--celeste)}
+.sun .rays path{stroke:var(--celeste);stroke-width:2;stroke-linecap:round}
+.panel-t{fill:var(--celeste-l);stroke:var(--celeste);stroke-width:1}
+.panel-t.hl{fill:var(--celeste)}
 .en-arrow{width:64px;height:auto;flex:0 0 auto}
-.en-arrow path{fill:none;stroke:var(--mass);stroke-width:1.5}
+.en-arrow path,.cycle path{fill:none;stroke:var(--celeste);stroke-width:1.5}
+.flow{stroke-dasharray:4 5}
 .en-val{font-family:var(--display);font-size:clamp(2.25rem,3.4vw,3.25rem);line-height:.9;color:var(--gris)}
 .en-val small{display:block;font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;margin-top:6px}
 .en-val.hl{color:var(--violeta)}
 .en-sub{display:block;font-size:.75rem;color:var(--gris);margin-top:12px;line-height:1.6}
 .propbar.mute .fill{background:var(--paper2)}
 .propbar.mute .pct{color:var(--ink)}
-.meters{display:flex;flex-direction:column;gap:26px;max-width:560px}
-.meter .caption{display:block;margin-bottom:12px}
-.track{position:relative;height:1px;background:var(--mass)}
-.track i{position:absolute;top:-5px;left:0;width:11px;height:11px;border-radius:50%!important;background:var(--violeta)}
-.aero .lbl{font-family:var(--mono);font-size:.9375rem;fill:var(--gris);text-anchor:middle;letter-spacing:.08em}
-.aero .lbl.on{fill:var(--violeta)}
-.aero .fan path{fill:var(--violeta);stroke:none}
+.mon{max-width:600px;border:1px solid var(--line);padding:18px 22px 22px}
+.mon-head{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.live{width:9px;height:9px;border-radius:50%!important;background:var(--celeste)}
+.mon-row{display:grid;grid-template-columns:24px 7.5rem 1fr;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.mon-ic{width:22px;height:22px;fill:none;stroke:var(--violeta);stroke-width:1.5;stroke-linejoin:round}
+.mon-spark{width:100%;height:40px;overflow:hidden}
+.mon-spark path{fill:none;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.m0 .mon-spark path{stroke:var(--violeta)}
+.m1 .mon-spark path{stroke:var(--ink)}
+.m2 .mon-spark path{stroke:var(--celeste)}
+.mon-centers{display:grid;grid-template-columns:repeat(11,1fr);gap:6px;margin-top:16px}
+.mon-centers span{height:22px;border:1px solid var(--violeta);background:color-mix(in srgb,var(--violeta) 10%,var(--paper))}
+.aero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.4vw,18px);max-width:520px}
+.aero-t{width:100%;height:auto;display:block}
+.aero-t rect{fill:none;stroke:var(--line)}
+.aero-t .flame{fill:none;stroke:var(--gris);stroke-width:1.5}
+.aero-t .fan{opacity:0}
+.aero-t .fan path{fill:var(--celeste)}
+.aero-t .fan circle{fill:var(--violeta)}
+.drops{display:grid;grid-template-columns:repeat(9,1fr);gap:clamp(10px,1.4vw,18px);max-width:520px}
+.drop{width:100%;height:auto}
+.drop path{fill:none;stroke:var(--mass);stroke-width:1.2}
+.drop.on path{fill:var(--celeste);stroke:var(--celeste)}
+.cycle{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:26px}
+.cycle svg{width:56px;flex:0 0 auto}
+.cycle .caption.on{color:var(--violeta)}
+@media (prefers-reduced-motion:no-preference){
+  .sun .rays{animation:spin 24s linear infinite}
+  .panel-t{opacity:0;animation:fadeIn .4s forwards}
+  .flow{animation:flow 1s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-9}}
+  .live{animation:livePulse 1.6s ease-in-out infinite}
+  @keyframes livePulse{50%{opacity:.25}}
+  .mon-spark g{animation:slide linear infinite}
+  @keyframes slide{to{transform:translateX(-400px)}}
+  .mon-centers span{animation:livePulse 3s ease-in-out infinite}
+  .aero-t .flame{animation:out .5s var(--d) forwards}
+  .aero-t .fan{transform-box:fill-box;transform-origin:center;animation:fadeIn .5s var(--d) forwards,spin 3s var(--d) linear infinite}
+  @keyframes out{to{opacity:0}}
+  .drop.on{scale:0;animation:pop .35s cubic-bezier(.34,1.56,.64,1) forwards}
+}
+@media (prefers-reduced-motion:reduce){.aero-t .flame{opacity:0}.aero-t .fan{opacity:1}}
+
+/* ============ CLIENTE: cifras arriba, explicación debajo ============ */
+.cli{width:100%}
+.cli-figs{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.4vw,40px)}
+.cli-fig{border-top:1px solid var(--ink);padding-top:22px;display:flex;flex-direction:column}
+.cli-fig .f-num{font-family:var(--display);font-weight:400;font-size:clamp(3rem,4.6vw,5rem);line-height:.86;
+  color:var(--violeta);font-variant-numeric:tabular-nums}
+.cli-fig .caption{display:block;margin-top:14px}
+.cli-fig p{margin:12px 0 0;color:var(--gris);font-size:.8125rem;line-height:1.7}
+.cli-v{margin-top:22px;min-height:44px;display:flex;align-items:center}
+.cli-meter{position:relative;flex:1;height:12px;background:var(--paper2)}
+.cli-meter i{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--violeta)}
+.cli-meter.cel i{background:var(--celeste)}
+.cli-meter.ghost i{background:var(--mass)}
+.cli-cmp{flex:1;display:grid;grid-template-columns:2.6rem 1fr;align-items:center;gap:8px 10px}
+.cli-cmp span{font-size:.75rem;letter-spacing:.08em;color:var(--gris)}
+.cli-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cli-chips span{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--violeta);
+  border:1px solid var(--violeta);padding:6px 10px}
+.cli-story{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,5vw,96px);align-items:start;
+  margin-top:clamp(40px,5vw,72px);padding-top:clamp(28px,3vw,44px);border-top:1px solid var(--line)}
+.cli-story .viz-story{margin-top:0}
+.cli-story .viz-story p{font-size:.875rem;color:var(--ink)}
+@media (max-width:1180px){.cli-figs{grid-template-columns:1fr 1fr;row-gap:40px}}
+@media (max-width:960px){.cli-story{grid-template-columns:1fr}}
+@media (max-width:560px){.cli-figs{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){
+  .panel.active .cli-fig{opacity:0;translate:0 14px;animation:rise .55s cubic-bezier(.16,1,.3,1) forwards}
+  .panel.active .cli-meter i{width:0;animation:grow 1s .35s cubic-bezier(.4,0,.2,1) forwards}
+  .panel.active .cli-chips span{opacity:0;animation:fadeIn .4s forwards}
+}
 
 /* ============ DATO PENDIENTE ============
    Marca visible de lo que aún no ha llegado del cliente: borde discontinuo + "Pendiente" en gris.
@@ -320,7 +372,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .mapa.has-sel .pv.hla:not(.sel){opacity:.45}
 .mapa .pin{cursor:pointer}
 .mapa .pin .dot{fill:var(--violeta);stroke:var(--paper);stroke-width:1.2}
-.mapa .pin .halo{fill:none;stroke:var(--violeta);stroke-width:.8;opacity:0}
+.mapa .pin .halo{fill:none;stroke:var(--celeste);stroke-width:.8;opacity:0}
 .mapa .pin.sel .dot{fill:var(--paper);stroke:var(--violeta)}
 .mapa.has-sel .pin:not(.sel){opacity:.35}
 .red-figs{display:flex;flex-wrap:wrap;gap:24px clamp(28px,3vw,52px);border-bottom:1px solid var(--line);padding-bottom:28px}
@@ -330,13 +382,12 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .red-figs .delta{display:block;margin-top:6px}
 .prov-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:28px}
 .prov-btn{appearance:none;font:inherit;color:inherit;cursor:pointer;background:none;text-align:left;
-  border:1px solid var(--line);padding:10px 14px;display:flex;justify-content:space-between;
-  align-items:baseline;gap:12px;transition:border-color .2s,background .2s}
+  border:1px solid var(--line);padding:12px 14px;display:flex;justify-content:flex-start;
+  align-items:center;gap:12px;transition:border-color .2s,background .2s}
 .prov-btn:hover,.prov-btn:focus-visible{border-color:var(--violeta);
   background:color-mix(in srgb,var(--paper2) 55%,var(--paper))}
 .prov-btn[aria-pressed="true"]{border-color:var(--violeta);background:var(--violeta);color:#fff}
-.prov-btn .pn{font-family:var(--display);font-size:1.375rem;line-height:1;color:var(--violeta)}
-.prov-btn[aria-pressed="true"] .pn,.prov-btn[aria-pressed="true"] .caption{color:#fff}
+.prov-btn[aria-pressed="true"] .caption{color:#fff}
 .red-detail{margin-top:24px;min-height:7.5rem}
 .red-detail h3{font-family:var(--display);font-weight:500;font-size:1.3125rem;letter-spacing:.03em;
   text-transform:uppercase;margin:0;line-height:1.1}
@@ -371,11 +422,8 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   .panel.active .fig-block{opacity:0;translate:0 14px;animation:rise .55s cubic-bezier(.16,1,.3,1) forwards}
   .panel.active .fig-block:nth-child(2){animation-delay:.1s}
   .panel.active .fig-block:nth-child(3){animation-delay:.2s}
-  .viz .dg.on,.viz .dg.rosa{scale:0;animation:pop .3s cubic-bezier(.34,1.56,.64,1) forwards}
-  .viz .propbar .fill,.viz .bf{width:0;animation:grow 1s .25s cubic-bezier(.4,0,.2,1) forwards}
+  .viz .propbar .fill{width:0;animation:grow 1s .25s cubic-bezier(.4,0,.2,1) forwards}
   @keyframes grow{to{width:var(--w)}}
-  .viz .ring-arc{stroke-dasharray:0 100;animation:sweep 1.4s .2s cubic-bezier(.4,0,.2,1) forwards}
-  @keyframes sweep{to{stroke-dasharray:var(--pct) 100}}
   .viz .nodedot,.viz .sat{transform-box:fill-box;transform-origin:center;scale:0;animation:pop .35s .5s cubic-bezier(.34,1.56,.64,1) forwards}
 
   /* mapa: las provincias se trazan de oeste a este, la red se enciende y los hospitales laten */
@@ -387,20 +435,56 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   @keyframes halo{0%{scale:1;opacity:.7}100%{scale:3.4;opacity:0}}
   .panel.active .prov-btn{opacity:0;translate:0 10px;animation:rise .5s cubic-bezier(.16,1,.3,1) forwards}
 
-  /* mini-mapas, conversación, contadores y aerotermia */
+  /* mini-mapas y conversación */
   .minimapa .mh{transform-box:fill-box;transform-origin:center;animation:halo 2.8s cubic-bezier(.16,1,.3,1) infinite}
   .viz .msg{opacity:0;translate:0 10px;animation:rise .5s cubic-bezier(.16,1,.3,1) forwards}
-  .track i{animation:scan 3.2s cubic-bezier(.45,0,.55,1) infinite}
-  @keyframes scan{0%{left:0}50%{left:calc(100% - 11px)}100%{left:0}}
-  .aero .fan{transform-box:fill-box;transform-origin:center;animation:spin 3s linear infinite}
-}
-@media (prefers-reduced-motion:reduce){
-  .ring-arc{stroke-dasharray:var(--pct) 100}
 }
 
 .panel{display:none}
 .panel.active{display:block;animation:fade .45s cubic-bezier(.16,1,.3,1)}
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+
+/* ============ PANTALLA DE ENTRADA ============ */
+.intro{position:fixed;inset:0;z-index:100;background:var(--violeta);color:#fff;display:flex;
+  align-items:center;justify-content:center;overflow:hidden;padding:var(--pad)}
+.intro[hidden]{display:none}
+.intro-bg{position:absolute;width:min(130vh,130vw);aspect-ratio:1;right:-28vw;bottom:-38vh;color:#fff;opacity:.07}
+.intro-bg svg,.intro-iso svg{width:100%;height:100%;display:block}
+.intro-in{position:relative;width:100%;max-width:1100px;display:flex;flex-direction:column;align-items:flex-start}
+.intro-iso{width:clamp(72px,9vw,120px);aspect-ratio:1;color:#fff}
+.intro-iso path:nth-child(2n){fill:var(--celeste)}
+.intro-kicker{font-family:var(--mono);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;margin:36px 0 0;opacity:.8}
+.intro-title{font-family:var(--display);font-weight:500;text-transform:uppercase;line-height:.88;
+  font-size:clamp(3.5rem,11vw,10rem);margin:14px 0 0;letter-spacing:.005em}
+.intro-lema{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.06em;
+  font-size:clamp(1.25rem,2vw,1.75rem);margin:30px 0 0;color:#fff}
+.intro-msg{max-width:52ch;font-size:.875rem;line-height:1.75;margin:18px 0 0;opacity:.85}
+.intro-go{appearance:none;cursor:pointer;margin-top:40px;background:#fff;color:var(--violeta);border:0;
+  font-family:var(--mono);font-size:.8125rem;letter-spacing:.16em;text-transform:uppercase;padding:16px 28px;
+  transition:background .2s,color .2s}
+.intro-go:hover,.intro-go:focus-visible{background:var(--celeste);color:#fff}
+.intro-go:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.intro-note{margin-top:28px;font-size:.75rem;letter-spacing:.06em;opacity:.7;border:1px dashed rgba(255,255,255,.5);padding:6px 10px}
+@media (prefers-reduced-motion:no-preference){
+  .intro-iso path{transform-box:fill-box;transform-origin:center;
+    animation:petal 1.1s cubic-bezier(.16,1,.3,1) both}
+  .intro-iso path:nth-child(1){--dx:0;--dy:60px;animation-delay:.1s}
+  .intro-iso path:nth-child(2){--dx:-60px;--dy:0;animation-delay:.22s}
+  .intro-iso path:nth-child(3){--dx:60px;--dy:0;animation-delay:.34s}
+  .intro-iso path:nth-child(4){--dx:0;--dy:-60px;animation-delay:.46s}
+  @keyframes petal{from{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(-40deg)}}
+  .intro-bg{animation:spin 120s linear infinite}
+  .intro-in>*:not(.intro-iso){opacity:0;translate:0 16px;animation:rise .7s cubic-bezier(.16,1,.3,1) forwards}
+  .intro-kicker{animation-delay:.7s!important}
+  .intro-title{animation-delay:.8s!important}
+  .intro-lema{animation-delay:.95s!important}
+  .intro-msg{animation-delay:1.05s!important}
+  .intro-go{animation-delay:1.2s!important}
+  .intro-note{animation-delay:1.3s!important}
+  .intro.out{transition:transform .9s cubic-bezier(.7,0,.2,1);transform:translateY(-100%)}
+}
+body.intro-open{overflow:hidden}
 
 /* ============ FOOTER ============ */
 footer{border-top:1px solid var(--line);margin-top:auto;padding:28px 0 48px}
@@ -444,6 +528,21 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
 </style>
 </head>
 <body>
+
+<!-- Pantalla de entrada (reunión con Vicky 03/11, «como la web de People»). El texto de bienvenida
+     es provisional: lema + frase del Word hasta que HLA pase su mensaje -->
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+  <span class="intro-bg" aria-hidden="true"></span>
+  <div class="intro-in">
+    <span class="intro-iso" aria-hidden="true"></span>
+    <p class="intro-kicker">HLA Grupo Hospitalario</p>
+    <p class="intro-title" id="introTitle">Memoria<br>anual 2025</p>
+    <p class="intro-lema">Medicina. Experiencia. Personas.</p>
+    <p class="intro-msg">El Grupo HLA es uno de los mayores proveedores hospitalarios de España. Su red está compuesta por 18 hospitales y 20 Centros Médicos.</p>
+    <button class="intro-go" id="introGo">Entrar <span aria-hidden="true">→</span></button>
+    <span class="intro-note">Mensaje de bienvenida provisional · pendiente del texto de HLA</span>
+  </div>
+</div>
 
 <header>
   <nav aria-label="Secciones de la memoria">
@@ -722,7 +821,7 @@ function chartHTML(k){
     <div class="ch-delta delta">${deltaTxt(k)}</div>
     <div class="ch-plot" aria-hidden="true">${cols}</div>
     <div class="ch-axis" aria-hidden="true">${YEARS.map(y=>`<span>${y}</span>`).join("")}${steps}</div>
-    <div class="ch-legend" aria-hidden="true"><span><i style="background:color-mix(in srgb,var(--rosa) 18%,var(--paper));border-top:2px solid var(--rosa)"></i>Años anteriores</span><span><i style="background:var(--violeta)"></i>${YEARS[2]}</span></div>
+    <div class="ch-legend" aria-hidden="true"><span><i style="background:var(--celeste-l);border-top:2px solid var(--celeste)"></i>Años anteriores</span><span><i style="background:var(--violeta)"></i>${YEARS[2]}</span></div>
     <table class="sr-only"><caption>${k.label}</caption><tr><th scope="col">Año</th><th scope="col">Valor</th></tr>${rows}</table>
   </div>`;
 }
@@ -848,16 +947,6 @@ const cap=t=>`<div class="viz-cap">${t}</div>`;
 const story=st=>st?`<div class="viz-story">${st.t?`<h3>${st.t}</h3>`:""}${st.p.map(t=>`<p>${t}</p>`).join("")}</div>`:"";
 
 /* piezas reutilizables */
-const vizDots=(total,on,label,capTxt,cols=10,sq=false)=>`<div class="viz" aria-label="${label}">
-  <div class="dotgrid" style="grid-template-columns:repeat(${cols},1fr)">${Array.from({length:total},(_,i)=>
-    `<span class="dg${sq?" sq":""}${i<on?" on":""}"${i<on?` style="animation-delay:${(.2+i*Math.min(.05,1.4/on)).toFixed(2)}s"`:""}></span>`).join("")
-  }</div>${cap(capTxt)}</div>`;
-const vizRing=(pct,num,lbl,capTxt)=>`<div class="viz" style="align-items:center" aria-label="${num} ${lbl}">
-  <div class="ringwrap">
-    <svg viewBox="0 0 200 200"><circle class="ring-track" cx="100" cy="100" r="86"/>
-    <circle class="ring-arc" pathLength="100" cx="100" cy="100" r="86" style="--pct:${pct}"/></svg>
-    <div class="ring-c"><span class="rn">${num}</span><span class="caption" style="margin-top:12px">${lbl}</span></div>
-  </div>${cap(capTxt)}</div>`;
 /* — sociedad — */
 const vizBioetica=()=>`<div class="viz" style="align-items:center" aria-label="Bioética en la práctica sanitaria">
   <svg class="bigviz" viewBox="0 0 400 360" style="max-width:360px;margin:0 auto">
@@ -871,19 +960,54 @@ const vizBioetica=()=>`<div class="viz" style="align-items:center" aria-label="B
 /* — mapa: dónde pasa — */
 const vizMapa=(us,label,capTxt)=>`<div class="viz" aria-label="${label}">${miniMap(us,label)}${cap(capTxt)}</div>`;
 
-/* — personas: plantilla; cuando llegue el % de mujeres, los puntos se reparten por género — */
+/* — personas: plantilla. Un punto por profesional (4.000, idea de Vicky 03/11); al pasar a
+   «% de mujeres» se tiñen. Mientras el dato no llega se enseña una SIMULACIÓN al 48 % marcada como tal */
 const MUJERES_PCT=null;
+const MUJERES_DEMO=48;
+const N_PLANTILLA=4000;
 const vizPlantilla=focus=>{
-  const pend=MUJERES_PCT==null, w=pend?0:Math.round(MUJERES_PCT);
-  const dots=Array.from({length:100},(_,i)=>{
-    const cls=pend?(focus==="mujeres"?"dg":"dg on"):(i<w?"dg on":"dg rest");
-    return `<span class="${cls}" style="animation-delay:${(i*.012).toFixed(3)}s"></span>`}).join("");
-  return `<div class="viz" aria-label="Más de 4.000 profesionales${pend?"; reparto por género pendiente":`; ${w} % mujeres`}">
-    <div class="dotgrid" style="grid-template-columns:repeat(20,1fr);max-width:620px;gap:clamp(6px,.8vw,12px)">${dots}</div>
-    ${pend?`<div class="pend-line"><span class="rn">${PEND}</span><span>Reparto por género · dato 2025 pendiente de validación</span></div>`
-      :`<div class="prop-l"><span class="a">Mujeres · ${w} %</span><span class="b">Hombres · ${100-w} %</span></div>`}
-    ${cap("Más de 4.000 profesionales · cada punto, 40")}</div>`;
+  const real=MUJERES_PCT!=null, w=real?Math.round(MUJERES_PCT):MUJERES_DEMO, tint=focus==="mujeres";
+  const lbl=tint?(real?`; ${w} % mujeres`:"; reparto por género pendiente, simulación al 48 %"):"";
+  return `<div class="viz" aria-label="Más de 4.000 profesionales${lbl}">
+    <canvas class="plantilla" data-focus="${focus}" data-w="${w}" aria-hidden="true"></canvas>
+    ${tint?`<div class="prop-l"><span class="a">Mujeres · ${w} %</span><span class="b">Hombres · ${100-w} %</span></div>
+      ${real?"":`<div class="pend-line"><span class="rn">Simulación</span><span>Reparto al 48 % solo de ejemplo · dato 2025 pendiente de validación</span></div>`}`:""}
+    ${cap("Más de 4.000 profesionales · cada punto, una persona")}</div>`;
 };
+/* pinta la rejilla en canvas (4.000 nodos DOM serían demasiados) y anima el tinte por columnas */
+function drawPlantilla(cv){
+  const W=cv.clientWidth; if(!W)return;
+  /* en móvil 50 columnas para que cada punto se vea */
+  const PL_COLS=W<560?50:100;
+  const rows=N_PLANTILLA/PL_COLS, cell=W/PL_COLS, H=Math.ceil(cell*rows), dpr=devicePixelRatio||1;
+  cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+"px";
+  const ctx=cv.getContext("2d");ctx.scale(dpr,dpr);
+  const css=getComputedStyle(document.documentElement);
+  const vio=css.getPropertyValue("--violeta").trim(), mass=css.getPropertyValue("--mass").trim();
+  const tint=cv.dataset.focus==="mujeres", nW=Math.round(N_PLANTILLA*+cv.dataset.w/100);
+  const r=Math.max(1,cell*.36);
+  /* reparto por columnas: las mujeres ocupan las primeras columnas, así la proporción se lee como área */
+  const isW=(c,rw)=>c*rows+rw<nW;
+  const paint=t=>{
+    ctx.clearRect(0,0,W,H);
+    for(let c=0;c<PL_COLS;c++){
+      const on=Math.min(1,Math.max(0,t*1.6-c/PL_COLS*.6));
+      for(let rw=0;rw<rows;rw++){
+        /* total: los puntos aparecen en ola; mujeres: la ola tiñe solo las suyas */
+        const col=!tint||(isW(c,rw)&&on>0)?vio:mass;
+        ctx.globalAlpha=tint?1:on;
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(c*cell+cell/2,rw*cell+cell/2,r,0,7);ctx.fill();
+      }
+    }
+    ctx.globalAlpha=1;
+  };
+  if(reduce){paint(1);return}
+  const t0=performance.now(),dur=1400;
+  const step=now=>{const t=Math.min(1,(now-t0)/dur);paint(t);if(t<1&&cv.isConnected)requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+}
+const paintPlantillas=()=>document.querySelectorAll("canvas.plantilla").forEach(drawPlantilla);
+addEventListener("resize",()=>{clearTimeout(paintPlantillas.t);paintPlantillas.t=setTimeout(paintPlantillas,150)});
 
 const vizFormacion=()=>`<div class="viz" aria-label="24.393 de las 50.486 horas de formación, para profesionales sanitarios">
   <div class="propbar" style="--w:48.3%"><div class="fill"><span class="pct">48 %</span></div></div>
@@ -897,21 +1021,18 @@ const vizWhatsapp=()=>`<div class="viz" aria-label="Asistente virtual por WhatsA
     ${["Gestiona citas","Envía avisos","Facilita la programación de pruebas"].map((t,i)=>
       `<div class="msg" style="animation-delay:${.25+i*.35}s">${t}</div>`).join("")}
   </div>${cap("+100.000 interacciones entrantes por WhatsApp")}</div>`;
-const vizReclamaciones=()=>`<div class="viz" aria-label="1.408 reclamaciones, un 9 % menos que en 2024">
-  <div class="bars">
-    <div class="bar-row"><span class="bl">2024</span><div class="bar"><div class="bf ghost" style="--w:100%"></div></div></div>
-    <div class="bar-row"><span class="bl">2025</span><div class="bar"><div class="bf" style="--w:91%"><span class="bv">1.408</span></div></div></div>
-  </div>${cap("9 % menos reclamaciones que en 2024")}</div>`;
-
-/* — sostenibilidad — */
-/* energía: los 14 edificios con paneles, lo que generan y la electricidad de red, en un solo esquema */
+/* — sostenibilidad — (03/11: «aburridos», se rehacen con más vida y el celeste como color de energía) */
+const SUN=`<g class="sun"><circle cx="0" cy="0" r="13"/><g class="rays">${Array.from({length:8},(_,i)=>
+  `<path d="M0 -19V-26" transform="rotate(${i*45})"/>`).join("")}</g></g>`;
+const panels=hl=>Array.from({length:14},(_,i)=>{
+  const x=8+(i%7)*34, y=i<7?58:84;
+  return `<path class="panel-t${hl?" hl":""}" style="animation-delay:${(.2+i*.05).toFixed(2)}s" d="M${x} ${y+20}L${x+7} ${y}H${x+35}L${x+28} ${y+20}Z"/>`}).join("");
 const vizEnergia=focus=>`<div class="viz" aria-label="Energía: 14 edificios con autoconsumo solar, más de un millón de kWh generados, electricidad de red 100 % renovable">
   <div class="en-row">
     <span class="caption">Autoconsumo solar</span>
     <div class="en-flow">
-      <div class="dotgrid en-tiles${focus==="paneles"?" hl":""}" style="grid-template-columns:repeat(7,1fr)">${Array.from({length:14},(_,i)=>
-        `<span class="dg sq on" style="animation-delay:${(.15+i*.05).toFixed(2)}s"></span>`).join("")}</div>
-      <svg class="en-arrow" viewBox="0 0 80 20" aria-hidden="true"><path class="draw" pathLength="1" d="M2 10H74M66 3l8 7-8 7"/></svg>
+      <svg class="en-solar" viewBox="0 0 260 110" aria-hidden="true"><g transform="translate(222 26)">${SUN}</g>${panels(focus==="paneles")}</svg>
+      <svg class="en-arrow" viewBox="0 0 80 20" aria-hidden="true"><path class="flow" d="M2 10H72"/><path d="M66 3l8 7-8 7"/></svg>
       <span class="en-val${focus==="solar"?" hl":""}">+1 M<small>kWh en 2025</small></span>
     </div>
     <span class="en-sub">14 edificios asistenciales con paneles fotovoltaicos</span>
@@ -921,21 +1042,40 @@ const vizEnergia=focus=>`<div class="viz" aria-label="Energía: 14 edificios con
     <div class="propbar${focus==="red"?"":" mute"}" style="--w:100%"><div class="fill"><span class="pct">100 % renovable</span></div></div>
     <span class="en-sub">Suministrada a los edificios asistenciales, con garantías de origen</span>
   </div></div>`;
+
+/* consumos: tres señales en directo, como un panel de monitorización */
+const spark=(seed,amp)=>{let d="M0 20",y=20,r=seed;for(let x=8;x<=800;x+=8){r=(r*9301+49297)%233280;
+  y=Math.max(4,Math.min(36,20+Math.sin(x/37+seed)*amp+(r/233280-.5)*amp));d+=`L${x} ${y.toFixed(1)}`}return d};
+const MON_IC={
+  Electricidad:`<path d="M13 2L5 14h6l-1 8 8-12h-6l1-8z"/>`,
+  Gas:`<path d="M12 22c-4 0-7-3-7-7 0-3 2-5 3-7 1 2 2 3 3 3 0-3 1-6 4-9 0 4 5 7 5 13 0 4-3 7-8 7z"/>`,
+  Agua:`<path d="M12 3s-6 7-6 12a6 6 0 0 0 12 0c0-5-6-12-6-12z"/>`};
 const vizConsumos=()=>`<div class="viz" aria-label="Monitorización continua de electricidad, gas y agua en 11 centros">
-  <div class="meters">${["Electricidad","Gas","Agua"].map((t,i)=>
-    `<div class="meter"><span class="caption">${t}</span><div class="track"><i style="animation-delay:${i*-.9}s"></i></div></div>`).join("")}</div>
-  ${cap("Monitorización continua de los consumos en 11 centros HLA")}</div>`;
+  <div class="mon">
+    <div class="mon-head"><span class="live"></span><span class="caption">Monitorización continua</span></div>
+    ${["Electricidad","Gas","Agua"].map((t,i)=>`<div class="mon-row m${i}">
+      <svg class="mon-ic" viewBox="0 0 24 24" aria-hidden="true">${MON_IC[t]}</svg><span class="caption">${t}</span>
+      <svg class="mon-spark" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><g style="animation-duration:${7+i*2}s"><path d="${spark(i*3+1,10+i*2)}"/></g></svg>
+    </div>`).join("")}
+    <div class="mon-centers">${Array.from({length:11},(_,i)=>`<span style="animation-delay:${(i*.27).toFixed(2)}s"></span>`).join("")}</div>
+  </div>${cap("11 centros HLA monitorizan sus consumos de electricidad, gas y agua")}</div>`;
+
+/* aerotermia: ocho centros que cambian la llama de la caldera por la bomba de calor */
 const vizAerotermia=()=>`<div class="viz" aria-label="Sustitución de calderas por aerotermia en 8 centros">
-  <svg class="bigviz aero" viewBox="0 0 600 260" style="max-width:600px">
-    <rect class="hair draw" pathLength="1" x="90" y="50" width="120" height="150"/>
-    <path class="hair draw" pathLength="1" style="animation-delay:.3s" d="M150 165c-18 0-26-14-20-28 4-9 12-14 12-26 10 8 22 20 22 34 0 12-6 20-14 20z"/>
-    <text class="lbl" x="150" y="232">Caldera</text>
-    <path class="vio draw" pathLength="1" style="animation-delay:.6s" d="M250 125H350M340 115l10 10-10 10"/>
-    <rect class="vio draw" pathLength="1" style="animation-delay:.9s" x="390" y="50" width="160" height="150"/>
-    <circle class="hair" cx="470" cy="125" r="50"/>
-    <g class="fan"><path class="vio" d="M470 125c0-26 14-40 30-36-4 18-14 30-30 36zM470 125c22 13 28 32 16 44-12-12-16-27-16-44zM470 125c-22 13-41 8-45-8 17-6 32-3 45 8z"/></g>
-    <text class="lbl on" x="470" y="232">Aerotermia</text>
-  </svg>${cap("8 centros HLA avanzan en la sustitución de calderas por aerotermia")}</div>`;
+  <div class="aero-grid">${Array.from({length:8},(_,i)=>`<svg class="aero-t" viewBox="0 0 60 60" aria-hidden="true" style="--d:${(.4+i*.22).toFixed(2)}s">
+    <rect x="1" y="1" width="58" height="58"/>
+    <path class="flame" d="M30 46c-7 0-10-5-8-11 2-4 5-6 5-11 5 3 10 8 10 14 0 5-3 8-7 8z"/>
+    <g class="fan"><path d="M30 30c0-10 5-15 11-14-1 7-5 11-11 14zM30 30c8 5 10 12 6 16-5-4-6-10-6-16zM30 30c-8 5-16 3-17-3 6-2 12-1 17 3z"/><circle cx="30" cy="30" r="2.5"/></g>
+  </svg>`).join("")}</div>
+  <div class="prop-l"><span class="b">Caldera</span><span class="a">→ Aerotermia</span></div>
+  ${cap("8 centros HLA avanzan en la sustitución de calderas por aerotermia")}</div>`;
+
+/* biodiésel: 8 de los 18 hospitales, cada uno una gota */
+const DROP="M12 2C12 2 4 11 4 17a8 8 0 0 0 16 0C20 11 12 2 12 2Z";
+const vizBiodiesel=()=>`<div class="viz" aria-label="8 de los 18 hospitales HLA transforman su aceite usado en biodiésel">
+  <div class="drops">${Array.from({length:18},(_,i)=>`<svg viewBox="0 0 24 26" class="drop${i<8?" on":""}" style="animation-delay:${(.2+i*.06).toFixed(2)}s" aria-hidden="true"><path d="${DROP}"/></svg>`).join("")}</div>
+  <div class="cycle"><span class="caption">Aceite usado de cocina y cafetería</span><svg viewBox="0 0 60 20" aria-hidden="true"><path class="flow" d="M2 10H52"/><path d="M46 3l8 7-8 7"/></svg><span class="caption on">Biodiésel</span></div>
+  ${cap("8 de los 18 hospitales de la red · economía circular")}</div>`;
 
 /* ================= SPLIT: dato-tabs =================
    Contenido del Word de Vicky (28/10/2026). num = cifra · title = titular si el bloque no tiene cifra
@@ -968,15 +1108,6 @@ const SPLITS={
     {num:"50.486",label:"horas de formación",sub:"Horas de formación impartidas durante 2025.",viz:vizFormacion,story:ST.formacion},
     {num:"24.393",label:"horas para sanitarios",sub:"Horas de formación dirigidas a profesionales sanitarios.",viz:vizFormacion,story:ST.formacion},
   ],
-  cliente:[
-    {num:"+100.000",label:"interacciones por WhatsApp",sub:"Interacciones entrantes por WhatsApp.",
-     viz:vizWhatsapp,story:ST.ia},
-    {num:"97 %",label:"de satisfacción",
-     viz:()=>vizRing(97,"97 %","Satisfacción","97 % de satisfacción"),story:ST.ia},
-    {num:"5 %",label:"tasa de absentismo",
-     viz:()=>vizDots(100,5,"5 % de tasa de absentismo","5 % de tasa de absentismo · cada punto, un 1 %"),story:ST.ia},
-    {num:"1.408",label:"reclamaciones",sub:"9 % menos que en 2024.",viz:vizReclamaciones,story:ST.ia},
-  ],
   sostenibilidad:[
     {num:"14",label:"edificios fotovoltaicos",sub:"Edificios asistenciales con paneles fotovoltaicos para autoconsumo.",
      viz:()=>vizEnergia("paneles")},
@@ -989,7 +1120,7 @@ const SPLITS={
     {num:"8",label:"centros con aerotermia",sub:"Sustitución de calderas por aerotermia, reduciendo el uso de combustibles fósiles.",
      viz:vizAerotermia},
     {num:"8",label:"hospitales con biodiésel",sub:"Los aceites usados de cocina y cafetería se transforman en biodiésel.",
-     viz:()=>vizDots(18,8,"8 de los 18 hospitales HLA","8 de los 18 hospitales de la red · economía circular",9)},
+     viz:vizBiodiesel},
   ],
 };
 function selectDatum(id,i){
@@ -998,6 +1129,7 @@ function selectDatum(id,i){
   grid.querySelector(".figstack").classList.add("haspick");
   const d=SPLITS[id][i];
   grid.querySelector(".viz-holder").innerHTML=d.viz()+story(d.story);
+  requestAnimationFrame(paintPlantillas);
 }
 function renderSplit(id){
   const grid=document.getElementById(id+"-grid");
@@ -1016,6 +1148,32 @@ function renderSplit(id){
   selectDatum(id,0);
 }
 Object.keys(SPLITS).forEach(renderSplit);
+
+/* ================= CLIENTE: los cuatro datos a la vista, sin tener que pinchar =================
+   Reunión con Vicky (03/11): tocando dato a dato las animaciones no sumaban y el texto quedaba
+   escondido. Ahora las cifras van arriba, cada una con su visual, y la explicación debajo */
+const meter=(w,cls="")=>`<div class="cli-meter${cls}" style="--w:${w}%"><i></i></div>`;
+const CLIENTE=[
+  {num:"+100.000",label:"interacciones por WhatsApp",sub:"Interacciones entrantes por WhatsApp.",
+   v:`<div class="cli-chips">${["Citas","Avisos","Pruebas"].map((t,i)=>`<span style="animation-delay:${.3+i*.15}s">${t}</span>`).join("")}</div>`},
+  {num:"97 %",label:"de satisfacción",v:meter(97)},
+  {num:"5 %",label:"tasa de absentismo",v:meter(5," cel")},
+  {num:"1.408",label:"reclamaciones",sub:"9 % menos que en 2024.",
+   v:`<div class="cli-cmp"><span>2024</span>${meter(100," ghost")}<span>2025</span>${meter(91)}</div>`},
+];
+function renderCliente(){
+  const el=document.getElementById("cliente-grid");
+  el.className="cli";
+  el.innerHTML=`<div class="cli-figs">${CLIENTE.map((d,i)=>`
+      <article class="cli-fig" style="animation-delay:${i*.08}s">
+        <span class="f-num">${d.num}</span>
+        <span class="caption">${d.label}</span>
+        <div class="cli-v">${d.v}</div>
+        ${d.sub?`<p>${d.sub}</p>`:""}
+      </article>`).join("")}</div>
+    <div class="cli-story">${story(ST.ia)}${vizWhatsapp()}</div>`;
+}
+renderCliente();
 
 function renderRed(){
   const el=document.getElementById("grupo-red");
@@ -1044,7 +1202,7 @@ function renderRed(){
       </div>
       <div class="prov-list">${RED_HLA.map((r,i)=>
         `<button class="prov-btn" data-p="${r.p}" aria-pressed="false" style="animation-delay:${.3+i*.04}s">
-          <span class="caption">${r.p}</span><span class="pn">${r.h.length}</span></button>`).join("")}</div>
+          <span class="caption">${r.p}</span></button>`).join("")}</div>
       <div class="red-detail" aria-live="polite"></div>
     </div>`;
   const toggle=n=>selectProv(el.querySelector(`.prov-btn[data-p="${n}"]`).getAttribute("aria-pressed")==="true"?null:n);
@@ -1067,7 +1225,7 @@ renderRed();
 /* ================= count-up KPIs ================= */
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){countUp(e.target);io.unobserve(e.target)}}),{threshold:.5});
-document.querySelectorAll(".k-num[data-target],.r-num[data-target]").forEach(n=>io.observe(n));
+const startCounts=()=>document.querySelectorAll(".k-num[data-target],.r-num[data-target]").forEach(n=>io.observe(n));
 
 /* ================= tabs de sección ================= */
 const head={eyebrow:document.getElementById("eyebrow"),title:document.getElementById("secTitle"),
@@ -1096,6 +1254,29 @@ document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>setS
 
 defaultCore();
 requestAnimationFrame(()=>wireUp());
+
+/* ================= pantalla de entrada ================= */
+(()=>{
+  const intro=document.getElementById("intro"), go=document.getElementById("introGo");
+  intro.querySelector(".intro-iso").innerHTML=ISO;
+  intro.querySelector(".intro-bg").innerHTML=ISO;
+  document.body.classList.add("intro-open");
+  document.querySelector("main").inert=true;document.querySelector("header").inert=true;
+  go.focus({preventScroll:true});
+  let done=false;
+  const enter=()=>{
+    if(done)return;done=true;
+    document.body.classList.remove("intro-open");
+    document.querySelector("main").inert=false;document.querySelector("header").inert=false;
+    /* la portada de Indicadores se anima al entrar, no por debajo de la entrada */
+    const p=document.getElementById("indicadores");p.classList.remove("active");void p.offsetWidth;p.classList.add("active");
+    requestAnimationFrame(()=>wireUp());startCounts();
+    const fin=()=>{intro.hidden=true};
+    if(reduce)fin();else{intro.classList.add("out");intro.addEventListener("transitionend",fin,{once:true});setTimeout(fin,1200)}
+  };
+  go.addEventListener("click",enter);
+  addEventListener("keydown",e=>{if(!done&&(e.key==="Escape"||e.key==="Enter"))enter()});
+})();
 </script>
 </body>
 </html>
