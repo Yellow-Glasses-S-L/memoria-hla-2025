@@ -17,3 +17,12 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 | Datos | Vicky pide a Fernando los datos que faltan; si no llegan, quedan para 2026 | Pendiente de HLA |
 | Innovación | Molaría más contenido, de momento no hay | Sin cambios |
 | Publicación | Lo lleva Alluction (webs de HLA). Al terminar se les pasa y ellos dicen cómo avanzar | Pendiente de cerrar diseño |
+
+## Ronda 2 (04/11, feedback de Rebeca)
+
+- El rosa vuelve como acento principal. El azul `#639AB7` y el verde agua `#A8D3CE` de la carta quedan como apoyo en gráficos (nunca con texto encima), con su versión casi blanca para rellenos.
+- Entrada: isotipo en un solo color (blanco), interlineado del título más abierto, botón en rosa.
+- Mapa: los bordes de las provincias de la red van en una capa propia por encima de los rellenos, que ahora son opacos. Ya no se solapan con las líneas grises.
+- Portada: las conexiones van por encima del contenedor central (el punto tapa el borde) y la activa se pinta la última.
+- Aerotermia: los ventiladores giran sobre su eje.
+- Fotos: propuesta con fotos de muestra de Unsplash en la entrada (de fondo) y en una franja al principio de Sociedad, Personas, Cliente, Sostenibilidad e Innovación, con tratamiento en violeta. Marcadas como «Propuesta». Para la versión final, mejor fotos propias de HLA.
