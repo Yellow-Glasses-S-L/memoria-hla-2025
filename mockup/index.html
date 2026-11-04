@@ -261,24 +261,12 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   border:1px dashed var(--gris);color:var(--gris);font-size:.8125rem}
 .pend-line .rn{font-family:var(--display);font-size:1.75rem;line-height:1}
 .plantilla{display:block;width:100%;max-width:620px}
-.en-row{padding:20px 0;border-bottom:1px solid var(--line)}
-.en-row:first-child{border-top:1px solid var(--line)}
-.en-row .caption{display:block;margin-bottom:14px}
-.en-flow{display:flex;align-items:center;gap:clamp(14px,2vw,28px);flex-wrap:wrap}
-.en-solar{flex:1 1 220px;max-width:300px;height:auto;overflow:visible}
 .sun circle{fill:var(--azul)}
 .sun .rays path{stroke:var(--azul);stroke-width:2;stroke-linecap:round}
 .panel-t{fill:var(--azul-l);stroke:var(--azul);stroke-width:1}
 .panel-t.hl{fill:var(--azul)}
-.en-arrow{width:64px;height:auto;flex:0 0 auto}
-.en-arrow path,.cycle path{fill:none;stroke:var(--azul);stroke-width:1.5}
+.cycle path{fill:none;stroke:var(--azul);stroke-width:1.5}
 .flow{stroke-dasharray:4 5}
-.en-val{font-family:var(--display);font-size:clamp(2.25rem,3.4vw,3.25rem);line-height:.9;color:var(--gris)}
-.en-val small{display:block;font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;margin-top:6px}
-.en-val.hl{color:var(--violeta)}
-.en-sub{display:block;font-size:.75rem;color:var(--gris);margin-top:12px;line-height:1.6}
-.propbar.mute .fill{background:var(--paper2)}
-.propbar.mute .pct{color:var(--ink)}
 .mon{max-width:600px;border:1px solid var(--line);padding:18px 22px 22px}
 .mon-head{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line)}
 .live{width:9px;height:9px;border-radius:50%!important;background:var(--rosa)}
@@ -438,6 +426,72 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 }
 @media (prefers-reduced-motion:reduce){.ce-prog{display:none}}
 
+
+/* ============ PORTADA: órbita, mini evolución y ritmo (04/11) ============ */
+.iso-wrap{position:relative;width:96px;height:96px;display:block}
+.orbit{position:absolute;inset:-46px;width:calc(100% + 92px);height:calc(100% + 92px);overflow:visible}
+.o-ring{fill:none;stroke:var(--line);stroke-dasharray:2 4}
+.o-dots circle{fill:var(--violeta);opacity:.55}
+.o-dots .o-hot{fill:var(--rosa);opacity:1}
+.core-face .ce-kicker{margin-top:62px}
+.ce-mini{display:flex;align-items:flex-end;gap:10px;height:64px;margin-top:24px}
+.ce-mini .mb{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px}
+.ce-mini i{display:block;width:26px;height:var(--h);min-height:2px;transform-origin:bottom;
+  background:color-mix(in srgb,var(--rosa) 18%,var(--paper));border-top:2px solid var(--rosa)}
+.ce-mini .now i{background:var(--violeta);border-top-color:var(--violeta)}
+.ce-mini b{font-family:var(--mono);font-weight:400;font-size:.625rem;letter-spacing:.08em;color:var(--gris)}
+.pulso{flex:1 1 560px;max-width:880px;margin:26px 0 6px}
+.pulso[hidden]{display:none}
+.pl-head{display:flex;align-items:center;gap:10px}
+.pl-row{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,2vw,28px);margin-top:12px}
+.pl{display:grid;grid-template-columns:40px auto;grid-template-rows:auto auto;column-gap:14px;align-items:center}
+.pl-ring{grid-row:1/3;width:40px;height:40px;rotate:-90deg}
+.pl-ring circle{fill:none;stroke:var(--line);stroke-width:2}
+.pl-ring .arc{stroke:var(--rosa);stroke-dasharray:1;stroke-dashoffset:1}
+.pl-n{font-family:var(--display);font-size:clamp(1.75rem,2.4vw,2.25rem);line-height:.9;color:var(--violeta);font-variant-numeric:tabular-nums}
+.pl-t{line-height:1.4}
+.pl-t small{display:block;font-size:.625rem;color:var(--gris);letter-spacing:.06em;text-transform:none}
+@media (max-width:900px){.pl-row{grid-template-columns:repeat(2,1fr);row-gap:18px}}
+@media (prefers-reduced-motion:no-preference){
+  .o-dots{transform-box:view-box;transform-origin:0 0;animation:spin 60s linear infinite}
+  .o-ring{animation:fadeIn 1s forwards;opacity:0}
+  .ce-rot.in .ce-mini i{scale:1 0;animation:barY .7s cubic-bezier(.16,1,.3,1) forwards}
+  .pl.hit .pl-n{animation:hit .9s cubic-bezier(.16,1,.3,1)}
+  @keyframes hit{0%{color:var(--rosa);translate:0 -4px}100%{color:var(--violeta);translate:0 0}}
+}
+@media (prefers-reduced-motion:reduce){.pl-ring{display:none}.pl{grid-template-columns:auto}}
+
+/* ============ SOSTENIBILIDAD: energía, un dibujo por dato (04/11) ============ */
+.sv-svg{width:100%;max-width:520px;height:auto;overflow:visible}
+.sv-svg .bld rect{fill:var(--paper);stroke:var(--violeta);stroke-width:1.2}
+.sv-svg .bld path:not(.panel-t){stroke:var(--mass);stroke-width:1.2;fill:none}
+.sv-svg .sky{fill:none;stroke:var(--line);stroke-dasharray:3 5}
+.sv-svg .ground{stroke:var(--ink);stroke-width:1}
+.sol-days path{fill:var(--azul-l);stroke:var(--azul);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.sol-meter{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+  max-width:520px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+.sol-n{font-family:var(--display);font-size:clamp(2rem,3vw,2.75rem);line-height:.9;color:var(--violeta);font-variant-numeric:tabular-nums}
+.sol-n small{font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;color:var(--gris)}
+.sv-svg .pylon path{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-linejoin:round}
+.sv-svg .cable{fill:none;stroke:var(--azul);stroke-width:2}
+.sv-svg .r0{fill:var(--paper);stroke:var(--line);stroke-width:8}
+.sv-svg .r1{fill:none;stroke:var(--violeta);stroke-width:8;stroke-dasharray:1;stroke-dashoffset:0;rotate:-90deg;transform-box:fill-box;transform-origin:center}
+.sv-svg .hosp rect{fill:var(--paper);stroke:var(--violeta);stroke-width:1.3}
+.sv-svg .hosp path{fill:none;stroke:var(--rosa);stroke-width:2}
+.sv-big{font-family:var(--display);font-size:1.5rem;fill:var(--violeta);text-anchor:middle}
+.sv-t{font-family:var(--mono);font-size:.6875rem;fill:var(--gris);text-anchor:middle;letter-spacing:.08em}
+.seal{display:flex;align-items:center;gap:10px;margin-top:16px}
+.seal svg{width:24px;height:24px;fill:none;stroke:var(--violeta);stroke-width:1.5}
+@media (prefers-reduced-motion:no-preference){
+  .sv-svg .bld{opacity:0;animation:fadeIn .4s forwards}
+  .sun-path{transform-box:view-box;transform-origin:210px 112px;animation:day 7s ease-in-out infinite}
+  @keyframes day{0%{rotate:-62deg;opacity:0}8%{opacity:1}92%{opacity:1}100%{rotate:62deg;opacity:0}}
+  .sol-days{animation:slideD 7s linear infinite}
+  @keyframes slideD{to{transform:translateX(-70px)}}
+  .sv-svg .r1{stroke-dashoffset:1;animation:ring 1.6s .3s cubic-bezier(.4,0,.2,1) forwards}
+  @keyframes ring{to{stroke-dashoffset:0}}
+}
+
 /* ============ DATO PENDIENTE ============
    Marca visible de lo que aún no ha llegado del cliente: borde discontinuo + "Pendiente" en gris.
    Se quita sola en cuanto el dato se rellena en KPIS. */
@@ -566,7 +620,14 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   .intro-msg{animation-delay:1.05s!important}
   .intro-go{animation-delay:1.2s!important}
   .intro-note{animation-delay:1.3s!important}
-  .intro.out{transition:transform .9s cubic-bezier(.7,0,.2,1);transform:translateY(-100%)}
+  /* 04/11: la salida era brusca. Primero se retira el contenido, luego la cortina se desvanece
+     dejando ver la portada, que se va componiendo debajo */
+  .intro{transition:opacity 1.4s .5s cubic-bezier(.4,0,.2,1)}
+  .intro-in{transition:opacity .7s cubic-bezier(.4,0,.2,1),translate .9s cubic-bezier(.4,0,.2,1)}
+  .intro-bg,.intro-photo{transition:scale 2s cubic-bezier(.16,1,.3,1)}
+  .intro.out{opacity:0;pointer-events:none}
+  .intro.out .intro-in{opacity:0;translate:0 -24px}
+  .intro.out .intro-bg,.intro.out .intro-photo{scale:1.06}
 }
 body.intro-open{overflow:hidden}
 
@@ -575,11 +636,11 @@ body.intro-open{overflow:hidden}
    Tratamiento único en violeta: unifica fotos de origen distinto con la marca. Cuando HLA pase
    sus fotos se cambian en PHOTOS y se quita la etiqueta de propuesta */
 .photo-band{position:relative;margin:0 0 clamp(40px,5vw,72px);height:clamp(180px,22vw,320px);
-  overflow:hidden;background:var(--violeta)}
-.photo-band img,.intro-photo{width:100%;height:100%;object-fit:cover;display:block;
-  filter:grayscale(1) contrast(1.1);mix-blend-mode:luminosity;opacity:.6}
-.photo-tag{position:absolute;left:14px;bottom:14px;background:var(--paper);color:var(--ink);
-  font-size:.75rem;letter-spacing:.06em;padding:4px 10px;border:1px dashed var(--gris)}
+  overflow:hidden;background:var(--paper2)}
+/* 04/11: el violeta en las franjas quedaba brusco; van en color natural, apenas atemperado */
+.photo-band img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.88) contrast(1.02)}
+.intro-photo{width:100%;height:100%;object-fit:cover;display:block;
+  filter:grayscale(1) contrast(1.1);mix-blend-mode:luminosity}
 .intro-photo{position:absolute;inset:0;opacity:.22}
 @media (prefers-reduced-motion:no-preference){
   .panel.active .photo-band img{scale:1.06;animation:settle 1.6s cubic-bezier(.16,1,.3,1) forwards}
@@ -639,9 +700,9 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
     <p class="intro-kicker">HLA Grupo Hospitalario</p>
     <p class="intro-title" id="introTitle">Memoria<br>anual 2025</p>
     <p class="intro-lema">Medicina. Experiencia. Personas.</p>
-    <p class="intro-msg">El Grupo HLA es uno de los mayores proveedores hospitalarios de España. Su red está compuesta por 18 hospitales y 20 Centros Médicos.</p>
+    <p class="intro-msg">Un diagnóstico a tiempo. Una cirugía precisa. Una música que acompaña. Así se escribe un año cuidando a las personas.</p>
     <button class="intro-go" id="introGo">Entrar <span aria-hidden="true">→</span></button>
-    <span class="intro-note">Mensaje de bienvenida provisional · pendiente del texto de HLA</span>
+    <span class="intro-note">Texto de bienvenida propuesto · pendiente de validar con HLA</span>
   </div>
 </div>
 
@@ -668,6 +729,7 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
     <div class="head-main">
       <h1 class="section-title" id="secTitle">Medicina. Experiencia. Personas.</h1>
       <p class="section-sub" id="secSub">Pincha cualquier indicador para ver su evolución de los últimos tres años.</p>
+      <div class="pulso" id="pulso"></div>
     </div>
     <hr class="head-rule">
   </div>
@@ -886,17 +948,61 @@ const HERO="citas";
 const NARROW=()=>innerWidth<=1180;
 const closeInline=()=>document.querySelectorAll(".inline-chart").forEach(n=>n.remove());
 
+/* 04/11: la portada seguía sosa. El isotipo lleva en órbita los 18 hospitales de la red y,
+   bajo cada cifra del recorrido, su evolución de tres años en miniatura */
+const ORBIT=`<svg class="orbit" viewBox="-100 -100 200 200" aria-hidden="true"><circle class="o-ring" r="86"/>
+  <g class="o-dots">${Array.from({length:18},(_,i)=>{const a=i/18*Math.PI*2;
+    return `<circle class="${i===0?"o-hot":""}" cx="${(Math.cos(a)*86).toFixed(1)}" cy="${(Math.sin(a)*86).toFixed(1)}" r="${i===0?4:2.6}"/>`}).join("")}</g></svg>`;
+function miniBars(k){
+  const known=k.vals.filter(v=>!pending(v));if(known.length<2)return "";
+  const max=Math.max(...known);
+  return `<span class="ce-mini" aria-hidden="true">${k.vals.map((v,i)=>`<span class="mb${i===2?" now":""}">
+    <i style="--h:${pending(v)?0:(v/max*100).toFixed(1)}%;animation-delay:${(.15+i*.1).toFixed(2)}s"></i><b>${YEARS[i]}</b></span>`).join("")}</span>`;
+}
+
+/* RITMO: «mientras estás aquí». Cuenta al ritmo medio de 2025 (total del año entre los segundos
+   del año), así que es una media honesta, no un dato en tiempo real. Cada anillo se llena hasta la siguiente */
+const YEAR_S=365*24*3600;
+const PULSO=[["citas","consultas"],["dxi","pruebas diagnósticas"],["urg","urgencias"],["cir","cirugías"]]
+  .map(([id,t])=>({id,t,every:YEAR_S/byId(id).vals.at(-1)}));
+let pulsoT0=null,pulsoRaf=null;
+function renderPulso(){
+  document.getElementById("pulso").innerHTML=`<div class="pl-head"><span class="live"></span>
+    <span class="caption">Desde que entraste, al ritmo medio de 2025 en la red HLA</span></div>
+    <div class="pl-row">${PULSO.map((x,i)=>`<div class="pl" data-i="${i}">
+      <svg class="pl-ring" viewBox="0 0 40 40" aria-hidden="true"><circle r="17" cx="20" cy="20"/><circle class="arc" r="17" cx="20" cy="20" pathLength="1"/></svg>
+      <span class="pl-n">0</span><span class="pl-t caption">${x.t}<small>una cada ${x.every<60?Math.round(x.every)+" s":(x.every/60).toFixed(1).replace(".",",")+" min"}</small></span>
+    </div>`).join("")}</div>`;
+}
+function startPulso(){
+  if(pulsoT0)return;pulsoT0=performance.now();
+  const nodes=[...document.querySelectorAll("#pulso .pl")];
+  const last=PULSO.map(()=>0);
+  (function tick(t){
+    const el=(t-pulsoT0)/1000;
+    PULSO.forEach((x,i)=>{
+      const n=Math.floor(el/x.every), f=(el%x.every)/x.every, node=nodes[i];
+      if(n!==last[i]){last[i]=n;node.querySelector(".pl-n").textContent=fmt(n);
+        node.classList.remove("hit");void node.offsetWidth;node.classList.add("hit")}
+      if(!reduce)node.querySelector(".arc").style.strokeDashoffset=(1-f).toFixed(4);
+    });
+    pulsoRaf=requestAnimationFrame(tick);
+  })(pulsoT0);
+}
+renderPulso();
+
 function defaultCore(focus){
   document.querySelectorAll(".kpi[aria-expanded]").forEach(n=>n.setAttribute("aria-expanded","false"));
   stageGrid.classList.remove("dim");
   closeInline();
   const h=byId(HERO);
   coreStage.innerHTML=`<div class="core-face" id="coreFace">
-    <span class="iso">${ISO}</span>
+    <span class="iso-wrap"><span class="iso">${ISO}</span>${ORBIT}</span>
     <div class="ce-rot in">
       <span class="ce-kicker eyebrow">2025 en cifras</span>
       ${numHTML(h.vals.at(-1),"ce-num")}
       <span class="ce-label caption">${h.label}</span>
+      ${miniBars(h)}
     </div>
     <span class="ce-prog" aria-hidden="true"><i></i></span>
     <span class="ce-cta">Pincha un indicador</span>
@@ -1029,7 +1135,7 @@ function tourStep(){
   rot.classList.remove("in");void rot.offsetWidth;
   rot.innerHTML=`<span class="ce-kicker eyebrow">${k.g} · 2025</span>
     <span class="ce-num">${fmtK(k,k.vals.at(-1))}</span>
-    <span class="ce-label caption">${k.label}</span>`;
+    <span class="ce-label caption">${k.label}</span>${miniBars(k)}`;
   rot.classList.add("in");
   const pr=coreStage.querySelector(".ce-prog");pr.classList.remove("run");void pr.offsetWidth;pr.classList.add("run");
   markTour();
@@ -1205,24 +1311,41 @@ const vizFormacion=()=>`<div class="viz" aria-label="24.393 de las 50.486 horas 
 /* — sostenibilidad — (03/11: «aburridos», se rehacen con más vida y el azul y verde agua de la carta como apoyo) */
 const SUN=`<g class="sun"><circle cx="0" cy="0" r="13"/><g class="rays">${Array.from({length:8},(_,i)=>
   `<path d="M0 -19V-26" transform="rotate(${i*45})"/>`).join("")}</g></g>`;
-const panels=hl=>Array.from({length:14},(_,i)=>{
-  const x=8+(i%7)*34, y=i<7?58:84;
-  return `<path class="panel-t${hl?" hl":""}" style="animation-delay:${(.2+i*.05).toFixed(2)}s" d="M${x} ${y+20}L${x+7} ${y}H${x+35}L${x+28} ${y+20}Z"/>`}).join("");
-const vizEnergia=focus=>`<div class="viz" aria-label="Energía: 14 edificios con autoconsumo solar, más de un millón de kWh generados, electricidad de red 100 % renovable">
-  <div class="en-row">
-    <span class="caption">Autoconsumo solar</span>
-    <div class="en-flow">
-      <svg class="en-solar" viewBox="0 0 260 110" aria-hidden="true"><g transform="translate(222 26)">${SUN}</g>${panels(focus==="paneles")}</svg>
-      <svg class="en-arrow" viewBox="0 0 80 20" aria-hidden="true"><path class="flow" d="M2 10H72"/><path d="M66 3l8 7-8 7"/></svg>
-      <span class="en-val${focus==="solar"?" hl":""}">+1 M<small>kWh en 2025</small></span>
-    </div>
-    <span class="en-sub">14 edificios asistenciales con paneles fotovoltaicos</span>
-  </div>
-  <div class="en-row">
-    <span class="caption">Electricidad de red</span>
-    <div class="propbar${focus==="red"?"":" mute"}" style="--w:100%"><div class="fill"><span class="pct">100 % renovable</span></div></div>
-    <span class="en-sub">Suministrada a los edificios asistenciales, con garantías de origen</span>
-  </div></div>`;
+/* 04/11: los tres datos de energía compartían dibujo y al cambiar de pestaña no pasaba nada.
+   Ahora cada uno cuenta lo suyo: los tejados que se cubren, el sol que genera, la red que llega limpia */
+const vizEdificios=()=>`<div class="viz" aria-label="14 edificios asistenciales con paneles fotovoltaicos para autoconsumo">
+  <svg class="sv-svg" viewBox="0 0 420 170" aria-hidden="true"><g transform="translate(404 -8)">${SUN}</g>
+  ${Array.from({length:14},(_,i)=>{const x=6+(i%7)*58, yb=i<7?92:162, h=i%3?34:44, d=(.3+i*.12).toFixed(2);
+    return `<g class="bld"><rect x="${x}" y="${yb-h}" width="44" height="${h}"/>
+      <path d="M${x+10} ${yb-h+12}h6M${x+28} ${yb-h+12}h6M${x+10} ${yb-h+24}h6M${x+28} ${yb-h+24}h6"/>
+      <path class="panel-t" style="animation-delay:${d}s" d="M${x+3} ${yb-h-2}L${x+9} ${yb-h-12}H${x+41}L${x+35} ${yb-h-2}Z"/></g>`}).join("")}</svg>
+  ${cap("14 edificios asistenciales producen su propia energía con paneles fotovoltaicos")}</div>`;
+
+/* el sol recorre el día y cada jornada deja su curva de generación */
+const solDays=()=>{let d="M0 60";for(let i=0;i<12;i++){const x=i*70;d+=`L${x+8} 60C${x+22} 60 ${x+26} 14 ${x+35} 14S${x+48} 60 ${x+62} 60L${x+70} 60`}return d};
+const vizSolar=()=>`<div class="viz" aria-label="Más de un millón de kWh de energía solar generados en 2025">
+  <svg class="sv-svg" viewBox="0 0 420 200" aria-hidden="true">
+    <path class="sky" d="M100 112A110 110 0 0 1 320 112"/>
+    <g class="sun-path"><g transform="translate(210 2)">${SUN}</g></g>
+    <path class="ground" d="M0 112H420"/>
+    <svg x="0" y="124" width="420" height="64" viewBox="0 0 420 64" preserveAspectRatio="none"><g class="sol-days"><path d="${solDays()} V64 H0Z"/></g></svg>
+  </svg>
+  <div class="sol-meter"><span class="caption">Energía solar generada · 2025</span>
+    <span class="sol-n">+<span data-target="1000000">0</span> <small>kWh</small></span></div>
+  ${cap("Más de un millón de kWh de energía solar a lo largo de 2025")}</div>`;
+
+/* la electricidad que llega por red, toda con garantía de origen renovable */
+const vizRed=()=>`<div class="viz" aria-label="El 100 % de la electricidad de red de los edificios asistenciales es renovable">
+  <svg class="sv-svg" viewBox="0 0 420 180" aria-hidden="true">
+    <g class="pylon"><path d="M48 160L66 40L84 160M54 120H78M58 90H74M62 60H70M38 62H94M42 82H90M66 40V28"/></g>
+    <path class="flow cable" d="M94 62C150 62 150 96 196 96M244 96C290 96 290 110 330 110"/>
+    <g class="ring"><circle class="r0" cx="220" cy="96" r="44"/><circle class="r1" cx="220" cy="96" r="44" pathLength="1"/>
+      <text class="sv-big" x="220" y="104">100 %</text></g>
+    <g class="hosp"><rect x="330" y="80" width="64" height="80"/><path d="M362 96v18M353 105h18M348 160v-22h28v22"/></g>
+    <text class="sv-t" x="66" y="176">Red</text><text class="sv-t" x="362" y="176">Edificios</text>
+  </svg>
+  <div class="seal"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS.seal}</svg><span class="caption">Con garantías de origen renovable</span></div>
+  ${cap("Toda la electricidad que llega por red a los edificios asistenciales es renovable")}</div>`;
 
 /* consumos: tres señales en directo, como un panel de monitorización */
 const spark=(seed,amp)=>{let d="M0 20",y=20,r=seed;for(let x=8;x<=800;x+=8){r=(r*9301+49297)%233280;
@@ -1291,11 +1414,11 @@ const SPLITS={
   ],
   sostenibilidad:[
     {num:"14",label:"edificios fotovoltaicos",sub:"Edificios asistenciales con paneles fotovoltaicos para autoconsumo.",
-     viz:()=>vizEnergia("paneles")},
+     viz:vizEdificios},
     {num:"+1 M",label:"kWh de energía solar",sub:"Más de un millón de kWh de energía solar generados durante 2025.",
-     viz:()=>vizEnergia("solar")},
+     viz:vizSolar},
     {num:"100 %",label:"electricidad renovable",sub:"La electricidad suministrada por red a los edificios asistenciales, con garantías de origen.",
-     viz:()=>vizEnergia("red")},
+     viz:vizRed},
     {num:"11",label:"centros monitorizados",sub:"Monitorización continua de los consumos de electricidad, gas y agua.",
      viz:vizConsumos},
     {num:"8",label:"centros con aerotermia",sub:"Sustitución de calderas por aerotermia, reduciendo el uso de combustibles fósiles.",
@@ -1311,6 +1434,7 @@ function selectDatum(id,i){
   const d=SPLITS[id][i];
   grid.querySelector(".viz-holder").innerHTML=d.viz()+story(d.story);
   requestAnimationFrame(paintPlantillas);
+  grid.querySelectorAll(".viz-holder [data-target]").forEach(n=>countUp(n,1800));
 }
 function renderSplit(id){
   const grid=document.getElementById(id+"-grid");
@@ -1430,6 +1554,7 @@ function setSection(id){
   const order=[...document.querySelectorAll(".tab")].map(t=>t.dataset.tab);
   const pad=n=>String(n).padStart(2,"0");
   head.sub.textContent=s.sub;head.sub.hidden=!s.sub;head.idx.textContent=`${pad(order.indexOf(id)+1)} / ${pad(order.length)}`;
+  document.getElementById("pulso").hidden=id!=="indicadores";
   if(id==="indicadores"){defaultCore();requestAnimationFrame(()=>wireUp())}else stopTour();
   if(id==="hitos")requestAnimationFrame(()=>drawChrono(id,true));
   if(SPLITS[id])selectDatum(id,0);
@@ -1447,15 +1572,15 @@ requestAnimationFrame(()=>wireUp());
 /* ================= fotos por sección (propuesta, Unsplash) ================= */
 const UNS=id=>`https://images.unsplash.com/photo-${id}?w=1800&q=70&auto=format&fit=crop`;
 const PHOTOS={
-  sociedad:{id:"1465847899084-d164df4dedc6",pos:"50% 40%",alt:"Músicos tocando el violín"},
-  personas:{id:"1631217868264-e5b90bb7e133",pos:"50% 30%",alt:"Una doctora atiende a una paciente"},
-  cliente:{id:"1576091160399-112ba8d25d1d",pos:"50% 55%",alt:"Profesional sanitario consultando el móvil"},
+  sociedad:{id:"1465821185615-20b3c2fbf41b",pos:"50% 30%",alt:"Una violinista tocando"},
+  personas:{id:"1631217873436-b0fa88e71f0a",pos:"50% 28%",alt:"Un médico conversa con dos pacientes"},
+  cliente:{id:"1576765608535-5f04d1e3f289",pos:"50% 30%",alt:"Una doctora atiende a una paciente en consulta"},
   sostenibilidad:{id:"1509391366360-2e959784a276",pos:"50% 60%",alt:"Paneles fotovoltaicos bajo el cielo"},
-  innovacion:{id:"1504439468489-c8920d796a29",pos:"50% 35%",alt:"Equipo quirúrgico en un quirófano"},
+  innovacion:{id:"1579684453423-f84349ef60b0",pos:"50% 35%",alt:"Equipo quirúrgico durante una intervención"},
 };
 Object.entries(PHOTOS).forEach(([id,f])=>{
   const fig=document.createElement("figure");fig.className="photo-band";
-  fig.innerHTML=`<img src="${UNS(f.id)}" alt="${f.alt}" loading="lazy" style="object-position:${f.pos}"><span class="photo-tag">Propuesta · foto de muestra</span>`;
+  fig.innerHTML=`<img src="${UNS(f.id)}" alt="${f.alt}" loading="lazy" style="object-position:${f.pos}">`;
   document.querySelector(`#${id} .wrap`).prepend(fig);
 });
 
@@ -1473,10 +1598,18 @@ Object.entries(PHOTOS).forEach(([id,f])=>{
     document.body.classList.remove("intro-open");
     document.querySelector("main").inert=false;document.querySelector("header").inert=false;
     /* la portada de Indicadores se anima al entrar, no por debajo de la entrada */
-    const p=document.getElementById("indicadores");p.classList.remove("active");void p.offsetWidth;p.classList.add("active");
-    requestAnimationFrame(()=>wireUp());startCounts();
+    const p=document.getElementById("indicadores");
+    const reveal=()=>{p.classList.remove("active");void p.offsetWidth;p.classList.add("active");
+      requestAnimationFrame(()=>wireUp());startCounts();startPulso()};
     const fin=()=>{intro.hidden=true};
-    if(reduce)fin();else{intro.classList.add("out");intro.addEventListener("transitionend",fin,{once:true});setTimeout(fin,1200)}
+    if(reduce){reveal();fin()}
+    else{
+      intro.classList.add("out");
+      /* la portada empieza a componerse cuando la cortina ya se está abriendo */
+      setTimeout(reveal,650);
+      intro.addEventListener("transitionend",e=>{if(e.target===intro&&e.propertyName==="opacity")fin()});
+      setTimeout(fin,2400);
+    }
   };
   go.addEventListener("click",enter);
   addEventListener("keydown",e=>{if(!done&&(e.key==="Escape"||e.key==="Enter"))enter()});
