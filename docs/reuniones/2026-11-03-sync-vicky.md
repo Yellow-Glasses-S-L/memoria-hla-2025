@@ -26,3 +26,11 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Portada: las conexiones van por encima del contenedor central (el punto tapa el borde) y la activa se pinta la última.
 - Aerotermia: los ventiladores giran sobre su eje.
 - Fotos: propuesta con fotos de muestra de Unsplash en la entrada (de fondo) y en una franja al principio de Sociedad, Personas, Cliente, Sostenibilidad e Innovación, con tratamiento en violeta. Marcadas como «Propuesta». Para la versión final, mejor fotos propias de HLA.
+
+## Ronda 3 (04/11, feedback de Rebeca)
+
+- Entrada: el isotipo ya no se recorta mientras se arma.
+- Innovación: deja de ser una línea de tiempo (no son fechas, son logros). Ahora es un mosaico de tres piezas, cada una con su dibujo (brazos robóticos, TAC con la comparación de radiación, ciclo del Neptune 3) y su minimapa.
+- Cliente: se quita el chat de WhatsApp de abajo, que repetía lo de arriba. Queda solo el texto.
+- Indicadores: portada más viva. Pulsos rosa que viajan por las conexiones hacia el centro y recorrido automático por las cifras de 2025, que resalta la tarjeta y la línea de cada una. Se pausa con el ratón encima y se para al abrir un gráfico.
+- Sociedad: el dibujo de bioética alineado a la izquierda como el resto.
