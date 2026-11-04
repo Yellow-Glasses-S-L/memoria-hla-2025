@@ -17,6 +17,7 @@
   --violeta:#4D418A; --gris:#63666F; --azul:#639AB7; --agua:#A8D3CE; --rosa:#CF0C71;
   /* azul y verde agua de la carta: colores de apoyo en gráficos (nunca texto). El rosa sigue
      siendo el acento (Rebeca, 04/11). --azul-l es el azul casi blanco para fondos y rellenos */
+  --lila:#7261CA; /* morado claro de HLA Conecta (intranet v1), solo para el tratamiento de fotos */
   --azul-l:color-mix(in srgb,#639AB7 14%,#F4F3F1); --agua-l:color-mix(in srgb,#A8D3CE 35%,#F4F3F1);
   --paper:#F4F3F1; --paper2:#EAE9E6; --ink:#1F1D2B; --line:#DDDCD9; --mass:#C7C8CB;
   --display:'Antonio',sans-serif; --mono:'IBM Plex Mono',monospace;
@@ -440,31 +441,66 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   background:color-mix(in srgb,var(--rosa) 18%,var(--paper));border-top:2px solid var(--rosa)}
 .ce-mini .now i{background:var(--violeta);border-top-color:var(--violeta)}
 .ce-mini b{font-family:var(--mono);font-weight:400;font-size:.625rem;letter-spacing:.08em;color:var(--gris)}
-.pulso{flex:1 1 560px;max-width:880px;margin:26px 0 6px}
+.pulso{flex:1 1 640px;max-width:920px;margin:26px 0 6px}
 .pulso[hidden]{display:none}
 .pl-head{display:flex;align-items:center;gap:10px}
-.pl-row{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,2vw,28px);margin-top:12px}
+.pl-row{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.2vw,16px);margin-top:14px}
+/* 04/11 (ronda 5): más presencia, cada dato en su contenedor */
+#pulso .pl{border:1px solid var(--line);background:color-mix(in srgb,var(--paper2) 45%,var(--paper));
+  padding:clamp(16px,1.6vw,22px);display:flex;flex-direction:column;align-items:flex-start;gap:10px;position:relative;
+  transition:border-color .4s}
+#pulso .pl.hit{border-color:var(--rosa)}
+#pulso .pl-ring{position:absolute;top:clamp(14px,1.4vw,20px);right:clamp(14px,1.4vw,20px);width:34px;height:34px}
+#pulso .pl-n{font-size:clamp(2.75rem,4vw,3.75rem)}
 .pl{display:grid;grid-template-columns:40px auto;grid-template-rows:auto auto;column-gap:14px;align-items:center}
 .pl-ring{grid-row:1/3;width:40px;height:40px;rotate:-90deg}
+/* pegatina fija en el resto de páginas */
+.pl-sticker{position:fixed;z-index:40;right:clamp(12px,2vw,28px);bottom:calc(clamp(12px,2vw,28px) + env(safe-area-inset-bottom,0px));
+  background:var(--violeta);color:#fff;padding:10px 14px 12px;box-shadow:0 10px 30px -12px rgba(31,29,43,.45);
+  animation:rise .6s cubic-bezier(.16,1,.3,1)}
+.pl-sticker[hidden]{display:none}
+.pl-st-head{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.pl-st-row{display:flex;gap:16px;margin-top:6px}
+.pl-sticker .pl{grid-template-columns:22px auto;column-gap:8px}
+.pl-sticker .pl-ring{width:22px;height:22px}
+.pl-sticker .pl-ring circle{stroke:rgba(255,255,255,.25)}
+.pl-sticker .pl-ring .arc{stroke:#fff}
+.pl-sticker .pl-n{color:#fff;font-size:1.25rem}
+.pl-sticker .pl-t{color:#fff;font-size:.625rem}
+.pl-sticker .pl-t small{display:none}
+.pl-sticker .live{background:#fff}
+@media (max-width:720px){
+  .pl-sticker{left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+  .pl-st-row{justify-content:space-between;gap:10px}
+  .pl-sticker .pl{grid-template-columns:auto}
+  .pl-sticker .pl-ring{display:none}
+  .pl-sticker .pl-n{font-size:1.25rem}
+  body footer{padding-bottom:84px}
+}
 .pl-ring circle{fill:none;stroke:var(--line);stroke-width:2}
 .pl-ring .arc{stroke:var(--rosa);stroke-dasharray:1;stroke-dashoffset:1}
 .pl-n{font-family:var(--display);font-size:clamp(1.75rem,2.4vw,2.25rem);line-height:.9;color:var(--violeta);font-variant-numeric:tabular-nums}
 .pl-t{line-height:1.4}
 .pl-t small{display:block;font-size:.625rem;color:var(--gris);letter-spacing:.06em;text-transform:none}
-@media (max-width:900px){.pl-row{grid-template-columns:repeat(2,1fr);row-gap:18px}}
+@media (max-width:900px){.pl-row{grid-template-columns:repeat(2,1fr)}}
 @media (prefers-reduced-motion:no-preference){
   .o-dots{transform-box:view-box;transform-origin:0 0;animation:spin 60s linear infinite}
   .o-ring{animation:fadeIn 1s forwards;opacity:0}
   .ce-rot.in .ce-mini i{scale:1 0;animation:barY .7s cubic-bezier(.16,1,.3,1) forwards}
   .pl.hit .pl-n{animation:hit .9s cubic-bezier(.16,1,.3,1)}
   @keyframes hit{0%{color:var(--rosa);translate:0 -4px}100%{color:var(--violeta);translate:0 0}}
+  .pl-sticker .pl.hit .pl-n{animation:hitW .9s cubic-bezier(.16,1,.3,1)}
+  @keyframes hitW{0%{color:var(--agua);translate:0 -3px}100%{color:#fff;translate:0 0}}
 }
-@media (prefers-reduced-motion:reduce){.pl-ring{display:none}.pl{grid-template-columns:auto}}
+@media (prefers-reduced-motion:reduce){.pl-ring{display:none!important}.pl{grid-template-columns:auto}.sv-svg .bld .win{fill-opacity:1}}
 
 /* ============ SOSTENIBILIDAD: energía, un dibujo por dato (04/11) ============ */
 .sv-svg{width:100%;max-width:520px;height:auto;overflow:visible}
-.sv-svg .bld rect{fill:var(--paper);stroke:var(--violeta);stroke-width:1.2}
-.sv-svg .bld path:not(.panel-t){stroke:var(--mass);stroke-width:1.2;fill:none}
+.bld-svg{max-width:640px}
+.sv-svg .bld .wall{fill:color-mix(in srgb,var(--violeta) 8%,var(--paper));stroke:var(--violeta);stroke-width:1.5}
+.sv-svg .bld .win{fill:var(--agua)}
+.sv-svg .pv-p{fill:var(--azul);stroke:var(--azul);stroke-width:1.5;stroke-linejoin:round}
+.sv-svg .pv-l{fill:none;stroke:var(--azul-l);stroke-width:1}
 .sv-svg .sky{fill:none;stroke:var(--line);stroke-dasharray:3 5}
 .sv-svg .ground{stroke:var(--ink);stroke-width:1}
 .sol-days path{fill:var(--azul-l);stroke:var(--azul);stroke-width:1.5;vector-effect:non-scaling-stroke}
@@ -483,7 +519,11 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .seal{display:flex;align-items:center;gap:10px;margin-top:16px}
 .seal svg{width:24px;height:24px;fill:none;stroke:var(--violeta);stroke-width:1.5}
 @media (prefers-reduced-motion:no-preference){
-  .sv-svg .bld{opacity:0;animation:fadeIn .4s forwards}
+  .sv-svg .bld{opacity:0;animation:fadeIn .5s forwards}
+  .sv-svg .pv{opacity:0;translate:0 -14px;animation:pvIn .5s cubic-bezier(.34,1.4,.64,1) forwards}
+  @keyframes pvIn{to{opacity:1;translate:0 0}}
+  .sv-svg .bld .win{fill-opacity:.2;animation:winOn .5s forwards}
+  @keyframes winOn{to{fill-opacity:1}}
   .sun-path{transform-box:view-box;transform-origin:210px 112px;animation:day 7s ease-in-out infinite}
   @keyframes day{0%{rotate:-62deg;opacity:0}8%{opacity:1}92%{opacity:1}100%{rotate:62deg;opacity:0}}
   .sol-days{animation:slideD 7s linear infinite}
@@ -622,10 +662,12 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   .intro-note{animation-delay:1.3s!important}
   /* 04/11: la salida era brusca. Primero se retira el contenido, luego la cortina se desvanece
      dejando ver la portada, que se va componiendo debajo */
-  .intro{transition:opacity 1.4s .5s cubic-bezier(.4,0,.2,1)}
+  /* 04/11 (ronda 5): vuelve el telón que sube, pero sin prisa: primero se retira el contenido
+     y luego la cortina se levanta despacio dejando ver la portada */
+  .intro{transition:transform 1.8s .45s cubic-bezier(.65,0,.25,1)}
   .intro-in{transition:opacity .7s cubic-bezier(.4,0,.2,1),translate .9s cubic-bezier(.4,0,.2,1)}
   .intro-bg,.intro-photo{transition:scale 2s cubic-bezier(.16,1,.3,1)}
-  .intro.out{opacity:0;pointer-events:none}
+  .intro.out{transform:translateY(-100%);pointer-events:none}
   .intro.out .intro-in{opacity:0;translate:0 -24px}
   .intro.out .intro-bg,.intro.out .intro-photo{scale:1.06}
 }
@@ -636,9 +678,15 @@ body.intro-open{overflow:hidden}
    Tratamiento único en violeta: unifica fotos de origen distinto con la marca. Cuando HLA pase
    sus fotos se cambian en PHOTOS y se quita la etiqueta de propuesta */
 .photo-band{position:relative;margin:0 0 clamp(40px,5vw,72px);height:clamp(180px,22vw,320px);
-  overflow:hidden;background:var(--paper2)}
-/* 04/11: el violeta en las franjas quedaba brusco; van en color natural, apenas atemperado */
-.photo-band img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.88) contrast(1.02)}
+  overflow:hidden;background:var(--lila)}
+/* 04/11 (ronda 5): el violeta de marca quedaba brusco. Se prueba el morado claro de la primera
+   versión de la intranet (HLA Conecta, #7261CA). Por defecto, difuminado: la foto en color y el lila
+   entrando desde la izquierda. Con ?fotos=lila, la foto entera teñida de lila */
+.photo-band img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9)}
+.photo-band::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--lila) 88%,transparent) 0%,color-mix(in srgb,var(--lila) 45%,transparent) 38%,transparent 72%)}
+.fotos-lila .photo-band img{filter:grayscale(1) contrast(1.05) brightness(1.08);mix-blend-mode:luminosity;opacity:.85}
+.fotos-lila .photo-band::after{display:none}
 .intro-photo{width:100%;height:100%;object-fit:cover;display:block;
   filter:grayscale(1) contrast(1.1);mix-blend-mode:luminosity}
 .intro-photo{position:absolute;inset:0;opacity:.22}
@@ -702,7 +750,6 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
     <p class="intro-lema">Medicina. Experiencia. Personas.</p>
     <p class="intro-msg">Un diagnóstico a tiempo. Una cirugía precisa. Una música que acompaña. Así se escribe un año cuidando a las personas.</p>
     <button class="intro-go" id="introGo">Entrar <span aria-hidden="true">→</span></button>
-    <span class="intro-note">Texto de bienvenida propuesto · pendiente de validar con HLA</span>
   </div>
 </div>
 
@@ -966,25 +1013,38 @@ const YEAR_S=365*24*3600;
 const PULSO=[["citas","consultas"],["dxi","pruebas diagnósticas"],["urg","urgencias"],["cir","cirugías"]]
   .map(([id,t])=>({id,t,every:YEAR_S/byId(id).vals.at(-1)}));
 let pulsoT0=null,pulsoRaf=null;
-function renderPulso(){
-  document.getElementById("pulso").innerHTML=`<div class="pl-head"><span class="live"></span>
-    <span class="caption">Desde que entraste, al ritmo medio de 2025 en la red HLA</span></div>
-    <div class="pl-row">${PULSO.map((x,i)=>`<div class="pl" data-i="${i}">
+const plItem=(x,i)=>`<div class="pl" data-i="${i}">
       <svg class="pl-ring" viewBox="0 0 40 40" aria-hidden="true"><circle r="17" cx="20" cy="20"/><circle class="arc" r="17" cx="20" cy="20" pathLength="1"/></svg>
       <span class="pl-n">0</span><span class="pl-t caption">${x.t}<small>una cada ${x.every<60?Math.round(x.every)+" s":(x.every/60).toFixed(1).replace(".",",")+" min"}</small></span>
-    </div>`).join("")}</div>`;
+    </div>`;
+function renderPulso(){
+  /* pegatina: el mismo contador sigue contigo por el resto de la memoria */
+  const st=document.createElement("aside");st.className="pl-sticker";st.id="plSticker";st.hidden=true;
+  st.setAttribute("aria-label","Actividad de la red HLA desde que entraste, al ritmo medio de 2025");
+  st.innerHTML=`<span class="pl-st-head"><span class="live"></span><span>Desde que entraste · ritmo medio 2025</span></span>
+    <div class="pl-st-row">${PULSO.map(plItem).join("")}</div>`;
+  document.body.append(st);
+  document.getElementById("pulso").innerHTML=`<div class="pl-head"><span class="live"></span>
+    <span class="caption">Desde que entraste, al ritmo medio de 2025 en la red HLA</span></div>
+    <div class="pl-row">${PULSO.map(plItem).join("")}</div>`;
 }
 function startPulso(){
   if(pulsoT0)return;pulsoT0=performance.now();
-  const nodes=[...document.querySelectorAll("#pulso .pl")];
+  const groups=PULSO.map((x,i)=>[...document.querySelectorAll(`.pl[data-i="${i}"]`)]);
   const last=PULSO.map(()=>0);
+  /* la pegatina aparece cuando el contador de la portada no está a la vista */
+  const st=document.getElementById("plSticker");
+  new IntersectionObserver(([e])=>{st.hidden=e.isIntersecting}).observe(document.getElementById("pulso"));
   (function tick(t){
     const el=(t-pulsoT0)/1000;
     PULSO.forEach((x,i)=>{
-      const n=Math.floor(el/x.every), f=(el%x.every)/x.every, node=nodes[i];
-      if(n!==last[i]){last[i]=n;node.querySelector(".pl-n").textContent=fmt(n);
-        node.classList.remove("hit");void node.offsetWidth;node.classList.add("hit")}
-      if(!reduce)node.querySelector(".arc").style.strokeDashoffset=(1-f).toFixed(4);
+      const n=Math.floor(el/x.every), f=(el%x.every)/x.every;
+      groups[i].forEach(node=>{
+        if(n!==last[i]){node.querySelector(".pl-n").textContent=fmt(n);
+          node.classList.remove("hit");void node.offsetWidth;node.classList.add("hit")}
+        if(!reduce)node.querySelector(".arc").style.strokeDashoffset=(1-f).toFixed(4);
+      });
+      last[i]=n;
     });
     pulsoRaf=requestAnimationFrame(tick);
   })(pulsoT0);
@@ -1313,12 +1373,15 @@ const SUN=`<g class="sun"><circle cx="0" cy="0" r="13"/><g class="rays">${Array.
   `<path d="M0 -19V-26" transform="rotate(${i*45})"/>`).join("")}</g></g>`;
 /* 04/11: los tres datos de energía compartían dibujo y al cambiar de pestaña no pasaba nada.
    Ahora cada uno cuenta lo suyo: los tejados que se cubren, el sol que genera, la red que llega limpia */
+/* ronda 5: más grandes y más claros. Cada edificio recibe su panel y se le encienden las ventanas */
 const vizEdificios=()=>`<div class="viz" aria-label="14 edificios asistenciales con paneles fotovoltaicos para autoconsumo">
-  <svg class="sv-svg" viewBox="0 0 420 170" aria-hidden="true"><g transform="translate(404 -8)">${SUN}</g>
-  ${Array.from({length:14},(_,i)=>{const x=6+(i%7)*58, yb=i<7?92:162, h=i%3?34:44, d=(.3+i*.12).toFixed(2);
-    return `<g class="bld"><rect x="${x}" y="${yb-h}" width="44" height="${h}"/>
-      <path d="M${x+10} ${yb-h+12}h6M${x+28} ${yb-h+12}h6M${x+10} ${yb-h+24}h6M${x+28} ${yb-h+24}h6"/>
-      <path class="panel-t" style="animation-delay:${d}s" d="M${x+3} ${yb-h-2}L${x+9} ${yb-h-12}H${x+41}L${x+35} ${yb-h-2}Z"/></g>`}).join("")}</svg>
+  <svg class="sv-svg bld-svg" viewBox="0 0 430 230" aria-hidden="true"><g transform="translate(412 6)">${SUN}</g>
+  ${Array.from({length:14},(_,i)=>{const x=4+(i%7)*60, yb=i<7?110:226, h=[50,64,44,58,70,48,60][(i*3)%7], d=(.35+i*.14);
+    let win="";for(let r=0;r<Math.floor((h-14)/14);r++)for(let c=0;c<3;c++)win+=`<rect class="win" x="${x+9+c*12}" y="${yb-h+12+r*14}" width="7" height="7" style="animation-delay:${(d+.45).toFixed(2)}s"/>`;
+    return `<g class="bld" style="animation-delay:${(i*.04).toFixed(2)}s"><rect class="wall" x="${x}" y="${yb-h}" width="50" height="${h}"/>${win}
+      <g class="pv" style="animation-delay:${d.toFixed(2)}s"><path class="pv-p" d="M${x+2} ${yb-h-3}L${x+9} ${yb-h-16}H${x+48}L${x+41} ${yb-h-3}Z"/>
+      <path class="pv-l" d="M${x+15} ${yb-h-16}L${x+8} ${yb-h-3}M${x+28} ${yb-h-16}L${x+21} ${yb-h-3}M${x+41} ${yb-h-16}L${x+34} ${yb-h-3}M${x+5} ${yb-h-9}H${x+44}"/></g></g>`}).join("")}
+  <path class="ground" d="M0 110.5H430M0 226.5H430"/></svg>
   ${cap("14 edificios asistenciales producen su propia energía con paneles fotovoltaicos")}</div>`;
 
 /* el sol recorre el día y cada jornada deja su curva de generación */
@@ -1572,12 +1635,13 @@ requestAnimationFrame(()=>wireUp());
 /* ================= fotos por sección (propuesta, Unsplash) ================= */
 const UNS=id=>`https://images.unsplash.com/photo-${id}?w=1800&q=70&auto=format&fit=crop`;
 const PHOTOS={
-  sociedad:{id:"1465821185615-20b3c2fbf41b",pos:"50% 30%",alt:"Una violinista tocando"},
-  personas:{id:"1631217873436-b0fa88e71f0a",pos:"50% 28%",alt:"Un médico conversa con dos pacientes"},
-  cliente:{id:"1576765608535-5f04d1e3f289",pos:"50% 30%",alt:"Una doctora atiende a una paciente en consulta"},
+  sociedad:{id:"1581056771107-24ca5f033842",pos:"50% 12%",alt:"Un médico conversa con una paciente ingresada"},
+  personas:{id:"1666214277657-e60f05c40b04",pos:"50% 40%",alt:"Profesionales sanitarios revisan pruebas de imagen"},
+  cliente:{id:"1666214280557-f1b5022eb634",pos:"50% 18%",alt:"Una doctora explica unas pruebas a un paciente"},
   sostenibilidad:{id:"1509391366360-2e959784a276",pos:"50% 60%",alt:"Paneles fotovoltaicos bajo el cielo"},
   innovacion:{id:"1579684453423-f84349ef60b0",pos:"50% 35%",alt:"Equipo quirúrgico durante una intervención"},
 };
+if(new URLSearchParams(location.search).get("fotos")==="lila")document.body.classList.add("fotos-lila");
 Object.entries(PHOTOS).forEach(([id,f])=>{
   const fig=document.createElement("figure");fig.className="photo-band";
   fig.innerHTML=`<img src="${UNS(f.id)}" alt="${f.alt}" loading="lazy" style="object-position:${f.pos}">`;
@@ -1606,9 +1670,9 @@ Object.entries(PHOTOS).forEach(([id,f])=>{
     else{
       intro.classList.add("out");
       /* la portada empieza a componerse cuando la cortina ya se está abriendo */
-      setTimeout(reveal,650);
-      intro.addEventListener("transitionend",e=>{if(e.target===intro&&e.propertyName==="opacity")fin()});
-      setTimeout(fin,2400);
+      setTimeout(reveal,900);
+      intro.addEventListener("transitionend",e=>{if(e.target===intro&&e.propertyName==="transform")fin()});
+      setTimeout(fin,2800);
     }
   };
   go.addEventListener("click",enter);

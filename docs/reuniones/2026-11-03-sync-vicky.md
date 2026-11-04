@@ -42,3 +42,10 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Fotos: sin etiqueta de «propuesta», en color natural en lugar del violeta, y cambiadas las de Sociedad, Personas, Cliente e Innovación por otras donde se ven bien las caras. Siguen siendo de Unsplash.
 - Indicadores: los 18 hospitales giran en órbita alrededor del isotipo, cada cifra del recorrido lleva su evolución de tres años en miniatura, y bajo el título hay contadores «desde que entraste» al ritmo medio de 2025 (consultas, pruebas, urgencias, cirugías). Es una media del año, no un dato en tiempo real, y así lo dice.
 - Sostenibilidad: los tres datos de energía ya no comparten dibujo. Edificios con paneles que se van colocando, el sol que recorre el día con la curva de generación y el contador de kWh, y la red que llega a los edificios con el anillo del 100 % renovable.
+
+## Ronda 5 (04/11, feedback de Rebeca)
+
+- Entrada: el subtítulo se queda. Fuera la nota de «pendiente de validar». Vuelve el telón que sube, pero lento (unos 2,2 s), con el contenido retirándose antes.
+- Fotos: Sociedad pasa a una escena de hospital (médico con una paciente ingresada), Personas a dos profesionales revisando pruebas, Cliente a una doctora explicando unas pruebas. Sostenibilidad e Innovación se quedan. Tratamiento con el morado claro de la intranet v1 (`#7261CA`): por defecto difuminado desde la izquierda; con `?fotos=lila` en la URL, la foto entera teñida.
+- Indicadores: los contadores «desde que entraste» van en contenedores con cifra grande. Al salir de la portada (o al bajar), el contador sigue como pegatina violeta abajo a la derecha (barra inferior en móvil) en todas las páginas.
+- Sostenibilidad: los 14 edificios, más grandes, con el panel cayendo sobre cada tejado y las ventanas encendiéndose.
