@@ -56,3 +56,4 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Contador: un cronómetro «llevas aquí» como primera pieza, en violeta en la portada y separado por una línea en la pegatina, para comparar el tiempo que pasa con lo que pasa en la red. El borde rosa de cada dato solo destella al saltar, ya no se queda fijo.
 - Subtítulo de entrada: aprobado por Rebeca.
 - No se publica todavía.
+- Innovación: la cifra de cada pieza (3 robots, 2 TAC) sube a la esquina superior derecha, a la altura del dibujo. En móvil queda arriba a la derecha, encima del dibujo.
