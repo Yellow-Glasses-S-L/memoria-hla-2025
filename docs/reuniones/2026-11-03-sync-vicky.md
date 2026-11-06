@@ -67,3 +67,4 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Rebeca da por buenos el contador en carpeta y las cifras de Innovación. Personas sigue sin foto que la convenza.
 - Personas: pasa a la foto 08 (doctora rubia con gafas), elegida por Rebeca. Al ser vertical, en escritorio el encuadre queda cerrado en la cara.
 - Personas: la 08 se veía borrosa porque el archivo era una copia reducida y muy comprimida (78 KB). Se sustituye por el original de Pexels a 3000 × 4500 px. La copia mala queda en `material/fotos/candidatas-2026-11-06/historico/`.
+- Fotos (tanda 2, 14 candidatas en `material/fotos/candidatas-2026-11-06b/`, todas en alta resolución): Personas pasa a la 13 (equipo formándose alrededor de un esqueleto, iStock). Propuestas para Innovación como alternativa: la 12 (equipo quirúrgico), la 11 (quirófano en plano abierto) y la 16 (cirujano con lupas). La hoja comparativa está en `capturas/r13-candidatas-*.png`.
