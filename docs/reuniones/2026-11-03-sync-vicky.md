@@ -49,3 +49,10 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Fotos: Sociedad pasa a una escena de hospital (médico con una paciente ingresada), Personas a dos profesionales revisando pruebas, Cliente a una doctora explicando unas pruebas. Sostenibilidad e Innovación se quedan. Tratamiento con el morado claro de la intranet v1 (`#7261CA`): por defecto difuminado desde la izquierda; con `?fotos=lila` en la URL, la foto entera teñida.
 - Indicadores: los contadores «desde que entraste» van en contenedores con cifra grande. Al salir de la portada (o al bajar), el contador sigue como pegatina violeta abajo a la derecha (barra inferior en móvil) en todas las páginas.
 - Sostenibilidad: los 14 edificios, más grandes, con el panel cayendo sobre cada tejado y las ventanas encendiéndose.
+
+## Ronda 6 (06/11, feedback de Rebeca)
+
+- Fotos: se queda el difuminado lila. Fuera la variante teñida (`?fotos=lila`). Las fotos siguen sin convencer: Rebeca busca otras.
+- Contador: un cronómetro «llevas aquí» como primera pieza, en violeta en la portada y separado por una línea en la pegatina, para comparar el tiempo que pasa con lo que pasa en la red. El borde rosa de cada dato solo destella al saltar, ya no se queda fijo.
+- Subtítulo de entrada: aprobado por Rebeca.
+- No se publica todavía.

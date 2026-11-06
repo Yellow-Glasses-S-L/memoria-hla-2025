@@ -444,12 +444,17 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .pulso{flex:1 1 640px;max-width:920px;margin:26px 0 6px}
 .pulso[hidden]{display:none}
 .pl-head{display:flex;align-items:center;gap:10px}
-.pl-row{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.2vw,16px);margin-top:14px}
+.pl-row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.2vw,16px);margin-top:14px}
 /* 04/11 (ronda 5): más presencia, cada dato en su contenedor */
 #pulso .pl{border:1px solid var(--line);background:color-mix(in srgb,var(--paper2) 45%,var(--paper));
   padding:clamp(16px,1.6vw,22px);display:flex;flex-direction:column;align-items:flex-start;gap:10px;position:relative;
   transition:border-color .4s}
 #pulso .pl.hit{border-color:var(--rosa)}
+#pulso .pl-clock{background:var(--violeta);border-color:var(--violeta)}
+#pulso .pl-clock .pl-n,#pulso .pl-clock .pl-t{color:#fff}
+#pulso .pl-clock .pl-t small{color:rgba(255,255,255,.7)}
+.pl-clock .pl-n{min-width:3.4ch}
+.pl-sticker .pl-clock{display:flex;flex-direction:column;align-items:flex-start;gap:2px;white-space:nowrap;padding-right:16px;border-right:1px solid rgba(255,255,255,.3)}
 #pulso .pl-ring{position:absolute;top:clamp(14px,1.4vw,20px);right:clamp(14px,1.4vw,20px);width:34px;height:34px}
 #pulso .pl-n{font-size:clamp(2.75rem,4vw,3.75rem)}
 .pl{display:grid;grid-template-columns:40px auto;grid-template-rows:auto auto;column-gap:14px;align-items:center}
@@ -471,7 +476,8 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .pl-sticker .live{background:#fff}
 @media (max-width:720px){
   .pl-sticker{left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
-  .pl-st-row{justify-content:space-between;gap:10px}
+  .pl-st-row{justify-content:space-between;gap:8px}
+  .pl-sticker .pl-clock{padding-right:8px;white-space:normal}
   .pl-sticker .pl{grid-template-columns:auto}
   .pl-sticker .pl-ring{display:none}
   .pl-sticker .pl-n{font-size:1.25rem}
@@ -482,7 +488,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .pl-n{font-family:var(--display);font-size:clamp(1.75rem,2.4vw,2.25rem);line-height:.9;color:var(--violeta);font-variant-numeric:tabular-nums}
 .pl-t{line-height:1.4}
 .pl-t small{display:block;font-size:.625rem;color:var(--gris);letter-spacing:.06em;text-transform:none}
-@media (max-width:900px){.pl-row{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:900px){.pl-row{grid-template-columns:repeat(2,1fr)}#pulso .pl-clock{grid-column:1/-1}}
 @media (prefers-reduced-motion:no-preference){
   .o-dots{transform-box:view-box;transform-origin:0 0;animation:spin 60s linear infinite}
   .o-ring{animation:fadeIn 1s forwards;opacity:0}
@@ -685,8 +691,6 @@ body.intro-open{overflow:hidden}
 .photo-band img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9)}
 .photo-band::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(90deg,color-mix(in srgb,var(--lila) 88%,transparent) 0%,color-mix(in srgb,var(--lila) 45%,transparent) 38%,transparent 72%)}
-.fotos-lila .photo-band img{filter:grayscale(1) contrast(1.05) brightness(1.08);mix-blend-mode:luminosity;opacity:.85}
-.fotos-lila .photo-band::after{display:none}
 .intro-photo{width:100%;height:100%;object-fit:cover;display:block;
   filter:grayscale(1) contrast(1.1);mix-blend-mode:luminosity}
 .intro-photo{position:absolute;inset:0;opacity:.22}
@@ -1013,6 +1017,12 @@ const YEAR_S=365*24*3600;
 const PULSO=[["citas","consultas"],["dxi","pruebas diagnósticas"],["urg","urgencias"],["cir","cirugías"]]
   .map(([id,t])=>({id,t,every:YEAR_S/byId(id).vals.at(-1)}));
 let pulsoT0=null,pulsoRaf=null;
+/* 06/11: un cronómetro desde que entras, para comparar el tiempo que pasa con lo que pasa en la red */
+const plClock=`<div class="pl pl-clock">
+      <span class="pl-n" data-clock>0:00</span><span class="pl-t caption">llevas aquí<small>desde que entraste</small></span>
+    </div>`;
+const fmtClock=s=>{const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=String(s%60).padStart(2,"0");
+  return h?`${h}:${String(m).padStart(2,"0")}:${x}`:`${m}:${x}`};
 const plItem=(x,i)=>`<div class="pl" data-i="${i}">
       <svg class="pl-ring" viewBox="0 0 40 40" aria-hidden="true"><circle r="17" cx="20" cy="20"/><circle class="arc" r="17" cx="20" cy="20" pathLength="1"/></svg>
       <span class="pl-n">0</span><span class="pl-t caption">${x.t}<small>una cada ${x.every<60?Math.round(x.every)+" s":(x.every/60).toFixed(1).replace(".",",")+" min"}</small></span>
@@ -1022,26 +1032,29 @@ function renderPulso(){
   const st=document.createElement("aside");st.className="pl-sticker";st.id="plSticker";st.hidden=true;
   st.setAttribute("aria-label","Actividad de la red HLA desde que entraste, al ritmo medio de 2025");
   st.innerHTML=`<span class="pl-st-head"><span class="live"></span><span>Desde que entraste · ritmo medio 2025</span></span>
-    <div class="pl-st-row">${PULSO.map(plItem).join("")}</div>`;
+    <div class="pl-st-row">${plClock}${PULSO.map(plItem).join("")}</div>`;
   document.body.append(st);
   document.getElementById("pulso").innerHTML=`<div class="pl-head"><span class="live"></span>
     <span class="caption">Desde que entraste, al ritmo medio de 2025 en la red HLA</span></div>
-    <div class="pl-row">${PULSO.map(plItem).join("")}</div>`;
+    <div class="pl-row">${plClock}${PULSO.map(plItem).join("")}</div>`;
 }
 function startPulso(){
   if(pulsoT0)return;pulsoT0=performance.now();
   const groups=PULSO.map((x,i)=>[...document.querySelectorAll(`.pl[data-i="${i}"]`)]);
   const last=PULSO.map(()=>0);
+  const clocks=[...document.querySelectorAll("[data-clock]")];let lastS=-1;
   /* la pegatina aparece cuando el contador de la portada no está a la vista */
   const st=document.getElementById("plSticker");
   new IntersectionObserver(([e])=>{st.hidden=e.isIntersecting}).observe(document.getElementById("pulso"));
   (function tick(t){
-    const el=(t-pulsoT0)/1000;
+    const el=(t-pulsoT0)/1000, sec=Math.floor(el);
+    if(sec!==lastS){lastS=sec;const txt=fmtClock(sec);clocks.forEach(c=>c.textContent=txt)}
     PULSO.forEach((x,i)=>{
       const n=Math.floor(el/x.every), f=(el%x.every)/x.every;
       groups[i].forEach(node=>{
         if(n!==last[i]){node.querySelector(".pl-n").textContent=fmt(n);
-          node.classList.remove("hit");void node.offsetWidth;node.classList.add("hit")}
+          node.classList.remove("hit");void node.offsetWidth;node.classList.add("hit");
+          clearTimeout(node._h);node._h=setTimeout(()=>node.classList.remove("hit"),1100)}
         if(!reduce)node.querySelector(".arc").style.strokeDashoffset=(1-f).toFixed(4);
       });
       last[i]=n;
@@ -1641,7 +1654,6 @@ const PHOTOS={
   sostenibilidad:{id:"1509391366360-2e959784a276",pos:"50% 60%",alt:"Paneles fotovoltaicos bajo el cielo"},
   innovacion:{id:"1579684453423-f84349ef60b0",pos:"50% 35%",alt:"Equipo quirúrgico durante una intervención"},
 };
-if(new URLSearchParams(location.search).get("fotos")==="lila")document.body.classList.add("fotos-lila");
 Object.entries(PHOTOS).forEach(([id,f])=>{
   const fig=document.createElement("figure");fig.className="photo-band";
   fig.innerHTML=`<img src="${UNS(f.id)}" alt="${f.alt}" loading="lazy" style="object-position:${f.pos}">`;
