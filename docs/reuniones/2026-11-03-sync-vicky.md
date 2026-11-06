@@ -65,3 +65,4 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Entrada: la foto se funde en violeta. Liso donde está el texto, solo asoma a la derecha, y más tenue.
 - Entrada: fuera el isotipo grande que giraba al fondo. Quedan la foto fundida en violeta y el isotipo pequeño que se arma arriba.
 - Rebeca da por buenos el contador en carpeta y las cifras de Innovación. Personas sigue sin foto que la convenza.
+- Personas: pasa a la foto 08 (doctora rubia con gafas), elegida por Rebeca. Al ser vertical, en escritorio el encuadre queda cerrado en la cara.
