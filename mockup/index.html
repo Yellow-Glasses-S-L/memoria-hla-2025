@@ -354,8 +354,8 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .lg:nth-child(3) .lg-top{order:2}
 .lg-top{display:flex;align-items:flex-start;justify-content:space-between;gap:clamp(16px,2vw,32px)}
 .lg-top .lg-art{flex:1;min-width:0}
-.lg-kpi{flex:none;text-align:right;max-width:17ch}
-.lg-kpi .lg-nl{margin-left:auto}
+.lg-kpi{flex:none;display:flex;align-items:flex-end;gap:14px;text-align:left}
+.lg-kpi .lg-nl{margin:0 0 4px;max-width:24ch}
 .lg-art{min-height:160px;display:flex;align-items:center}
 .lg-svg{width:100%;max-width:440px;height:auto;overflow:visible}
 .lg-svg path,.lg-svg circle,.lg-svg rect{fill:none;stroke:var(--violeta);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
@@ -394,7 +394,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 }
 @media (max-width:560px){
   .lg-top{flex-direction:column-reverse;align-items:stretch;gap:8px}
-  .lg-kpi{align-self:flex-end}
+  .lg-kpi{align-self:flex-start}
 }
 @media (prefers-reduced-motion:no-preference){
   .panel.active .lg{opacity:0;translate:0 18px;animation:rise .6s cubic-bezier(.16,1,.3,1) forwards}
@@ -449,31 +449,27 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   background:color-mix(in srgb,var(--rosa) 18%,var(--paper));border-top:2px solid var(--rosa)}
 .ce-mini .now i{background:var(--violeta);border-top-color:var(--violeta)}
 .ce-mini b{font-family:var(--mono);font-weight:400;font-size:.625rem;letter-spacing:.08em;color:var(--gris)}
-.pulso{flex:1 1 640px;max-width:920px;margin:26px 0 6px}
-.pulso[hidden]{display:none}
-.pl-head{display:flex;align-items:center;gap:10px}
-.pl-row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.2vw,16px);margin-top:14px}
-/* 04/11 (ronda 5): más presencia, cada dato en su contenedor */
-#pulso .pl{border:1px solid var(--line);background:color-mix(in srgb,var(--paper2) 45%,var(--paper));
-  padding:clamp(16px,1.6vw,22px);display:flex;flex-direction:column;align-items:flex-start;gap:10px;position:relative;
-  transition:border-color .4s}
-#pulso .pl.hit{border-color:var(--rosa)}
-#pulso .pl-clock{background:var(--violeta);border-color:var(--violeta)}
-#pulso .pl-clock .pl-n,#pulso .pl-clock .pl-t{color:#fff}
-#pulso .pl-clock .pl-t small{color:rgba(255,255,255,.7)}
-.pl-clock .pl-n{min-width:3.4ch}
-.pl-sticker .pl-clock{display:flex;flex-direction:column;align-items:flex-start;gap:2px;white-space:nowrap;padding-right:16px;border-right:1px solid rgba(255,255,255,.3)}
-#pulso .pl-ring{position:absolute;top:clamp(14px,1.4vw,20px);right:clamp(14px,1.4vw,20px);width:34px;height:34px}
-#pulso .pl-n{font-size:clamp(2.75rem,4vw,3.75rem)}
 .pl{display:grid;grid-template-columns:40px auto;grid-template-rows:auto auto;column-gap:14px;align-items:center}
 .pl-ring{grid-row:1/3;width:40px;height:40px;rotate:-90deg}
-/* pegatina fija en el resto de páginas */
-.pl-sticker{position:fixed;z-index:40;right:clamp(12px,2vw,28px);bottom:calc(clamp(12px,2vw,28px) + env(safe-area-inset-bottom,0px));
-  background:var(--violeta);color:#fff;padding:10px 14px 12px;box-shadow:0 10px 30px -12px rgba(31,29,43,.45);
-  animation:rise .6s cubic-bezier(.16,1,.3,1)}
+/* 06/11: contador en carpeta plegable, abajo a la derecha en todas las páginas */
+.pl-sticker{position:fixed;z-index:40;right:clamp(12px,2vw,28px);bottom:0;color:#fff;
+  transform:translateY(100%);transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.pl-sticker.open{transform:none}
 .pl-sticker[hidden]{display:none}
-.pl-st-head{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
-.pl-st-row{display:flex;gap:16px;margin-top:6px}
+.pl-tab{position:absolute;bottom:100%;right:0;appearance:none;border:0;cursor:pointer;color:#fff;
+  background:var(--violeta);display:flex;align-items:center;gap:10px;white-space:nowrap;
+  padding:9px 14px 8px 30px;clip-path:polygon(16px 0,100% 0,100% 100%,0 100%);
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase}
+.pl-tab:hover{background:color-mix(in srgb,var(--violeta) 88%,#000)}
+.pl-tab:focus-visible{outline:2px solid var(--rosa);outline-offset:2px}
+.pl-tab b{font-family:var(--display);font-weight:400;font-size:1.125rem;letter-spacing:.02em;font-variant-numeric:tabular-nums;line-height:1}
+.pl-tab-t{opacity:.8}
+.pl-chev{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:1.6;transition:rotate .4s}
+.pl-sticker.open .pl-chev{rotate:180deg}
+.pl-body{background:var(--violeta);padding:12px 16px 14px}
+.pl-sticker.open .pl-body{box-shadow:0 -10px 30px -16px rgba(31,29,43,.5)}
+.pl-st-head{display:block;font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.pl-st-row{display:flex;gap:18px;margin-top:8px}
 .pl-sticker .pl{grid-template-columns:22px auto;column-gap:8px}
 .pl-sticker .pl-ring{width:22px;height:22px}
 .pl-sticker .pl-ring circle{stroke:rgba(255,255,255,.25)}
@@ -483,20 +479,20 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .pl-sticker .pl-t small{display:none}
 .pl-sticker .live{background:#fff}
 @media (max-width:720px){
-  .pl-sticker{left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+  .pl-sticker{left:0;right:0}
+  .pl-tab{right:12px}
+  .pl-body{padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px))}
   .pl-st-row{justify-content:space-between;gap:8px}
-  .pl-sticker .pl-clock{padding-right:8px;white-space:normal}
   .pl-sticker .pl{grid-template-columns:auto}
   .pl-sticker .pl-ring{display:none}
-  .pl-sticker .pl-n{font-size:1.25rem}
-  body footer{padding-bottom:84px}
+  body footer{padding-bottom:64px}
 }
+@media (prefers-reduced-motion:reduce){.pl-sticker,.pl-chev{transition:none}}
 .pl-ring circle{fill:none;stroke:var(--line);stroke-width:2}
 .pl-ring .arc{stroke:var(--rosa);stroke-dasharray:1;stroke-dashoffset:1}
 .pl-n{font-family:var(--display);font-size:clamp(1.75rem,2.4vw,2.25rem);line-height:.9;color:var(--violeta);font-variant-numeric:tabular-nums}
 .pl-t{line-height:1.4}
 .pl-t small{display:block;font-size:.625rem;color:var(--gris);letter-spacing:.06em;text-transform:none}
-@media (max-width:900px){.pl-row{grid-template-columns:repeat(2,1fr)}#pulso .pl-clock{grid-column:1/-1}}
 @media (prefers-reduced-motion:no-preference){
   .o-dots{transform-box:view-box;transform-origin:0 0;animation:spin 60s linear infinite}
   .o-ring{animation:fadeIn 1s forwards;opacity:0}
@@ -701,7 +697,10 @@ body.intro-open{overflow:hidden}
   background:linear-gradient(90deg,color-mix(in srgb,var(--lila) 88%,transparent) 0%,color-mix(in srgb,var(--lila) 45%,transparent) 38%,transparent 72%)}
 .intro-photo{width:100%;height:100%;object-fit:cover;display:block;
   filter:grayscale(1) contrast(1.1);mix-blend-mode:luminosity}
-.intro-photo{position:absolute;inset:0;opacity:.22}
+.intro-photo{position:absolute;inset:0;opacity:.24}
+/* 06/11: la entrada se sentía cargada. La foto se funde en violeta: liso donde está el texto y solo asoma a la derecha */
+.intro-fade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(100deg,var(--violeta) 0%,var(--violeta) 34%,color-mix(in srgb,var(--violeta) 55%,transparent) 68%,color-mix(in srgb,var(--violeta) 15%,transparent) 100%)}
 @media (prefers-reduced-motion:no-preference){
   .panel.active .photo-band img{scale:1.06;animation:settle 1.6s cubic-bezier(.16,1,.3,1) forwards}
   @keyframes settle{to{scale:1}}
@@ -754,6 +753,7 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
      es provisional: lema + frase del Word hasta que HLA pase su mensaje -->
 <div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
   <img class="intro-photo" alt="" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1800&q=70&auto=format&fit=crop">
+  <span class="intro-fade" aria-hidden="true"></span>
   <span class="intro-bg" aria-hidden="true"></span>
   <div class="intro-in">
     <span class="intro-iso" aria-hidden="true"></span>
@@ -788,7 +788,6 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
     <div class="head-main">
       <h1 class="section-title" id="secTitle">Medicina. Experiencia. Personas.</h1>
       <p class="section-sub" id="secSub">Pincha cualquier indicador para ver su evolución de los últimos tres años.</p>
-      <div class="pulso" id="pulso"></div>
     </div>
     <hr class="head-rule">
   </div>
@@ -1025,10 +1024,7 @@ const YEAR_S=365*24*3600;
 const PULSO=[["citas","consultas"],["dxi","pruebas diagnósticas"],["urg","urgencias"],["cir","cirugías"]]
   .map(([id,t])=>({id,t,every:YEAR_S/byId(id).vals.at(-1)}));
 let pulsoT0=null,pulsoRaf=null;
-/* 06/11: un cronómetro desde que entras, para comparar el tiempo que pasa con lo que pasa en la red */
-const plClock=`<div class="pl pl-clock">
-      <span class="pl-n" data-clock>0:00</span><span class="pl-t caption">llevas aquí<small>desde que entraste</small></span>
-    </div>`;
+/* 06/11: cronómetro desde que entras, para comparar el tiempo que pasa con lo que pasa en la red */
 const fmtClock=s=>{const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=String(s%60).padStart(2,"0");
   return h?`${h}:${String(m).padStart(2,"0")}:${x}`:`${m}:${x}`};
 const plItem=(x,i)=>`<div class="pl" data-i="${i}">
@@ -1036,24 +1032,33 @@ const plItem=(x,i)=>`<div class="pl" data-i="${i}">
       <span class="pl-n">0</span><span class="pl-t caption">${x.t}<small>una cada ${x.every<60?Math.round(x.every)+" s":(x.every/60).toFixed(1).replace(".",",")+" min"}</small></span>
     </div>`;
 function renderPulso(){
-  /* pegatina: el mismo contador sigue contigo por el resto de la memoria */
+  /* 06/11: el contador vive en una carpeta plegable, igual en todas las páginas. La pestaña lleva el
+     cronómetro siempre a la vista; al abrirla, lo que ha pasado en la red en ese tiempo */
   const st=document.createElement("aside");st.className="pl-sticker";st.id="plSticker";st.hidden=true;
   st.setAttribute("aria-label","Actividad de la red HLA desde que entraste, al ritmo medio de 2025");
-  st.innerHTML=`<span class="pl-st-head"><span class="live"></span><span>Desde que entraste · ritmo medio 2025</span></span>
-    <div class="pl-st-row">${plClock}${PULSO.map(plItem).join("")}</div>`;
+  st.innerHTML=`<button class="pl-tab" type="button" aria-expanded="false" aria-controls="plBody">
+      <span class="live"></span><b data-clock>0:00</b><span class="pl-tab-t">desde que entraste</span>
+      <svg class="pl-chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 8l4-4 4 4"/></svg>
+    </button>
+    <div class="pl-body" id="plBody" inert>
+      <span class="pl-st-head">Mientras tanto, en la red HLA · ritmo medio 2025</span>
+      <div class="pl-st-row">${PULSO.map(plItem).join("")}</div>
+    </div>`;
   document.body.append(st);
-  document.getElementById("pulso").innerHTML=`<div class="pl-head"><span class="live"></span>
-    <span class="caption">Desde que entraste, al ritmo medio de 2025 en la red HLA</span></div>
-    <div class="pl-row">${plClock}${PULSO.map(plItem).join("")}</div>`;
+  const tab=st.querySelector(".pl-tab"), body=st.querySelector(".pl-body");
+  const setOpen=o=>{st.classList.toggle("open",o);tab.setAttribute("aria-expanded",o);body.inert=!o;
+    tab.setAttribute("aria-label",o?"Ocultar el contador":"Mostrar el contador");
+    try{localStorage.setItem("hla-contador",o?"1":"0")}catch(e){}};
+  let o0=false;try{o0=localStorage.getItem("hla-contador")==="1"}catch(e){}
+  setOpen(o0);
+  tab.addEventListener("click",()=>setOpen(!st.classList.contains("open")));
 }
 function startPulso(){
   if(pulsoT0)return;pulsoT0=performance.now();
   const groups=PULSO.map((x,i)=>[...document.querySelectorAll(`.pl[data-i="${i}"]`)]);
   const last=PULSO.map(()=>0);
   const clocks=[...document.querySelectorAll("[data-clock]")];let lastS=-1;
-  /* la pegatina aparece cuando el contador de la portada no está a la vista */
-  const st=document.getElementById("plSticker");
-  new IntersectionObserver(([e])=>{st.hidden=e.isIntersecting}).observe(document.getElementById("pulso"));
+  document.getElementById("plSticker").hidden=false;
   (function tick(t){
     const el=(t-pulsoT0)/1000, sec=Math.floor(el);
     if(sec!==lastS){lastS=sec;const txt=fmtClock(sec);clocks.forEach(c=>c.textContent=txt)}
@@ -1640,7 +1645,6 @@ function setSection(id){
   const order=[...document.querySelectorAll(".tab")].map(t=>t.dataset.tab);
   const pad=n=>String(n).padStart(2,"0");
   head.sub.textContent=s.sub;head.sub.hidden=!s.sub;head.idx.textContent=`${pad(order.indexOf(id)+1)} / ${pad(order.length)}`;
-  document.getElementById("pulso").hidden=id!=="indicadores";
   if(id==="indicadores"){defaultCore();requestAnimationFrame(()=>wireUp())}else stopTour();
   if(id==="hitos")requestAnimationFrame(()=>drawChrono(id,true));
   if(SPLITS[id])selectDatum(id,0);
@@ -1660,7 +1664,7 @@ const UNS=id=>`https://images.unsplash.com/photo-${id}?w=1800&q=70&auto=format&f
 const PHOTOS={
   /* 06/11: fotos elegidas por Rebeca (originales en material/fotos/candidatas-2026-11-06) */
   sociedad:{src:"assets/fotos/web-03-istock-639862774.jpg",pos:"50% 55%",alt:"Una médica sostiene las manos de una paciente"},
-  personas:{src:"assets/fotos/web-07-med-school.jpg",pos:"50% 30%",alt:"Profesionales sanitarios trabajan juntos en una sesión de formación"},
+  personas:{src:"assets/fotos/web-05-medicos-estudiantes-mesa.jpg",pos:"50% 14%",alt:"Un equipo médico trabaja reunido alrededor de una mesa"},
   cliente:{src:"assets/fotos/web-04-equipo-enfermera-medico.jpg",pos:"50% 25%",alt:"Una médica y un enfermero atienden en el hospital"},
   sostenibilidad:{id:"1509391366360-2e959784a276",pos:"50% 60%",alt:"Paneles fotovoltaicos bajo el cielo"},
   innovacion:{src:"assets/fotos/web-06-26530repro.jpg",pos:"50% 35%",alt:"Profesionales analizan pruebas de imagen en pantalla"},

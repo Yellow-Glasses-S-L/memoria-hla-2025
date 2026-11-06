@@ -59,3 +59,7 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Innovación: la cifra de cada pieza (3 robots, 2 TAC) sube a la esquina superior derecha, a la altura del dibujo. En móvil queda arriba a la derecha, encima del dibujo.
 - Fotos: Rebeca pasa 8 candidatas (originales en `material/fotos/candidatas-2026-11-06/`, fuera de git porque el repo es público). Quedan Sociedad con manos de médica y paciente (03, iStock), Personas con una sesión de equipo (02) y Cliente con una doctora en consulta (01, Unsplash). Las verticales (05, 08) no caben en la franja; 04 y 06 quedan de reserva. Antes de publicar hay que confirmar la licencia de cada una.
 - Fotos (cambio): Personas pasa a la 07 (equipo en formación), Cliente a la 04 (médica y enfermero) e Innovación a la 06 (pruebas de imagen). Sociedad sigue con la 03. La 05 queda de reserva.
+- Contador: fuera las cajas de la portada. Ahora es una carpeta plegable abajo a la derecha, igual en todas las páginas (Indicadores incluida). Plegada al entrar, la pestaña lleva el cronómetro «desde que entraste»; al abrirla, consultas, pruebas, urgencias y cirugías al ritmo medio de 2025. Recuerda si se dejó abierta o cerrada.
+- Innovación: la cifra y su texto quedan uno al lado del otro en la esquina superior derecha, con el texto alineado a la izquierda.
+- Personas: pasa a la foto 05 (equipo médico alrededor de la mesa).
+- Entrada: la foto se funde en violeta. Liso donde está el texto, solo asoma a la derecha, y más tenue.
