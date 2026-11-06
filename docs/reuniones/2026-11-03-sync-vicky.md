@@ -66,3 +66,4 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Entrada: fuera el isotipo grande que giraba al fondo. Quedan la foto fundida en violeta y el isotipo pequeño que se arma arriba.
 - Rebeca da por buenos el contador en carpeta y las cifras de Innovación. Personas sigue sin foto que la convenza.
 - Personas: pasa a la foto 08 (doctora rubia con gafas), elegida por Rebeca. Al ser vertical, en escritorio el encuadre queda cerrado en la cara.
+- Personas: la 08 se veía borrosa porque el archivo era una copia reducida y muy comprimida (78 KB). Se sustituye por el original de Pexels a 3000 × 4500 px. La copia mala queda en `material/fotos/candidatas-2026-11-06/historico/`.
