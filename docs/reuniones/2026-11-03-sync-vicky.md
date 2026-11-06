@@ -57,3 +57,4 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Subtítulo de entrada: aprobado por Rebeca.
 - No se publica todavía.
 - Innovación: la cifra de cada pieza (3 robots, 2 TAC) sube a la esquina superior derecha, a la altura del dibujo. En móvil queda arriba a la derecha, encima del dibujo.
+- Fotos: Rebeca pasa 8 candidatas (originales en `material/fotos/candidatas-2026-11-06/`, fuera de git porque el repo es público). Quedan Sociedad con manos de médica y paciente (03, iStock), Personas con una sesión de equipo (02) y Cliente con una doctora en consulta (01, Unsplash). Las verticales (05, 08) no caben en la franja; 04 y 06 quedan de reserva. Antes de publicar hay que confirmar la licencia de cada una.
