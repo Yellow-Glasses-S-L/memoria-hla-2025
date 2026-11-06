@@ -63,3 +63,5 @@ Transcripción: `2026-11-03-sync-vicky.vtt`.
 - Innovación: la cifra y su texto quedan uno al lado del otro en la esquina superior derecha, con el texto alineado a la izquierda.
 - Personas: pasa a la foto 05 (equipo médico alrededor de la mesa).
 - Entrada: la foto se funde en violeta. Liso donde está el texto, solo asoma a la derecha, y más tenue.
+- Entrada: fuera el isotipo grande que giraba al fondo. Quedan la foto fundida en violeta y el isotipo pequeño que se arma arriba.
+- Rebeca da por buenos el contador en carpeta y las cifras de Innovación. Personas sigue sin foto que la convenza.

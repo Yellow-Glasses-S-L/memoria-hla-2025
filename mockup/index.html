@@ -637,9 +637,8 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .intro{position:fixed;inset:0;z-index:100;background:var(--violeta);color:#fff;display:flex;
   align-items:center;justify-content:center;overflow:hidden;padding:var(--pad)}
 .intro[hidden]{display:none}
-.intro-bg{position:absolute;width:min(130vh,130vw);aspect-ratio:1;right:-28vw;bottom:-38vh;color:#fff;opacity:.07}
 /* overflow visible: las piezas del isotipo entran desde fuera de su caja y no se recortan */
-.intro-bg svg,.intro-iso svg{width:100%;height:100%;display:block;overflow:visible}
+.intro-iso svg{width:100%;height:100%;display:block;overflow:visible}
 .intro-in{position:relative;width:100%;max-width:1100px;display:flex;flex-direction:column;align-items:flex-start}
 .intro-iso{width:clamp(72px,9vw,120px);aspect-ratio:1;color:#fff}
 .intro-kicker{font-family:var(--mono);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;margin:36px 0 0;opacity:.8}
@@ -662,7 +661,6 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   .intro-iso path:nth-child(3){--dx:60px;--dy:0;animation-delay:.34s}
   .intro-iso path:nth-child(4){--dx:0;--dy:-60px;animation-delay:.46s}
   @keyframes petal{from{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(-40deg)}}
-  .intro-bg{animation:spin 120s linear infinite}
   .intro-in>*:not(.intro-iso){opacity:0;translate:0 16px;animation:rise .7s cubic-bezier(.16,1,.3,1) forwards}
   .intro-kicker{animation-delay:.7s!important}
   .intro-title{animation-delay:.8s!important}
@@ -676,10 +674,10 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
      y luego la cortina se levanta despacio dejando ver la portada */
   .intro{transition:transform 1.8s .45s cubic-bezier(.65,0,.25,1)}
   .intro-in{transition:opacity .7s cubic-bezier(.4,0,.2,1),translate .9s cubic-bezier(.4,0,.2,1)}
-  .intro-bg,.intro-photo{transition:scale 2s cubic-bezier(.16,1,.3,1)}
+  .intro-photo{transition:scale 2s cubic-bezier(.16,1,.3,1)}
   .intro.out{transform:translateY(-100%);pointer-events:none}
   .intro.out .intro-in{opacity:0;translate:0 -24px}
-  .intro.out .intro-bg,.intro.out .intro-photo{scale:1.06}
+  .intro.out .intro-photo{scale:1.06}
 }
 body.intro-open{overflow:hidden}
 
@@ -754,7 +752,6 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
 <div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
   <img class="intro-photo" alt="" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1800&q=70&auto=format&fit=crop">
   <span class="intro-fade" aria-hidden="true"></span>
-  <span class="intro-bg" aria-hidden="true"></span>
   <div class="intro-in">
     <span class="intro-iso" aria-hidden="true"></span>
     <p class="intro-kicker">HLA Grupo Hospitalario</p>
@@ -1679,7 +1676,6 @@ Object.entries(PHOTOS).forEach(([id,f])=>{
 (()=>{
   const intro=document.getElementById("intro"), go=document.getElementById("introGo");
   intro.querySelector(".intro-iso").innerHTML=ISO;
-  intro.querySelector(".intro-bg").innerHTML=ISO;
   document.body.classList.add("intro-open");
   document.querySelector("main").inert=true;document.querySelector("header").inert=true;
   go.focus({preventScroll:true});
