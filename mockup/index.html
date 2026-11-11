@@ -25,6 +25,9 @@
   /* 11/11 (Rebeca): todos los gráficos con el mismo grosor de línea, se vean al tamaño que se vean.
      Trazo = dibujo; fino = estructura (ejes, pentagrama, rejillas); dato = arcos y anillos que son el dato */
   --trazo:1.5px; --trazo-fino:1px; --trazo-dato:10px;
+  /* 11/11 (Rebeca): jerarquía de color en los gráficos. 1) violeta, lo principal; 2) rosa, el segundo
+     dato o lo que destaca; 3) azul y verde agua solo de apoyo (y en Sostenibilidad). Se probó llevar la
+     paleta de Sostenibilidad a todo y el rosa perdía peso */
 }
 /* el grosor no escala con el dibujo: 1,5 px en una pieza grande y en una pequeña */
 :is(.bigviz,.lg-svg,.fm-reloj,.fm-esfera,.cli-svg,.sv-svg,.aero-t,.mon-ic,.mon-spark,.orbit,.rank,.ic,.cycle svg,.seal svg)
@@ -149,6 +152,8 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   font-variant-numeric:tabular-nums;margin-bottom:8px;white-space:nowrap}
 .cy-bar{width:min(64%,104px);height:var(--h);background:color-mix(in srgb,var(--rosa) 18%,var(--paper));
   border-top:2px solid var(--rosa);transform-origin:bottom}
+.cy.y0 .cy-bar{background:var(--azul);border-top-color:var(--azul)}
+.cy.y1 .cy-bar{background:var(--rosa)}
 .cy.now .cy-bar{border-top-color:var(--violeta)}
 .cy.now .cy-bar{background:var(--violeta)}
 .cy.now .cy-val{color:var(--violeta);font-weight:500}
@@ -222,7 +227,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .musica .staff{stroke:var(--mass);stroke-width:var(--trazo-fino)}
 .musica .nh{fill:var(--violeta)}
 .musica .stem{stroke:var(--violeta);stroke-width:var(--trazo)}
-.musica .beam{fill:var(--violeta)}
+.musica .beam{fill:var(--rosa)}
 .mu-list{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);max-width:560px}
 .mu-list li{font-size:.75rem;line-height:1.5;color:var(--ink);text-align:center;padding:0 4px}
 .mu-list li span{display:block;color:var(--gris)}
@@ -308,11 +313,11 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .fm-sand{fill:var(--violeta)}
 /* estado final: queda un poco de arena arriba y el fondo lleno hasta la mitad de la ampolla */
 .fm-top{translate:0 36px}
-.fm-stream{stroke:var(--violeta);stroke-width:var(--trazo);stroke-dasharray:3 4;opacity:0}
+.fm-stream{stroke:var(--rosa);stroke-width:var(--trazo);stroke-dasharray:3 4;opacity:0}
 .fm-dial{fill:none;stroke:var(--line);stroke-width:var(--trazo-dato)}
 .fm-ticks path{stroke:var(--mass);stroke-width:var(--trazo-fino)}
 .fm-arc{fill:none;stroke:var(--violeta);stroke-width:var(--trazo-dato)}
-.fm-cross{fill:none;stroke:var(--violeta);stroke-width:var(--trazo);stroke-linejoin:round}
+.fm-cross{fill:none;stroke:var(--rosa);stroke-width:var(--trazo);stroke-linejoin:round}
 .fm-eq{flex:1 1 200px;min-width:0}
 .fm-big{display:block;font-family:var(--display);font-weight:400;font-size:clamp(2.25rem,3.4vw,3.5rem);line-height:.95;color:var(--violeta)}
 .fm-t{display:block;margin-top:10px;font-size:.8125rem;line-height:1.7;color:var(--ink);max-width:34ch}
@@ -421,7 +426,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .cli-bars{display:flex;align-items:flex-end;gap:14px;height:120px;max-width:240px}
 .cli-bars .cb{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch}
 .cli-bars .cb i{display:block;height:calc(var(--h) - 22px);background:var(--violeta);transform-origin:bottom}
-.cli-bars .cb i.ghost{background:var(--mass)}
+.cli-bars .cb i.ghost{background:var(--rosa)}
 .cli-bars .cb span{font-size:.75rem;letter-spacing:.08em;color:var(--gris);margin-top:6px;text-align:center}
 .cb-delta{align-self:flex-start;font-family:var(--display);font-weight:400;font-size:1.75rem;color:var(--violeta);line-height:1}
 @media (max-width:960px){.cli-top{grid-template-columns:1fr}}
@@ -1203,7 +1208,7 @@ function chartHTML(k){
   const known=k.vals.filter(v=>!pending(v)), max=Math.max(...known);
   const cols=k.vals.map((v,i)=>pending(v)
     ?`<div class="cy pend"><span class="cy-val" style="animation-delay:${.3+i*.12}s">${PEND}</span><div class="cy-bar"></div></div>`
-    :`<div class="cy${i===2?" now":""}"><span class="cy-val" style="animation-delay:${.45+i*.12}s">${fmtK(k,v)}</span>
+    :`<div class="cy ${["y0","y1","now"][i]}"><span class="cy-val" style="animation-delay:${.45+i*.12}s">${fmtK(k,v)}</span>
        <div class="cy-bar" style="--h:${(v/max*78).toFixed(1)}%;animation-delay:${i*.12}s"></div></div>`).join("");
   const steps=[1,2].map(i=>pending(k.vals[i])||pending(k.vals[i-1])?""
     :`<span class="cy-step" style="left:${i/3*100}%">${stepTxt(k,k.vals[i-1],k.vals[i])}</span>`).join("");
@@ -1214,7 +1219,7 @@ function chartHTML(k){
     <div class="ch-delta delta">${deltaTxt(k)}</div>
     <div class="ch-plot" aria-hidden="true">${cols}</div>
     <div class="ch-axis" aria-hidden="true">${YEARS.map(y=>`<span>${y}</span>`).join("")}${steps}</div>
-    <div class="ch-legend" aria-hidden="true"><span><i style="background:color-mix(in srgb,var(--rosa) 18%,var(--paper));border-top:2px solid var(--rosa)"></i>Años anteriores</span><span><i style="background:var(--violeta)"></i>${YEARS[2]}</span></div>
+    <div class="ch-legend" aria-hidden="true"><span><i style="background:var(--azul)"></i>${YEARS[0]}</span><span><i style="background:var(--rosa)"></i>${YEARS[1]}</span><span><i style="background:var(--violeta)"></i>${YEARS[2]}</span></div>
     <table class="sr-only"><caption>${k.label}</caption><tr><th scope="col">Año</th><th scope="col">Valor</th></tr>${rows}</table>
   </div>`;
 }
