@@ -371,36 +371,62 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 }
 @media (prefers-reduced-motion:reduce){.aero-t .flame{opacity:0}.aero-t .fan{opacity:1}}
 
-/* ============ CLIENTE: cifras arriba, explicación debajo ============ */
+/* ============ CLIENTE: WhatsApp destacado arriba, los otros tres con su gráfico debajo (11/11) ============ */
 .cli{width:100%}
-.cli-figs{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.4vw,40px)}
-.cli-fig{border-top:1px solid var(--ink);padding-top:22px;display:flex;flex-direction:column}
-.cli-fig .f-num{font-family:var(--display);font-weight:400;font-size:clamp(3rem,4.6vw,5rem);line-height:.86;
+.cli-top{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(40px,7vw,140px);align-items:center;
+  padding-bottom:clamp(40px,5vw,72px);margin-bottom:clamp(40px,5vw,72px);border-bottom:1px solid var(--line)}
+.cli .f-num{display:block;font-family:var(--display);font-weight:400;font-size:clamp(3rem,4.6vw,5rem);line-height:.86;
   color:var(--violeta);font-variant-numeric:tabular-nums}
+.cli-lead .f-num{font-size:clamp(3.5rem,6vw,6.5rem)}
+.cli-lead .caption{display:block;margin-top:14px}
+.cli-lead .viz-story.lead{margin:28px 0 0}
+/* chat dibujado */
+.cli-chat{background:var(--paper2);padding:18px 18px 22px;display:flex;flex-direction:column;gap:10px;max-width:400px;width:100%;justify-self:end}
+.cc-head{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.cc-av{width:30px;height:30px;border-radius:50%!important;background:var(--violeta);flex:none}
+.cc-head b{display:block;font-family:var(--display);font-weight:500;font-size:1rem;letter-spacing:.02em}
+.cc-head small{display:block;font-size:.6875rem;color:var(--gris)}
+.cc-msg{max-width:78%;padding:9px 13px;font-size:.75rem;line-height:1.5}
+.cc-msg.in{align-self:flex-start;background:var(--paper);color:var(--ink)}
+.cc-msg.out{align-self:flex-end;background:var(--violeta);color:#fff}
+.cc-typing{display:flex;gap:4px;padding:12px 14px}
+.cc-typing i{width:6px;height:6px;border-radius:50%!important;background:#fff;opacity:.6}
+/* fila de tres */
+.cli-figs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,56px)}
+.cli-fig{border-top:1px solid var(--ink);padding-top:22px;display:flex;flex-direction:column}
 .cli-fig .caption{display:block;margin-top:14px}
 .cli-fig p{margin:12px 0 0;color:var(--gris);font-size:.8125rem;line-height:1.7}
-.cli-v{margin-top:22px;min-height:44px;display:flex;align-items:center}
-.cli-meter{position:relative;flex:1;height:12px;background:var(--paper2)}
-.cli-meter i{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--violeta)}
-.cli-meter.cel i{background:var(--rosa)}
-.cli-meter.ghost i{background:var(--mass)}
-.cli-cmp{flex:1;display:grid;grid-template-columns:2.6rem 1fr;align-items:center;gap:8px 10px}
-.cli-cmp span{font-size:.75rem;letter-spacing:.08em;color:var(--gris)}
-.cli-chips{display:flex;flex-wrap:wrap;gap:8px}
-.cli-chips span{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--violeta);
-  border:1px solid var(--violeta);padding:6px 10px}
-.cli-story{max-width:72ch;
-  margin-top:clamp(40px,5vw,72px);padding-top:clamp(28px,3vw,44px);border-top:1px solid var(--line)}
-.cli-story .viz-story{margin-top:0}
-.cli-story .viz-story p{font-size:.875rem;color:var(--ink)}
-@media (max-width:1180px){.cli-figs{grid-template-columns:1fr 1fr;row-gap:40px}}
-@media (max-width:560px){.cli-figs{grid-template-columns:1fr}}
+.cli-v{margin-top:24px;display:flex;flex-direction:column;justify-content:flex-start}
+.cli-svg{width:100%;max-width:240px;height:auto;display:block;overflow:visible}
+.cg-bg{fill:none;stroke:var(--paper2);stroke-width:12}
+.cg-arc{fill:none;stroke:var(--violeta);stroke-width:12}
+.cg-face{fill:none;stroke:var(--violeta);stroke-width:2}
+.cg-eye{fill:var(--violeta)}
+.cg-smile{fill:none;stroke:var(--violeta);stroke-width:2;stroke-linecap:round}
+.cli-cal{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;max-width:260px}
+.cli-cal span{aspect-ratio:1;background:var(--violeta)}
+.cli-cal span.miss{background:none;box-shadow:inset 0 0 0 2px var(--rosa)}
+.cli-note{display:block;margin-top:12px;font-size:.75rem;color:var(--gris)}
+.cli-note b{color:var(--rosa);font-weight:500}
+.cli-bars{display:flex;align-items:flex-end;gap:14px;height:120px;max-width:240px}
+.cli-bars .cb{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch}
+.cli-bars .cb i{display:block;height:calc(var(--h) - 22px);background:var(--violeta);transform-origin:bottom}
+.cli-bars .cb i.ghost{background:var(--mass)}
+.cli-bars .cb span{font-size:.75rem;letter-spacing:.08em;color:var(--gris);margin-top:6px;text-align:center}
+.cb-delta{align-self:flex-start;font-family:var(--display);font-weight:400;font-size:1.75rem;color:var(--violeta);line-height:1}
+@media (max-width:960px){.cli-top{grid-template-columns:1fr}.cli-chat{justify-self:start}}
+@media (max-width:760px){.cli-figs{grid-template-columns:1fr;row-gap:40px}}
 @media (prefers-reduced-motion:no-preference){
   .panel.active .cli-fig{opacity:0;translate:0 14px;animation:rise .55s cubic-bezier(.16,1,.3,1) forwards}
-  .panel.active .cli-meter i{width:0;animation:grow 1s .35s cubic-bezier(.4,0,.2,1) forwards}
-  .panel.active .cli-chips span{opacity:0;animation:fadeIn .4s forwards}
+  .panel.active .cc-msg{opacity:0;translate:0 8px;animation:rise .5s cubic-bezier(.16,1,.3,1) forwards}
+  .panel.active .cc-typing i{animation:ccDot 1.2s infinite}
+  .cc-typing i:nth-child(2){animation-delay:.2s!important}.cc-typing i:nth-child(3){animation-delay:.4s!important}
+  @keyframes ccDot{0%,60%,100%{opacity:.35}30%{opacity:1}}
+  .panel.active .cli-cal span{opacity:0;scale:.6;animation:calIn .35s cubic-bezier(.34,1.56,.64,1) forwards}
+  @keyframes calIn{to{opacity:1;scale:1}}
+  .panel.active .cli-bars .cb i{scale:1 0;animation:barY .9s .4s cubic-bezier(.16,1,.3,1) forwards}
+  .panel.active .cli-bars .cb:nth-child(2) i{animation-delay:.6s}
 }
-
 
 /* ============ INNOVACIÓN: mosaico de logros ============ */
 .logros{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(16px,1.6vw,24px);width:100%}
@@ -1671,29 +1697,58 @@ function renderSplit(id){
  ["sociedad","personas"].forEach(id=>document.getElementById(id+"-grid").classList.add("relato","relato-"+v))}
 Object.keys(SPLITS).forEach(renderSplit);
 
-/* ================= CLIENTE: los cuatro datos a la vista, sin tener que pinchar =================
-   Reunión con Vicky (03/11): tocando dato a dato las animaciones no sumaban y el texto quedaba
-   escondido. Ahora las cifras van arriba, cada una con su visual, y la explicación debajo */
-const meter=(w,cls="")=>`<div class="cli-meter${cls}" style="--w:${w}%"><i></i></div>`;
+/* ================= CLIENTE =================
+   03/11 (Vicky): los cuatro datos a la vista, sin tener que pinchar.
+   11/11 (Rebeca): el texto se quedaba solo abajo y solo hablaba de WhatsApp. Ahora WhatsApp es el
+   destacado (cifra + texto + un chat dibujado) y los otros tres van debajo, cada uno con su gráfico */
+const CLI_CHAT=[
+  {who:"in",t:"Gestionar una cita"},
+  {who:"out",t:"Aviso de cita enviado"},
+  {who:"in",t:"Programar una prueba"},
+];
+const vizChat=()=>`<div class="cli-chat" aria-hidden="true">
+    <div class="cc-head"><span class="cc-av"></span><span><b>Julia Eniax</b><small>asistente virtual · HLA</small></span></div>
+    ${CLI_CHAT.map((m,i)=>`<div class="cc-msg ${m.who}" style="animation-delay:${.4+i*.55}s">${m.t}</div>`).join("")}
+    <div class="cc-msg out cc-typing" style="animation-delay:${.4+CLI_CHAT.length*.55}s"><i></i><i></i><i></i></div>
+  </div>`;
+/* 97 %: marcador semicircular con cara sonriente */
+const vizSatisf=()=>`<svg class="cli-svg" viewBox="0 0 200 112" role="img" aria-label="97 % de satisfacción">
+    <path class="cg-bg" d="M20 100A80 80 0 0 1 180 100"/>
+    <path class="cg-arc draw" pathLength="1" d="M20 100A80 80 0 0 1 179.6 92.5"/>
+    <circle class="cg-face" cx="100" cy="82" r="22"/><circle class="cg-eye" cx="92" cy="77" r="2.4"/><circle class="cg-eye" cx="108" cy="77" r="2.4"/>
+    <path class="cg-smile" d="M90 88Q100 97 110 88"/></svg>`;
+/* 5 %: 1 de cada 20 citas, sin acudir. Un calendario de 20 citas con una vacía */
+const vizAbsent=()=>`<div class="cli-cal" role="img" aria-label="1 de cada 20 citas, sin acudir">
+    ${Array.from({length:20},(_,i)=>`<span class="${i===16?"miss":""}" style="animation-delay:${.3+i*.04}s"></span>`).join("")}
+  </div><span class="cli-note"><b>1 de cada 20</b> citas, sin acudir</span>`;
+/* reclamaciones: 2024 frente a 2025, un 9 % menos */
+const vizRecl=()=>`<div class="cli-bars" role="img" aria-label="Reclamaciones: un 9 % menos que en 2024">
+    <div class="cb"><i class="ghost" style="--h:100%"></i><span>2024</span></div>
+    <div class="cb"><i style="--h:91%"></i><span>2025</span></div>
+    <b class="cb-delta">−9 %</b></div>`;
 const CLIENTE=[
-  {num:"+100.000",label:"interacciones por WhatsApp",sub:"Interacciones entrantes por WhatsApp.",
-   v:`<div class="cli-chips">${["Citas","Avisos","Pruebas"].map((t,i)=>`<span style="animation-delay:${.3+i*.15}s">${t}</span>`).join("")}</div>`},
-  {num:"97 %",label:"de satisfacción",v:meter(97)},
-  {num:"5 %",label:"tasa de absentismo",v:meter(5," cel")},
-  {num:"1.408",label:"reclamaciones",sub:"9 % menos que en 2024.",
-   v:`<div class="cli-cmp"><span>2024</span>${meter(100," ghost")}<span>2025</span>${meter(91)}</div>`},
+  {num:"97 %",label:"de satisfacción",v:vizSatisf},
+  {num:"5 %",label:"tasa de absentismo",v:vizAbsent},
+  {num:"1.408",label:"reclamaciones",sub:"9 % menos que en 2024.",v:vizRecl},
 ];
 function renderCliente(){
   const el=document.getElementById("cliente-grid");
   el.className="cli";
-  el.innerHTML=`<div class="cli-figs">${CLIENTE.map((d,i)=>`
+  el.innerHTML=`<div class="cli-top">
+      <div class="cli-lead">
+        <span class="f-num">+100.000</span>
+        <span class="caption">interacciones por WhatsApp</span>
+        ${story(ST.ia).replace('class="viz-story"','class="viz-story lead"')}
+      </div>
+      ${vizChat()}
+    </div>
+    <div class="cli-figs">${CLIENTE.map((d,i)=>`
       <article class="cli-fig" style="animation-delay:${i*.08}s">
         <span class="f-num">${d.num}</span>
         <span class="caption">${d.label}</span>
-        <div class="cli-v">${d.v}</div>
+        <div class="cli-v">${d.v()}</div>
         ${d.sub?`<p>${d.sub}</p>`:""}
-      </article>`).join("")}</div>
-    <div class="cli-story">${story(ST.ia)}</div>`;
+      </article>`).join("")}</div>`;
 }
 renderCliente();
 
