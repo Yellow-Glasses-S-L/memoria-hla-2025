@@ -210,6 +210,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .viz-story.lead h3{color:var(--violeta)}
 .viz-story.lead p{color:var(--ink)}
 .relato .viz-holder{justify-content:flex-start;min-height:0}
+.pend-line.pend-texto{margin-top:0;flex-direction:column;align-items:flex-start;gap:8px;max-width:44ch}
 /* 11/11: Músicos por la Salud. Un pentagrama con una nota por hospital, en melodía que sube */
 .musica{max-width:560px}
 .musica .staff{stroke:var(--mass);stroke-width:1}
@@ -1639,8 +1640,11 @@ function selectDatum(id,i){
   const d=SPLITS[id][i];
   /* 11/11 (Vicky): en Sociedad el relato es lo importante y quedaba debajo del visual, en gris.
      En modo relato va primero y en grande */
-  grid.querySelector(".viz-holder").innerHTML=grid.classList.contains("relato")
-    ?story(d.story).replace('class="viz-story"','class="viz-story lead"')+d.viz():d.viz()+story(d.story);
+  /* 11/11: si el dato aún no tiene texto, un aviso de pendiente en su sitio, para que HLA lo complete */
+  const lead=d.story?story(d.story).replace('class="viz-story"','class="viz-story lead"')
+    :`<div class="viz-story lead"><div class="pend-line pend-texto"><span class="rn">Texto pendiente</span>
+      <span>Falta la explicación de este dato, como en el resto. HLA la añadirá junto con las cifras 2025.</span></div></div>`;
+  grid.querySelector(".viz-holder").innerHTML=grid.classList.contains("relato")?lead+d.viz():d.viz()+story(d.story);
   requestAnimationFrame(paintPlantillas);
   grid.querySelectorAll(".viz-holder [data-target]").forEach(n=>countUp(n,1800));
 }
