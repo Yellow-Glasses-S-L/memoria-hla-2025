@@ -462,30 +462,14 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .lg-t.on{fill:var(--ink)}
 .lg-t.l{text-anchor:start}
 .lg-big{font-family:var(--display)!important;font-size:1.75rem;fill:var(--violeta);text-anchor:middle}
-/* quirófano con Neptune 3 */
+/* Neptune 3, a tamaño grande */
 .lg-svg-xl{max-width:none}
-.q-wrap{width:100%}
-.lg-svg .hair{stroke:var(--mass);stroke-width:1}
-.lg-svg .q-fill{fill:var(--paper2)}
-.lg-svg .q-thick{stroke-width:4}
-.lg-svg .q-tube{stroke-width:3}
-.lg-svg .q-flow{stroke:var(--paper);stroke-width:1.5;stroke-dasharray:3 12}
-.lg-svg .q-smoke path{stroke:var(--gris)}
-.lg-svg .q-level{fill:var(--violeta)}
-.lg-svg .q-old rect,.lg-svg .q-old path{stroke:var(--gris)}
-.lg-svg .q-x{stroke:var(--rosa);stroke-width:2}
-.lg-svg .q-lbl{font-family:var(--display)!important;font-size:.8125rem;fill:var(--violeta);text-anchor:middle;letter-spacing:.04em}
-.q-leg{list-style:none;margin:18px 0 0;padding:16px 0 0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.q-leg li{display:flex;align-items:center;gap:10px;font-size:.875rem;color:var(--ink)}
-.q-leg svg{width:12px;height:18px;fill:none;stroke:var(--rosa);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lg-svg .lg-xl{font-size:2.5rem}
+.lg-svg .lg-tl{font-size:.75rem;fill:var(--ink)}
+.lg-svg .hair{stroke:var(--line);stroke-width:1}
+.lg-svg .down{stroke-width:2}
 @media (prefers-reduced-motion:no-preference){
-  .panel.active .q-flow{animation:qFlow 1.6s linear infinite}
-  @keyframes qFlow{to{stroke-dashoffset:-30}}
-  .panel.active .q-smoke path{animation:qSmoke 2.4s ease-in-out infinite}
-  .q-smoke path:nth-child(2){animation-delay:.6s!important}
-  @keyframes qSmoke{0%,100%{opacity:.3;translate:0 0}50%{opacity:1;translate:0 -4px}}
-  .panel.active .q-level{transform-box:fill-box;transform-origin:bottom;scale:1 0;animation:barY 1.6s .4s cubic-bezier(.16,1,.3,1) forwards}
-  .panel.active .q-leg li{opacity:0;animation:noteIn .6s cubic-bezier(.16,1,.3,1) forwards}
+  .panel.active .nt-row{opacity:0;animation:noteIn .6s cubic-bezier(.16,1,.3,1) forwards}
 }
 /* el «dónde» se queda abajo en todas las piezas aunque el texto mida distinto */
 .lg-body{margin-top:24px;flex:1;display:flex;flex-direction:column}
@@ -1415,27 +1399,16 @@ const ART={
     <rect class="b-new" x="320" y="129" width="44" height="11"/>
     <text class="lg-t" x="272" y="156">Antes</text><text class="lg-t on" x="342" y="156">Nuevo TAC</text>
     <text class="lg-big" x="342" y="118">−90 %</text></svg>`,
-  /* 11/11 (Rebeca): el ciclo con «N3» no decía mucho. Ahora un quirófano: el humo del campo quirúrgico
-     va por el tubo al equipo Neptune 3, que recoge los fluidos, y los botes de plástico desechables
-     quedan tachados. Debajo, lo que se reduce según el texto: humos, fluidos y plásticos */
-  neptune:`<div class="q-wrap"><svg class="lg-svg lg-svg-xl q-svg" viewBox="0 0 560 250" aria-hidden="true">
-    <path class="hair" d="M60 12H250"/><path d="M150 12V36"/>
-    <path class="q-fill" d="M112 36H188L172 58H128Z"/>
-    <path class="hair" d="M128 62L106 136M172 62L194 136"/>
-    <path class="q-fill" d="M94 168Q120 150 170 156Q220 158 244 166V176H94Z"/><circle class="q-fill" cx="80" cy="164" r="10"/>
-    <path class="q-thick" d="M58 176H252M155 176V230M116 230H194"/>
-    <g class="q-smoke"><path d="M170 148q-7-8 0-16t0-16"/><path d="M183 148q7-8 0-16t0-16"/></g>
-    <path class="q-tube" d="M188 152C230 120 300 84 360 100S400 124 400 140"/>
-    <path class="q-flow" d="M188 152C230 120 300 84 360 100S400 124 400 140"/>
-    <rect class="q-fill" x="384" y="140" width="96" height="88"/>
-    <path d="M384 160H480"/><text class="q-lbl" x="432" y="155">Neptune 3</text>
-    <rect x="400" y="172" width="28" height="44"/><rect class="q-level" x="400" y="194" width="28" height="22"/>
-    <path class="hair" d="M440 180H466M440 192H466M440 204H466"/>
-    <circle cx="398" cy="236" r="6"/><circle cx="466" cy="236" r="6"/>
-    <g class="q-old">${[0,1,2].map(i=>`<rect x="${500+i*20}" y="198" width="14" height="30"/><path d="M${498+i*20} 198H${516+i*20}"/>`).join("")}</g>
-    <path class="q-x" d="M494 238L560 186"/>
-  </svg>
-  <ul class="q-leg">${["Humos","Fluidos","Plásticos"].map((t,i)=>`<li style="animation-delay:${.6+i*.2}s">${t}<svg viewBox="0 0 16 22" aria-hidden="true"><path d="M8 2v17m-6-6 6 6 6-6"/></svg></li>`).join("")}</ul></div>`,
+  /* 11/11 (Rebeca): el de siempre, más grande para que ocupe la mitad de la pieza sin dejar hueco.
+     Se probó un quirófano dibujado y era demasiado elaborado */
+  neptune:`<svg class="lg-svg lg-svg-xl" viewBox="0 0 400 200" aria-hidden="true">
+    <g class="cyc"><path class="draw" pathLength="1" d="M96 26A74 74 0 0 1 170 100"/><path class="draw" pathLength="1" d="M96 174A74 74 0 0 1 22 100"/>
+    <path d="M160 88l10 12 11-11M32 112l-10-12-11 11"/></g>
+    <text class="lg-big lg-xl" x="96" y="114">N3</text>
+    ${["Fluidos","Humos","Plásticos"].map((t,i)=>`<g class="nt-row" style="animation-delay:${.5+i*.2}s">
+      <text class="lg-t l lg-tl" x="222" y="${56+i*50}">${t}</text>
+      <path class="hair" d="M222 ${68+i*50}H392"/>
+      <path class="down" d="M372 ${38+i*50}v22m-7-7 7 7 7-7"/></g>`).join("")}</svg>`,
 };
 function renderLogros(id,data){
   document.getElementById(id+"-logros").innerHTML=data.map(m=>`<article class="lg">
