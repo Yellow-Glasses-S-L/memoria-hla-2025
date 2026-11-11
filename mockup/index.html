@@ -1384,7 +1384,7 @@ const vizMusica=()=>{
 /* — mapa: dónde pasa — */
 const vizMapa=(us,label,capTxt)=>`<div class="viz" aria-label="${label}">${miniMap(us,label)}${cap(capTxt)}</div>`;
 
-/* — personas: plantilla. Antes un punto por profesional (4.000, idea de Vicky 03/11); desde el 11/11, 100 figuras. Al pasar a
+/* — personas: plantilla. Una figura por profesional (4.000, idea de Vicky 03/11; figuras de aseo desde el 11/11). Al pasar a
    «% de mujeres» se tiñen. Mientras el dato no llega se enseña una SIMULACIÓN al 48 % marcada como tal */
 const MUJERES_PCT=null;
 const MUJERES_DEMO=48;
@@ -1396,25 +1396,32 @@ const vizPlantilla=focus=>{
     <canvas class="plantilla" data-focus="${focus}" data-w="${w}" aria-hidden="true"></canvas>
     ${tint?`<div class="prop-l"><span class="a">Mujeres · ${w} %</span><span class="b">Hombres · ${100-w} %</span></div>
       ${real?"":`<div class="pend-line"><span class="rn">Simulación</span><span>Reparto al 48 % solo de ejemplo · dato 2025 pendiente de validación</span></div>`}`:""}
-    ${cap("Más de 4.000 profesionales · cada figura, 40 personas (el 1 %)")}</div>`;
+    ${cap("Más de 4.000 profesionales · cada figura, una persona")}</div>`;
 };
-/* 11/11 (Rebeca): figuras de persona en vez de puntos, como las de los aseos. 4.000 figuras no se
-   distinguirían, así que son 100: cada una son 40 personas y equivale al 1 %. En «% de mujeres» las
-   que corresponden se convierten en figura de mujer y el resto queda en gris */
-const PL_N=100;
-/* pictogramas en una caja de 24×24 */
-const PL_HOMBRE=new Path2D("M12 1.4a2.6 2.6 0 1 1 0 5.2a2.6 2.6 0 1 1 0-5.2Z M8 7.6h8v7.6h-1v7.4h-2.6v-7.4h-0.8v7.4H9v-7.4H8Z M6 7.9h1.5v5.8H6Z M16.5 7.9H18v5.8h-1.5Z");
-const PL_MUJER=new Path2D("M12 1.4a2.6 2.6 0 1 1 0 5.2a2.6 2.6 0 1 1 0-5.2Z M9.6 7.6h4.8l3 9.6H6.6Z M9.6 17.2h1.8v5.4H9.6Z M12.6 17.2h1.8v5.4h-1.8Z M6.2 8.2l1.4-0.5 1.4 5.4-1.4 0.4Z M17.8 8.2l-1.4-0.5-1.4 5.4 1.4 0.4Z");
+/* 11/11 (Rebeca): figuras de persona en vez de puntos, las clásicas de los aseos, y siguen siendo
+   4.000, una por profesional. En «% de mujeres» las que corresponden pasan a figura de mujer y el
+   resto queda en gris */
+const PL_N=N_PLANTILLA;
+/* pictogramas de aseo en una caja de 24×24: cabeza redonda, brazos separados del cuerpo */
+const pict=f=>{const p=new Path2D();p.arc(12,3,2.6,0,7);p.closePath();f(p);return p};
+const PL_HOMBRE=pict(p=>{
+  p.roundRect(8.5,6.4,7,8.4,[1.8,1.8,0,0]);              /* tronco */
+  p.roundRect(6.2,6.8,1.7,7.4,.85);p.roundRect(16.1,6.8,1.7,7.4,.85);   /* brazos */
+  p.roundRect(8.8,14.4,2.9,9,[0,0,1.2,1.2]);p.roundRect(12.3,14.4,2.9,9,[0,0,1.2,1.2])});  /* piernas */
+const PL_MUJER=pict(p=>{
+  p.moveTo(10.2,6.4);p.lineTo(13.8,6.4);p.quadraticCurveTo(15,6.4,15.3,7.6);
+  p.lineTo(18,17.2);p.lineTo(6,17.2);p.lineTo(8.7,7.6);p.quadraticCurveTo(9,6.4,10.2,6.4);p.closePath();  /* vestido */
+  p.roundRect(9.5,17.6,2,5.8,[0,0,1,1]);p.roundRect(12.5,17.6,2,5.8,[0,0,1,1])});  /* piernas */
 function drawPlantilla(cv){
   const W=cv.clientWidth; if(!W)return;
-  /* 20 columnas (5 filas); en móvil 10 (10 filas) para que cada figura se lea */
-  const COLS=W<560?10:20, rows=PL_N/COLS, cell=W/COLS, H=Math.ceil(cell*rows), dpr=devicePixelRatio||1;
+  /* 80 columnas (50 filas); en móvil 50 (80 filas) */
+  const COLS=W<560?50:80, rows=PL_N/COLS, cell=W/COLS, H=Math.ceil(cell*rows), dpr=devicePixelRatio||1;
   cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+"px";
   const ctx=cv.getContext("2d");ctx.scale(dpr,dpr);
   const css=getComputedStyle(document.documentElement);
   const vio=css.getPropertyValue("--violeta").trim(), mass=css.getPropertyValue("--mass").trim();
   const tint=cv.dataset.focus==="mujeres", nW=Math.round(PL_N*+cv.dataset.w/100);
-  const k=cell*.92/24;
+  const k=cell*.96/24;
   /* reparto por columnas: las mujeres ocupan las primeras, así la proporción se lee como área */
   const isW=(c,rw)=>c*rows+rw<nW;
   const paint=t=>{
