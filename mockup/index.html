@@ -209,6 +209,8 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .viz-story.lead h3{font-size:clamp(1.75rem,2.6vw,2.625rem);line-height:1;letter-spacing:.01em;color:var(--violeta)}
 .viz-story.lead p{margin-top:18px;color:var(--ink);font-size:1rem;line-height:1.75}
 .relato .viz-holder{justify-content:flex-start;min-height:0}
+.split.invertida{grid-template-columns:1fr 1.15fr}
+.split.invertida .figstack{order:-1}
 .relato-b{grid-template-columns:1fr;gap:clamp(40px,4vw,64px)}
 .relato-b .figstack{order:-1;display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .relato-b .viz-holder{position:static}
@@ -1559,10 +1561,11 @@ function renderSplit(id){
     b.addEventListener("click",()=>selectDatum(id,+b.dataset.i)));
   selectDatum(id,0);
 }
-/* 11/11: dos propuestas para Sociedad. A (por defecto): relato arriba a la izquierda, a la altura de
-   las tarjetas. B (?sociedad=b): tarjetas en fila arriba y debajo relato y visual lado a lado */
-{const g=document.getElementById("sociedad-grid");
- g.classList.add("relato",new URLSearchParams(location.search).get("sociedad")==="b"?"relato-b":"relato-a")}
+/* 11/11: propuestas para Sociedad. Por defecto (C, elegida por Rebeca para probar): como estaba,
+   con las columnas invertidas, cifras a la izquierda y visual con texto a la derecha.
+   ?sociedad=a: relato en grande arriba a la izquierda. ?sociedad=b: tarjetas en fila arriba */
+{const g=document.getElementById("sociedad-grid"),v=new URLSearchParams(location.search).get("sociedad");
+ if(v==="a"||v==="b")g.classList.add("relato","relato-"+v);else g.classList.add("invertida")}
 Object.keys(SPLITS).forEach(renderSplit);
 
 /* ================= CLIENTE: los cuatro datos a la vista, sin tener que pinchar =================
