@@ -1592,6 +1592,8 @@ function renderSplit(id){
    invertir las columnas). ?sociedad=b: tarjetas en fila arriba, relato y visual lado a lado */
 {const g=document.getElementById("sociedad-grid"),v=new URLSearchParams(location.search).get("sociedad");
  g.classList.add("relato","relato-"+(v==="b"?"b":"a"))}
+/* 11/11: Personas, con el mismo diseño que Sociedad (relato arriba, visual debajo) */
+document.getElementById("personas-grid").classList.add("relato","relato-a");
 Object.keys(SPLITS).forEach(renderSplit);
 
 /* ================= CLIENTE: los cuatro datos a la vista, sin tener que pinchar =================
