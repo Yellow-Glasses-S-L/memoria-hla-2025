@@ -225,12 +225,14 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   @keyframes noteIn{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
 }
 .relato-b{grid-template-columns:1fr;gap:clamp(40px,4vw,64px)}
-.relato-b .figstack{order:-1;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.relato-b .figstack{order:-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
 .relato-b .viz-holder{position:static}
 .relato-b .viz-holder>*{min-width:0}
 @media (min-width:961px){
   .relato-b .viz-holder{display:grid;grid-template-columns:1fr 1fr;gap:clamp(48px,7vw,140px);align-items:start}
   .relato-b .viz-story.lead{margin:0}
+  /* sin relato (p. ej. +4.000 profesionales), el visual sigue en su sitio, a la derecha */
+  .relato-b .viz-holder>.viz:first-child{grid-column:2}
 }
 @media (max-width:560px){.relato-b .figstack{grid-template-columns:1fr}}
 .fig-block{appearance:none;font:inherit;color:inherit;text-align:left;cursor:pointer;
@@ -296,9 +298,9 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .fm-reloj{width:clamp(96px,11vw,132px);height:auto;flex:none;overflow:visible}
 .fm-esfera{width:clamp(150px,16vw,210px);height:auto;flex:none;overflow:visible}
 .fm-glass{fill:none;stroke:var(--violeta);stroke-width:1.5;stroke-linejoin:round}
-.fm-sand{fill:var(--violeta);transform-box:view-box}
-.fm-top{transform-origin:60px 86px;scale:1 .3}
-.fm-bot{transform-origin:60px 164px}
+.fm-sand{fill:var(--violeta)}
+/* estado final: queda un poco de arena arriba y el fondo lleno hasta la mitad de la ampolla */
+.fm-top{translate:0 36px}
 .fm-stream{stroke:var(--violeta);stroke-width:1.5;stroke-dasharray:3 4;opacity:0}
 .fm-dial{fill:none;stroke:var(--line);stroke-width:10}
 .fm-ticks path{stroke:var(--mass);stroke-width:1}
@@ -314,8 +316,8 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   .fm-top{animation:fmTop 2.4s .3s cubic-bezier(.4,0,.2,1) both}
   .fm-bot{animation:fmBot 2.4s .3s cubic-bezier(.4,0,.2,1) both}
   .fm-stream{animation:fmStream 2.4s .3s linear both}
-  @keyframes fmTop{from{scale:1 1}to{scale:1 .3}}
-  @keyframes fmBot{from{scale:1 0}to{scale:1 1}}
+  @keyframes fmTop{from{translate:0 0}to{translate:0 36px}}
+  @keyframes fmBot{from{translate:0 40px}to{translate:0 0}}
   @keyframes fmStream{0%{opacity:1;stroke-dashoffset:0}92%{opacity:1}100%{opacity:0;stroke-dashoffset:-40}}
 }
 .sun circle{fill:var(--azul)}
@@ -1481,9 +1483,11 @@ const vizHorasFormacion=()=>`<div class="viz" aria-label="50.486 horas de formac
     <svg class="fm-reloj" viewBox="0 0 120 180" aria-hidden="true">
       <path class="hair" d="M8 8H112M8 172H112"/>
       <path class="fm-glass" d="M22 14C22 60 54 78 57 90C54 102 22 120 22 166H98C98 120 66 102 63 90C66 78 98 60 98 14Z"/>
-      <path class="fm-sand fm-top" d="M29 36Q60 44 91 36C87 62 63 76 60 86C57 76 33 62 29 36Z"/>
-      <path class="fm-stream" d="M60 86V162"/>
-      <path class="fm-sand fm-bot" d="M27 164Q60 116 93 164Z"/>
+      <clipPath id="fmUp"><path d="M23 14C23 60 54 78 57 90H63C66 78 97 60 97 14Z"/></clipPath>
+      <clipPath id="fmDn"><path d="M57 90C54 102 23 120 23 166H97C97 120 66 102 63 90Z"/></clipPath>
+      <g clip-path="url(#fmUp)"><rect class="fm-sand fm-top" x="20" y="34" width="80" height="60"/></g>
+      <path class="fm-stream" d="M60 88V164"/>
+      <g clip-path="url(#fmDn)"><rect class="fm-sand fm-bot" x="20" y="128" width="80" height="40"/></g>
     </svg>
     <div class="fm-eq"><span class="fm-big">+5 años y medio</span>
       <span class="fm-t">de formación sin parar: eso suman las 50.486 horas de 2025</span></div>
@@ -1656,12 +1660,11 @@ function renderSplit(id){
     b.addEventListener("click",()=>selectDatum(id,+b.dataset.i)));
   selectDatum(id,0);
 }
-/* 11/11: Sociedad con el relato en grande arriba y el visual debajo (A, por defecto; Rebeca descartó
-   invertir las columnas). ?sociedad=b: tarjetas en fila arriba, relato y visual lado a lado */
-{const g=document.getElementById("sociedad-grid"),v=new URLSearchParams(location.search).get("sociedad");
- g.classList.add("relato","relato-"+(v==="b"?"b":"a"))}
-/* 11/11: Personas, con el mismo diseño que Sociedad (relato arriba, visual debajo) */
-document.getElementById("personas-grid").classList.add("relato","relato-a");
+/* 11/11: Sociedad y Personas con el mismo diseño. Por defecto (B): recuadros en fila arriba y debajo
+   el relato a la izquierda y el visual a la derecha. ?relato=a: relato arriba y visual debajo, con los
+   recuadros a la derecha (la versión anterior). Rebeca descartó invertir las columnas */
+{const v=new URLSearchParams(location.search).get("relato")==="a"?"a":"b";
+ ["sociedad","personas"].forEach(id=>document.getElementById(id+"-grid").classList.add("relato","relato-"+v))}
 Object.keys(SPLITS).forEach(renderSplit);
 
 /* ================= CLIENTE: los cuatro datos a la vista, sin tener que pinchar =================
