@@ -209,8 +209,20 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .viz-story.lead h3{font-size:clamp(1.75rem,2.6vw,2.625rem);line-height:1;letter-spacing:.01em;color:var(--violeta)}
 .viz-story.lead p{margin-top:18px;color:var(--ink);font-size:1rem;line-height:1.75}
 .relato .viz-holder{justify-content:flex-start;min-height:0}
-.split.invertida{grid-template-columns:1fr 1.15fr}
-.split.invertida .figstack{order:-1}
+/* 11/11: Músicos por la Salud. Un pentagrama con una nota por hospital, en melodía que sube */
+.musica{max-width:560px}
+.musica .staff{stroke:var(--mass);stroke-width:1}
+.musica .nh{fill:var(--violeta)}
+.musica .stem{stroke:var(--violeta);stroke-width:2}
+.musica .beam{fill:var(--violeta)}
+.mu-list{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);max-width:560px}
+.mu-list li{font-size:.75rem;line-height:1.5;color:var(--ink);text-align:center;padding:0 4px}
+.mu-list li span{display:block;color:var(--gris)}
+@media (prefers-reduced-motion:no-preference){
+  .musica .note{opacity:0;animation:noteIn .7s cubic-bezier(.16,1,.3,1) forwards}
+  .mu-list li{opacity:0;animation:noteIn .7s cubic-bezier(.16,1,.3,1) forwards}
+  @keyframes noteIn{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+}
 .relato-b{grid-template-columns:1fr;gap:clamp(40px,4vw,64px)}
 .relato-b .figstack{order:-1;display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .relato-b .viz-holder{position:static}
@@ -1354,6 +1366,20 @@ const vizBioetica=()=>`<div class="viz" aria-label="Bioética en la práctica sa
     <circle class="nodedot" cx="200" cy="60" r="7"/>
   </svg>${cap("Formación, reflexión y colaboración en bioética")}</div>`;
 
+/* — sociedad: música — 11/11 (Rebeca): un dibujo más de música que de mapa para los 4 hospitales */
+const vizMusica=()=>{
+  const us=["hlahospitalmoncloa","hlahospitallavega","hlaclinicavistahermosa","hlahospitaljerez"];
+  const xs=[70,210,350,490], ys=[140,120,100,80], d=i=>(.6+i*.35).toFixed(2);
+  const lines=[60,80,100,120,140].map((y,i)=>`<path class="staff draw" pathLength="1" style="animation-delay:${i*.06}s" d="M0 ${y}H560"/>`).join("");
+  const notes=xs.map((x,i)=>`<g class="note" style="animation-delay:${d(i)}s">
+      <ellipse class="nh" cx="${x}" cy="${ys[i]}" rx="13" ry="9" transform="rotate(-20 ${x} ${ys[i]})"/>
+      <path class="stem" d="M${x+12} ${ys[i]-3}V${ys[i]-70}"/></g>`).join("");
+  const beam=(a,b)=>`<polygon class="beam note" style="animation-delay:${d(b)}s" points="${xs[a]+11},${ys[a]-70} ${xs[b]+13},${ys[b]-70} ${xs[b]+13},${ys[b]-60} ${xs[a]+11},${ys[a]-60}"/>`;
+  return `<div class="viz" aria-label="4 hospitales HLA con Músicos por la Salud">
+    <svg class="bigviz musica" viewBox="0 0 560 160" role="img" aria-label="Cuatro notas en un pentagrama, una por hospital">${lines}${notes}${beam(0,1)}${beam(2,3)}</svg>
+    <ul class="mu-list">${us.map((u,i)=>`<li style="animation-delay:${d(i)}s">${hosp(u).n.replace(/^HLA (Hospital Universitario|Hospital|Clínica) /,"")}<span>${hosp(u).p}</span></li>`).join("")}</ul>
+    ${cap("4 de los 18 hospitales de la red ya participan")}</div>`};
+
 /* — mapa: dónde pasa — */
 const vizMapa=(us,label,capTxt)=>`<div class="viz" aria-label="${label}">${miniMap(us,label)}${cap(capTxt)}</div>`;
 
@@ -1506,7 +1532,7 @@ const ST={
 const SPLITS={
   sociedad:[
     {num:"4",label:"hospitales con Músicos por la Salud",sub:"4 hospitales HLA participan ya en esta iniciativa.",
-     viz:()=>vizMapa(["hlahospitalmoncloa","hlahospitallavega","hlaclinicavistahermosa","hlahospitaljerez"],"4 hospitales HLA con Músicos por la Salud","4 de los 18 hospitales de la red ya participan"),story:ST.musica},
+     viz:vizMusica,story:ST.musica},
     {title:"Bioética",label:"en el centro de la práctica sanitaria",sub:"Formación, reflexión y colaboración en bioética.",
      viz:vizBioetica,story:ST.bioetica},
   ],
@@ -1561,11 +1587,10 @@ function renderSplit(id){
     b.addEventListener("click",()=>selectDatum(id,+b.dataset.i)));
   selectDatum(id,0);
 }
-/* 11/11: propuestas para Sociedad. Por defecto (C, elegida por Rebeca para probar): como estaba,
-   con las columnas invertidas, cifras a la izquierda y visual con texto a la derecha.
-   ?sociedad=a: relato en grande arriba a la izquierda. ?sociedad=b: tarjetas en fila arriba */
+/* 11/11: Sociedad con el relato en grande arriba y el visual debajo (A, por defecto; Rebeca descartó
+   invertir las columnas). ?sociedad=b: tarjetas en fila arriba, relato y visual lado a lado */
 {const g=document.getElementById("sociedad-grid"),v=new URLSearchParams(location.search).get("sociedad");
- if(v==="a"||v==="b")g.classList.add("relato","relato-"+v);else g.classList.add("invertida")}
+ g.classList.add("relato","relato-"+(v==="b"?"b":"a"))}
 Object.keys(SPLITS).forEach(renderSplit);
 
 /* ================= CLIENTE: los cuatro datos a la vista, sin tener que pinchar =================
