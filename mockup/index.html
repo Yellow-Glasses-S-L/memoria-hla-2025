@@ -290,7 +290,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .pend-line{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:22px;padding:14px 16px;
   border:1px dashed var(--gris);color:var(--gris);font-size:.8125rem}
 .pend-line .rn{font-family:var(--display);font-size:1.75rem;line-height:1}
-.plantilla{display:block;width:100%;max-width:620px}
+.plantilla{display:block;width:100%}
 .sun circle{fill:var(--azul)}
 .sun .rays path{stroke:var(--azul);stroke-width:2;stroke-linecap:round}
 .panel-t{fill:var(--azul-l);stroke:var(--azul);stroke-width:1}
@@ -1414,8 +1414,9 @@ const PL_MUJER=pict(p=>{
   p.roundRect(9.5,17.6,2,5.8,[0,0,1,1]);p.roundRect(12.5,17.6,2,5.8,[0,0,1,1])});  /* piernas */
 function drawPlantilla(cv){
   const W=cv.clientWidth; if(!W)return;
-  /* 80 columnas (50 filas); en móvil 50 (80 filas) */
-  const COLS=W<560?50:80, rows=PL_N/COLS, cell=W/COLS, H=Math.ceil(cell*rows), dpr=devicePixelRatio||1;
+  /* 11/11: a todo el ancho de la columna y con celdas estrechas (la figura es alta y estrecha):
+     100 columnas y 40 filas; en móvil 80 y 50. Así cada figura sale más grande */
+  const COLS=W<560?80:100, rows=PL_N/COLS, cw=W/COLS, cell=cw*1.6, H=Math.ceil(cell*rows), dpr=devicePixelRatio||1;
   cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+"px";
   const ctx=cv.getContext("2d");ctx.scale(dpr,dpr);
   const css=getComputedStyle(document.documentElement);
@@ -1433,7 +1434,7 @@ function drawPlantilla(cv){
         const w=tint&&isW(c,rw)&&on>0;
         ctx.globalAlpha=tint?1:on;
         ctx.fillStyle=!tint||w?vio:mass;
-        ctx.setTransform(dpr*k,0,0,dpr*k,dpr*(c*cell+cell*.04),dpr*(rw*cell+cell*.04));
+        ctx.setTransform(dpr*k,0,0,dpr*k,dpr*(c*cw+cw/2-12*k),dpr*(rw*cell+cell*.02));
         ctx.fill(w?PL_MUJER:PL_HOMBRE);
       }
     }
