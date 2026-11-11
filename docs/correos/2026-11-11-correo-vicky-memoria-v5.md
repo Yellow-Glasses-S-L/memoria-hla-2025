@@ -23,6 +23,7 @@ Lo que ya está hecho:
 7. Cliente rediseñado, con WhatsApp destacado y un gráfico propio para satisfacción, absentismo y reclamaciones.
 8. Innovación en piezas, cada una con su dibujo.
 9. Mismo grosor de línea y la misma paleta de color en todos los gráficos.
+10. Versión para móvil mejorada, con un menú propio y los datos justo encima de su gráfico.
 
 Lo que necesitamos de su parte:
 
