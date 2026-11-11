@@ -204,6 +204,20 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .viz-story h3{font-family:var(--display);font-weight:500;font-size:1.3125rem;letter-spacing:.03em;
   text-transform:uppercase;margin:0;line-height:1.1}
 .viz-story p{margin:12px 0 0;color:var(--gris);font-size:.8125rem;line-height:1.8;letter-spacing:.01em}
+/* 11/11: relato en grande (Sociedad) */
+.viz-story.lead{margin:0 0 clamp(32px,4vw,56px);max-width:58ch}
+.viz-story.lead h3{font-size:clamp(1.75rem,2.6vw,2.625rem);line-height:1;letter-spacing:.01em;color:var(--violeta)}
+.viz-story.lead p{margin-top:18px;color:var(--ink);font-size:1rem;line-height:1.75}
+.relato .viz-holder{justify-content:flex-start;min-height:0}
+.relato-b{grid-template-columns:1fr;gap:clamp(40px,4vw,64px)}
+.relato-b .figstack{order:-1;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.relato-b .viz-holder{position:static}
+.relato-b .viz-holder>*{min-width:0}
+@media (min-width:961px){
+  .relato-b .viz-holder{display:grid;grid-template-columns:1fr 1fr;gap:clamp(48px,7vw,140px);align-items:start}
+  .relato-b .viz-story.lead{margin:0}
+}
+@media (max-width:560px){.relato-b .figstack{grid-template-columns:1fr}}
 .fig-block{appearance:none;font:inherit;color:inherit;text-align:left;cursor:pointer;
   background:none;border:1px solid var(--line);padding:24px 28px 26px;width:100%;
   transition:border-color .2s,background .2s,opacity .3s}
@@ -1522,7 +1536,10 @@ function selectDatum(id,i){
   grid.querySelectorAll(".fig-block").forEach((b,j)=>b.setAttribute("aria-pressed",j===i));
   grid.querySelector(".figstack").classList.add("haspick");
   const d=SPLITS[id][i];
-  grid.querySelector(".viz-holder").innerHTML=d.viz()+story(d.story);
+  /* 11/11 (Vicky): en Sociedad el relato es lo importante y quedaba debajo del visual, en gris.
+     En modo relato va primero y en grande */
+  grid.querySelector(".viz-holder").innerHTML=grid.classList.contains("relato")
+    ?story(d.story).replace('class="viz-story"','class="viz-story lead"')+d.viz():d.viz()+story(d.story);
   requestAnimationFrame(paintPlantillas);
   grid.querySelectorAll(".viz-holder [data-target]").forEach(n=>countUp(n,1800));
 }
@@ -1542,6 +1559,10 @@ function renderSplit(id){
     b.addEventListener("click",()=>selectDatum(id,+b.dataset.i)));
   selectDatum(id,0);
 }
+/* 11/11: dos propuestas para Sociedad. A (por defecto): relato arriba a la izquierda, a la altura de
+   las tarjetas. B (?sociedad=b): tarjetas en fila arriba y debajo relato y visual lado a lado */
+{const g=document.getElementById("sociedad-grid");
+ g.classList.add("relato",new URLSearchParams(location.search).get("sociedad")==="b"?"relato-b":"relato-a")}
 Object.keys(SPLITS).forEach(renderSplit);
 
 /* ================= CLIENTE: los cuatro datos a la vista, sin tener que pinchar =================
