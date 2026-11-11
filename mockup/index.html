@@ -373,8 +373,11 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 
 /* ============ CLIENTE: WhatsApp destacado arriba, los otros tres con su gráfico debajo (11/11) ============ */
 .cli{width:100%}
-.cli-top{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,96px);align-items:stretch;
-  padding-bottom:clamp(40px,5vw,72px);margin-bottom:clamp(40px,5vw,72px);border-bottom:1px solid var(--line)}
+/* 11/11: cada dato en su recuadro, como los logros de Innovación */
+.cli-top,.cli-fig{border:1px solid var(--line);padding:clamp(24px,2.4vw,40px);transition:border-color .2s}
+.cli-top:hover,.cli-fig:hover{border-color:var(--violeta)}
+.cli-top{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,4vw,72px);align-items:stretch;
+  margin-bottom:clamp(16px,1.6vw,24px)}
 .cli .f-num{display:block;font-family:var(--display);font-weight:400;font-size:clamp(3rem,4.6vw,5rem);line-height:.86;
   color:var(--violeta);font-variant-numeric:tabular-nums}
 .cli-lead .f-num{font-size:clamp(3.5rem,6vw,6.5rem)}
@@ -393,8 +396,8 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .cc-typing{display:flex;gap:4px;padding:12px 14px}
 .cc-typing i{width:6px;height:6px;border-radius:50%!important;background:#fff;opacity:.6}
 /* fila de tres */
-.cli-figs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,56px)}
-.cli-fig{border-top:1px solid var(--ink);padding-top:22px;display:flex;flex-direction:column}
+.cli-figs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,1.6vw,24px)}
+.cli-fig{display:flex;flex-direction:column}
 .cli-fig .caption{display:block;margin-top:14px}
 .cli-fig p{margin:12px 0 0;color:var(--gris);font-size:.8125rem;line-height:1.7}
 .cli-v{margin-top:24px;display:flex;flex-direction:column;justify-content:flex-start}
@@ -416,7 +419,7 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .cli-bars .cb span{font-size:.75rem;letter-spacing:.08em;color:var(--gris);margin-top:6px;text-align:center}
 .cb-delta{align-self:flex-start;font-family:var(--display);font-weight:400;font-size:1.75rem;color:var(--violeta);line-height:1}
 @media (max-width:960px){.cli-top{grid-template-columns:1fr}}
-@media (max-width:760px){.cli-figs{grid-template-columns:1fr;row-gap:40px}}
+@media (max-width:760px){.cli-figs{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:no-preference){
   .panel.active .cli-fig{opacity:0;translate:0 14px;animation:rise .55s cubic-bezier(.16,1,.3,1) forwards}
   .panel.active .cc-msg{opacity:0;translate:0 8px;animation:rise .5s cubic-bezier(.16,1,.3,1) forwards}
