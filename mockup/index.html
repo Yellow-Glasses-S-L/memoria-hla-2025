@@ -291,6 +291,33 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   border:1px dashed var(--gris);color:var(--gris);font-size:.8125rem}
 .pend-line .rn{font-family:var(--display);font-size:1.75rem;line-height:1}
 .plantilla{display:block;width:100%}
+/* 11/11: formación. Reloj de arena (horas) y esfera con cruz (sanitarios) */
+.fm-row{display:flex;align-items:center;gap:clamp(24px,4vw,48px);flex-wrap:wrap}
+.fm-reloj{width:clamp(96px,11vw,132px);height:auto;flex:none;overflow:visible}
+.fm-esfera{width:clamp(150px,16vw,210px);height:auto;flex:none;overflow:visible}
+.fm-glass{fill:none;stroke:var(--violeta);stroke-width:1.5;stroke-linejoin:round}
+.fm-sand{fill:var(--violeta);transform-box:view-box}
+.fm-top{transform-origin:60px 86px;scale:1 .3}
+.fm-bot{transform-origin:60px 164px}
+.fm-stream{stroke:var(--violeta);stroke-width:1.5;stroke-dasharray:3 4;opacity:0}
+.fm-dial{fill:none;stroke:var(--line);stroke-width:10}
+.fm-ticks path{stroke:var(--mass);stroke-width:1}
+.fm-arc{fill:none;stroke:var(--violeta);stroke-width:10}
+.fm-cross{fill:none;stroke:var(--violeta);stroke-width:2;stroke-linejoin:round}
+.fm-eq{flex:1 1 200px;min-width:0}
+.fm-big{display:block;font-family:var(--display);font-weight:400;font-size:clamp(2.25rem,3.4vw,3.5rem);line-height:.95;color:var(--violeta)}
+.fm-t{display:block;margin-top:10px;font-size:.8125rem;line-height:1.7;color:var(--ink);max-width:34ch}
+.fm-leg{display:flex;flex-direction:column;gap:4px;margin-top:16px;font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+.fm-leg .a{color:var(--violeta)}
+.fm-leg .b{color:var(--gris)}
+@media (prefers-reduced-motion:no-preference){
+  .fm-top{animation:fmTop 2.4s .3s cubic-bezier(.4,0,.2,1) both}
+  .fm-bot{animation:fmBot 2.4s .3s cubic-bezier(.4,0,.2,1) both}
+  .fm-stream{animation:fmStream 2.4s .3s linear both}
+  @keyframes fmTop{from{scale:1 1}to{scale:1 .3}}
+  @keyframes fmBot{from{scale:1 0}to{scale:1 1}}
+  @keyframes fmStream{0%{opacity:1;stroke-dashoffset:0}92%{opacity:1}100%{opacity:0;stroke-dashoffset:-40}}
+}
 .sun circle{fill:var(--azul)}
 .sun .rays path{stroke:var(--azul);stroke-width:2;stroke-linecap:round}
 .panel-t{fill:var(--azul-l);stroke:var(--azul);stroke-width:1}
@@ -1447,10 +1474,37 @@ function drawPlantilla(cv){
 const paintPlantillas=()=>document.querySelectorAll("canvas.plantilla").forEach(drawPlantilla);
 addEventListener("resize",()=>{clearTimeout(paintPlantillas.t);paintPlantillas.t=setTimeout(paintPlantillas,150)});
 
-const vizFormacion=()=>`<div class="viz" aria-label="24.393 de las 50.486 horas de formación, para profesionales sanitarios">
-  <div class="propbar" style="--w:48.3%"><div class="fill"><span class="pct">48 %</span></div></div>
-  <div class="prop-l"><span class="a">Sanitarios · 24.393 h</span><span class="b">Total · 50.486 h</span></div>
-  ${cap("Casi la mitad de las horas de formación, dirigidas a profesionales sanitarios")}</div>`;
+/* 11/11 (Rebeca): los dos datos de formación compartían la barra del 48 %. Ahora cada uno su dibujo.
+   Horas de formación: reloj de arena. 50.486 h / 8.760 h al año = 5,76 años seguidos */
+const vizHorasFormacion=()=>`<div class="viz" aria-label="50.486 horas de formación: más de cinco años y medio sin parar">
+  <div class="fm-row">
+    <svg class="fm-reloj" viewBox="0 0 120 180" aria-hidden="true">
+      <path class="hair" d="M8 8H112M8 172H112"/>
+      <path class="fm-glass" d="M22 14C22 60 54 78 57 90C54 102 22 120 22 166H98C98 120 66 102 63 90C66 78 98 60 98 14Z"/>
+      <path class="fm-sand fm-top" d="M29 36Q60 44 91 36C87 62 63 76 60 86C57 76 33 62 29 36Z"/>
+      <path class="fm-stream" d="M60 86V162"/>
+      <path class="fm-sand fm-bot" d="M27 164Q60 116 93 164Z"/>
+    </svg>
+    <div class="fm-eq"><span class="fm-big">+5 años y medio</span>
+      <span class="fm-t">de formación sin parar: eso suman las 50.486 horas de 2025</span></div>
+  </div>
+  ${cap("50.486 horas entre las 8.760 que tiene un año: 5,8 años")}</div>`;
+/* Horas para sanitarios: esfera de reloj con la cruz sanitaria; el arco llega al 48 % (24.393 de 50.486) */
+const vizHorasSanitarios=()=>{
+  const ticks=Array.from({length:60},(_,i)=>`<path d="M100 ${i%5?35:32}V40" transform="rotate(${i*6} 100 100)"/>`).join("");
+  return `<div class="viz" aria-label="24.393 de las 50.486 horas de formación, el 48 %, para profesionales sanitarios">
+  <div class="fm-row">
+    <svg class="fm-esfera" viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="fm-dial" cx="100" cy="100" r="78"/>
+      <g class="fm-ticks">${ticks}</g>
+      <path class="fm-arc draw" pathLength="1" d="M100 22A78 78 0 0 1 108.3 177.6"/>
+      <path class="fm-cross" d="M92 76h16v16h16v16h-16v16H92v-16H76V92h16Z"/>
+    </svg>
+    <div class="fm-eq"><span class="fm-big">48 %</span>
+      <span class="fm-t">de las horas de formación, para profesionales sanitarios</span>
+      <div class="fm-leg"><span class="a">Sanitarios · 24.393 h</span><span class="b">Resto de perfiles · 26.093 h</span></div></div>
+  </div>
+  ${cap("Casi la mitad de las horas de formación, dirigidas a profesionales sanitarios")}</div>`};
 
 /* — sostenibilidad — (03/11: «aburridos», se rehacen con más vida y el azul y verde agua de la carta como apoyo) */
 const SUN=`<g class="sun"><circle cx="0" cy="0" r="13"/><g class="rays">${Array.from({length:8},(_,i)=>
@@ -1556,8 +1610,8 @@ const SPLITS={
      viz:()=>vizPlantilla("total")},
     {pend:true,label:"% de mujeres en la plantilla",sub:"Dato 2025 pendiente de validación.",
      viz:()=>vizPlantilla("mujeres")},
-    {num:"50.486",label:"horas de formación",sub:"Horas de formación impartidas durante 2025.",viz:vizFormacion,story:ST.formacion},
-    {num:"24.393",label:"horas para sanitarios",sub:"Horas de formación dirigidas a profesionales sanitarios.",viz:vizFormacion,story:ST.formacion},
+    {num:"50.486",label:"horas de formación",sub:"Horas de formación impartidas durante 2025.",viz:vizHorasFormacion,story:ST.formacion},
+    {num:"24.393",label:"horas para sanitarios",sub:"Horas de formación dirigidas a profesionales sanitarios.",viz:vizHorasSanitarios,story:ST.formacion},
   ],
   sostenibilidad:[
     {num:"14",label:"edificios fotovoltaicos",sub:"Edificios asistenciales con paneles fotovoltaicos para autoconsumo.",
