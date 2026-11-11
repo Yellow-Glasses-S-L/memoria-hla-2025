@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HLA · Memoria Anual 2025 · Prototipo v5</title>
+<title>HLA · Memoria Anual 2025</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -64,6 +64,31 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
 .tab:hover{color:var(--ink)}
 .tab.active{color:var(--ink)}
 .tab.active::after{transform:scaleX(1)}
+
+/* ============ MENÚ MÓVIL Y ANTERIOR / SIGUIENTE (11/11) ============ */
+.menu-btn{display:none;align-items:center;gap:10px;appearance:none;border:1px solid var(--line);background:var(--paper);
+  padding:8px 12px;cursor:pointer;color:var(--ink);font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+.menu-btn .mb-idx{color:var(--gris)}
+.menu-btn span{white-space:nowrap}
+@media (max-width:400px){.menu-btn .mb-idx{display:none}}
+.mb-ic{display:flex;flex-direction:column;gap:4px;width:16px}
+.mb-ic i{display:block;height:1.5px;background:var(--violeta);transition:transform .25s}
+.menu-btn[aria-expanded="true"] .mb-ic i:first-child{transform:translateY(2.75px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] .mb-ic i:last-child{transform:translateY(-2.75px) rotate(-45deg)}
+.menu-panel{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--line);
+  box-shadow:0 18px 30px -20px rgba(31,29,43,.35);max-height:calc(100svh - 56px);overflow-y:auto}
+.menu-panel ol{list-style:none;margin:0;padding:8px var(--pad) 16px}
+.menu-panel button{appearance:none;border:0;border-bottom:1px solid var(--line);background:none;width:100%;
+  display:flex;align-items:baseline;gap:16px;padding:16px 0;cursor:pointer;color:var(--ink);text-align:left;
+  font-family:var(--display);font-weight:500;font-size:1.5rem;letter-spacing:.02em;text-transform:uppercase}
+.menu-panel button small{font-family:var(--mono);font-weight:400;font-size:.75rem;color:var(--gris);letter-spacing:.1em}
+.menu-panel button[aria-current="true"]{color:var(--violeta)}
+.sec-nav{display:none;grid-template-columns:1fr 1fr;gap:12px;padding:0 var(--pad);margin:48px 0 0}
+.sec-nav button{appearance:none;border:1px solid var(--line);background:none;cursor:pointer;padding:14px 16px;
+  display:flex;flex-direction:column;gap:4px;text-align:left;color:var(--ink);font-family:var(--display);
+  font-weight:500;font-size:1.125rem;text-transform:uppercase;letter-spacing:.02em}
+.sec-nav button small{font-family:var(--mono);font-weight:400;font-size:.6875rem;color:var(--gris);letter-spacing:.1em}
+.sec-nav .next{grid-column:2;text-align:right;align-items:flex-end;border-color:var(--violeta)}
 
 /* ============ CABECERA DE SECCIÓN ============ */
 .section-head{width:100%;margin:42px 0 0;padding:0 var(--pad)}
@@ -716,7 +741,10 @@ nav{display:flex;align-items:stretch;justify-content:space-between;gap:2px;
   @keyframes pop{to{scale:1}}
 
   /* ilustraciones que se dibujan */
-  .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:trace 1.5s .25s ease forwards}
+  /* 11/11: al terminar, la línea queda entera sin trazo discontinuo (con grosor fijo, el discontinuo se
+     quedaba corto a tamaños distintos del de escritorio y la línea salía a medias) */
+  .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:traceDraw 1.5s .25s ease forwards}
+  @keyframes traceDraw{99%{stroke-dasharray:1;stroke-dashoffset:0}100%{stroke-dasharray:none;stroke-dashoffset:0}}
   .panel.active .fig-block{opacity:0;translate:0 14px;animation:rise .55s cubic-bezier(.16,1,.3,1) forwards}
   .panel.active .fig-block:nth-child(2){animation-delay:.1s}
   .panel.active .fig-block:nth-child(3){animation-delay:.2s}
@@ -844,12 +872,24 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
   .split{grid-template-columns:1fr;gap:44px}
   .red{grid-template-columns:1fr;gap:40px}
   .viz-holder{position:relative;top:auto;min-height:0}
-  /* menú en una sola fila que se desliza (antes 3 filas y 153px fijos) */
-  nav{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;gap:0;min-height:56px;
-    scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  nav::-webkit-scrollbar{display:none}
-  .logo{order:-1;flex:0 0 104px;width:104px;height:30px;margin-right:12px}
-  .tab{flex:0 0 auto;white-space:nowrap;padding:0 10px}
+  /* 11/11: menú móvil. Logo + botón con la sección actual; la lista se abre debajo */
+  nav{flex-wrap:nowrap;justify-content:space-between;align-items:center;gap:12px;min-height:56px}
+  nav .tab{display:none}
+  .logo{order:-1;flex:0 0 104px;width:104px;height:30px}
+  .menu-btn{display:flex}
+  /* recuadros de Sociedad, Personas y Sostenibilidad: carrusel justo encima de su gráfico */
+  .split .figstack,.split .figstack.many,.relato-b .figstack{order:-1;display:flex;flex-direction:row;gap:12px;overflow-x:auto;
+    scroll-snap-type:x mandatory;scroll-padding-inline:var(--pad);margin:0 calc(-1 * var(--pad));padding:0 var(--pad) 6px;scrollbar-width:none}
+  .split .figstack::-webkit-scrollbar{display:none}
+  .split .fig-block{flex:0 0 74%;scroll-snap-align:start;padding:20px 22px 22px}
+  .split .fig-block .f-num,.split .fig-block .f-title{font-size:2.5rem}
+  .split{gap:28px}
+  .relato-b .viz-holder{display:flex;flex-direction:column;gap:28px}
+  .relato-b .viz-story.lead{margin:0}
+  .sec-nav{display:grid}
+  /* portada: el isotipo con su órbita no pisa el borde del recuadro */
+  .core-face{padding-top:76px}
+  .cy-val{font-size:.75rem}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -884,7 +924,12 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
     <button class="tab" data-tab="cliente">Cliente</button>
     <button class="tab" data-tab="sostenibilidad">Sostenibilidad</button>
     <button class="tab" data-tab="innovacion">Innovación</button>
+    <!-- 11/11: en móvil, en vez de la tira que se desliza, un botón con la sección actual que abre la lista -->
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel">
+      <span class="mb-idx" id="mbIdx">01 / 08</span><span class="mb-name" id="mbName">Indicadores</span>
+      <span class="mb-ic" aria-hidden="true"><i></i><i></i></span></button>
   </nav>
+  <div class="menu-panel" id="menuPanel" hidden><ol id="menuList"></ol></div>
 </header>
 
 <main>
@@ -922,11 +967,12 @@ footer span{font-family:var(--mono);font-size:0.75rem;letter-spacing:.08em;
   <section class="stage panel" id="innovacion"><div class="wrap">
     <div class="logros" id="innovacion-logros"></div>
   </div></section>
+  <!-- 11/11: en móvil, seguir leyendo sin volver arriba -->
+  <nav class="sec-nav" id="secNav" aria-label="Sección anterior y siguiente"></nav>
 </main>
 
 <footer><div class="wrap">
   <span>© HLA Grupo Hospitalario · Memoria anual 2025</span>
-  <span>Prototipo v5 · Yellow Glasses · contenido 2025 en revisión</span>
 </div></footer>
 
 <script src="assets/mapa-provincias.js"></script>
@@ -1856,12 +1902,33 @@ function setSection(id){
   if(id==="indicadores"){defaultCore();requestAnimationFrame(()=>wireUp())}else stopTour();
   if(id==="hitos")requestAnimationFrame(()=>drawChrono(id,true));
   if(SPLITS[id])selectDatum(id,0);
-  /* en móvil el menú se desliza: que la pestaña activa quede a la vista */
-  document.querySelector(`.tab[data-tab="${id}"]`).scrollIntoView({inline:"center",block:"nearest",behavior:reduce?"auto":"smooth"});
+  syncMobileNav(id,order);
   if(id==="grupo")selectProv(null);
   scrollTo({top:0,behavior:reduce?"auto":"smooth"});
 }
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>setSection(t.dataset.tab)));
+/* 11/11: menú móvil y anterior/siguiente */
+const menuBtn=document.getElementById("menuBtn"),menuPanel=document.getElementById("menuPanel");
+const TABS=[...document.querySelectorAll(".tab")].map(t=>({id:t.dataset.tab,name:t.textContent.trim()}));
+const pad2=n=>String(n).padStart(2,"0");
+document.getElementById("menuList").innerHTML=TABS.map((t,i)=>`<li><button type="button" data-go="${t.id}"><small>${pad2(i+1)}</small>${t.name}</button></li>`).join("");
+const setMenu=o=>{menuBtn.setAttribute("aria-expanded",o);menuPanel.hidden=!o};
+menuBtn.addEventListener("click",()=>setMenu(menuPanel.hidden));
+menuPanel.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b){setMenu(false);setSection(b.dataset.go)}});
+addEventListener("keydown",e=>{if(e.key==="Escape"&&!menuPanel.hidden){setMenu(false);menuBtn.focus()}});
+document.addEventListener("click",e=>{if(!menuPanel.hidden&&!e.target.closest("#menuPanel,#menuBtn"))setMenu(false)});
+document.getElementById("secNav").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)setSection(b.dataset.go)});
+function syncMobileNav(id,order){
+  const i=order.indexOf(id);
+  document.getElementById("mbIdx").textContent=`${pad2(i+1)} / ${pad2(order.length)}`;
+  document.getElementById("mbName").textContent=TABS[i].name;
+  menuPanel.querySelectorAll("[data-go]").forEach(b=>{if(b.dataset.go===id)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});
+  const prev=TABS[i-1],next=TABS[i+1];
+  document.getElementById("secNav").innerHTML=
+    (prev?`<button type="button" class="prev" data-go="${prev.id}"><small>← Anterior</small>${prev.name}</button>`:"")+
+    (next?`<button type="button" class="next" data-go="${next.id}"><small>Siguiente →</small>${next.name}</button>`:"");
+}
+syncMobileNav(document.querySelector(".tab.active").dataset.tab,TABS.map(t=>t.id));
 
 defaultCore();
 requestAnimationFrame(()=>wireUp());
