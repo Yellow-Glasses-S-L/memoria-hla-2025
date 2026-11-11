@@ -685,8 +685,9 @@ body.intro-open{overflow:hidden}
 /* ============ FOTOS (propuesta 04/11, fotos de Unsplash de muestra) ============
    Tratamiento único en violeta: unifica fotos de origen distinto con la marca. Cuando HLA pase
    sus fotos se cambian en PHOTOS y se quita la etiqueta de propuesta */
-/* 06/11: a todo el ancho de la pantalla y más alta (30vw, entre 200 y 540 px) para que la foto respire */
-.photo-band{position:relative;margin:0 calc(-1 * var(--pad)) clamp(40px,5vw,72px);height:clamp(200px,30vw,540px);
+/* 11/11: vuelve al ancho del contenedor (Rebeca no la quería a pantalla completa); se queda más alta
+   (30vw, entre 200 y 540 px) para que la foto respire */
+.photo-band{position:relative;margin:0 0 clamp(40px,5vw,72px);height:clamp(200px,30vw,540px);
   overflow:hidden;background:var(--lila)}
 /* 04/11 (ronda 5): el violeta de marca quedaba brusco. Se prueba el morado claro de la primera
    versión de la intranet (HLA Conecta, #7261CA). Por defecto, difuminado: la foto en color y el lila
